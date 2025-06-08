@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Vector3Stamped
+from std_msgs.msg import Float32
 import math
 
 def radiansToDegrees(rad):
@@ -17,7 +18,7 @@ class IMUNode(Node):
             self.imu_callback,
             10)
         
-        self.publisher_ = self.create_publisher(Vector3Stamped, 'gyro/data', 10)
+        self.publisher_ = self.create_publisher(Float32, 'imu', 10)
         self.timer = self.create_timer(0.1, self.publish_imu)
         
         self.currentAngle = 0.0

@@ -35,13 +35,14 @@ class CameraNode(Node,Info):
         self.picam2 = Picamera2()
         self.picam2.start()
 
-        self.publisher_ = self.create_publisher(Twist, 'camera/objects', 10)
+        self.publisher_ = self.create_publisher(Twist, 'camera', 10)
 
+        """
         self.subscription = self.create_subscription(
             Bool,
-            "/states/running",
+            "/startopen",
             self.change_state,
-            10)
+            10)"""
 
 
         self.timer = self.create_timer(0.1, self.process_frame)
@@ -185,5 +186,20 @@ class CameraNode(Node,Info):
         else:
             self.started = True
         
+
+def main(args=None):
+    # Initialize ROS2 node
+    rclpy.init(args=args)
+    # Create MinimalPublisher object
+    camera_node = CameraNode()
+    # Enter the event loop of ROS2 node
+    rclpy.spin(camera_node)
+    # Destroy node object
+    camera_node.destroy_node()
+    # Shut down ROS2 node
+    rclpy.shutdown()
+# If this script is the main program, main function is executed.
+if __name__ == "__main__":
+    main()
 
 
