@@ -44,14 +44,6 @@ class ControlNode(Node, Const):
 
 
 
-    def shutdown(self, msg):
-        if msg.data == False:
-            if self.started:
-                #stop dc straight out motor
-                super.destroy_node()
-
-        else:
-            self.started = True
 
     
 
@@ -59,7 +51,6 @@ def main():
     rclpy.init()
     node = ControlNode()
     rclpy.spin(node)
-    node.destroy_node()
     rclpy.shutdown()
 
 if __name__ == '__main__':

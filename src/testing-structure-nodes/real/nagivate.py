@@ -6,6 +6,9 @@ from std_msgs.msg import Float32
 from open_interfaces.srv import SendCommand
 
 
+PD = 0.2
+PG = 0.0035
+
 class NavigateNode(Node):
     def __init__(self):
         super().__init__('nagivate_node')
@@ -13,6 +16,9 @@ class NavigateNode(Node):
         self.right_area = 0
         self.max_orange_area = 0
         self.max_blue_area = 0
+        self.speed = 1550
+        self.curr_diff = 0
+        self.last_diff = 0
 
         self.current_angle = 0
 
@@ -23,10 +29,11 @@ class NavigateNode(Node):
 
         self.client = self.create_client(SendCommand, 'send_command')
 
-        while not self.client.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('Waiting for service...')
+        self.mode = None
+        self.run()
 
-    def send_request(self, servo, dc):
+
+    def send_command(self, servo, dc):
         request = SendCommand.Request()
         request.servo = servo
         request.dc = dc
@@ -42,6 +49,15 @@ class NavigateNode(Node):
 
     def imu_call(self,msg):
         self.current_angle = msg.data
+
+    def run(self):
+        while True:
+            self.curr_diff = self.left_area - self.right_area
+
+            angle = self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD
+            self.send_command(angle,self.speed)
+
+            self.last_diff = self.curr
 
 
 
