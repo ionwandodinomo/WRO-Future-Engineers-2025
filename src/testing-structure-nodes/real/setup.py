@@ -16,8 +16,9 @@ description="Autonomous RC car ROS 2 package",
 entry_points={
 "console_scripts": [
 "camera_node = open.camera_node:main",
-"navigation_node = open.navigation_node:main",
-"motion_controller_node = open.control_node:main",
+"navigate_node = open.navigate_node:main",
+"control_node = open.control_node:main",
+"imu = open.imu:main",
 ],
 },
 )

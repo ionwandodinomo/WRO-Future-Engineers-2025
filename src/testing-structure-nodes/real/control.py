@@ -8,7 +8,7 @@ import time
 
 board = rcc.Board()
 
-def Const():
+class Const():
     MID_SERVO = 90
 
 def pwm(degree):  # angle must be adjusted to pwm angle for servo
@@ -26,7 +26,7 @@ class ControlNode(Node, Const):
         self.get_logger().info('Service Server Ready: Waiting for requests...')
 
     def add_callback(self, request, response):
-        response.sum = "changed"
+        response.sum = 0
  
         dcspeed = request.dc
         servo_angle = pwm(request.servo+self.MID_SERVO)

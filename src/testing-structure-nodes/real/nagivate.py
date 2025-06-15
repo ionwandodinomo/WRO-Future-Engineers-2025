@@ -54,7 +54,7 @@ class NavigateNode(Node):
         while True:
             self.curr_diff = self.left_area - self.right_area
 
-            angle = self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD
+            angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
             self.send_command(angle,self.speed)
 
             self.last_diff = self.curr

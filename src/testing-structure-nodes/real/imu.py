@@ -27,4 +27,22 @@ class IMUNode(Node):
         self.currentAngle = radiansToDegrees(msg.vector.z)
 
     def publish_imu(self):
-        self.publisher_.publish(self.currentAngle)
+        msg = Float32()
+        msg.data = self.currentAngle
+        self.publisher_.publish(msg)
+
+
+def main(args=None):
+    # Initialize ROS2 node
+    rclpy.init(args=args)
+    # Create MinimalSubscriber object
+    imu_node = IMUNode()
+    # Enter the event loop of ROS2 node
+    rclpy.spin(imu_node)
+    # Destroy node object
+    imu_node.destroy_node()
+    # Shut down ROS2 node
+    rclpy.shutdown()
+# If this script is the main program, the main function is executed.
+if __name__ == "__main__":
+    main()
