@@ -3,7 +3,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import math
 from std_msgs.msg import Float32
-from open_interfaces.srv import SendCommand
+
 
 
 PD = 0.2
@@ -27,14 +27,14 @@ class NavigateNode(Node):
         self.subscription_imu = self.create_subscription(Float32, "imu", self.imu_call,
 10)
 
-        self.client = self.create_client(SendCommand, 'send_command')
+        self.client = self.create_client(Twist, 'send_command')
 
         self.mode = None
         self.run()
 
 
     def send_command(self, servo, dc):
-        request = SendCommand.Request()
+        request = Twist()
         request.servo = servo
         request.dc = dc
         future = self.client.call_async(request)
