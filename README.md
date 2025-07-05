@@ -24,6 +24,8 @@ The GEns Ace 2S1p 1300mAh 7.4 LiPo battery is overkill for the power supply of o
 
 ## Assembly Instructions
 
+
+
 ## Content
 
 * `t-photos` contains 2 photos of the team (an official one and one funny photo with all team members)
