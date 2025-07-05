@@ -24,3 +24,15 @@ _Remove this section before the first commit to the repository_
 1. Clone this repo by using the `git clone` functionality.
 2. Remove `.git` directory
 3. [Initialize a new public repository on GitHub](https://github.com/new) by following instructions from "create a new repository on the command line" section (appeared after pressing "Create repository" button).
+
+## Engineering Materials
+* Raspberry Pi 5 (8 GB)
+* [RRC (Ros Robot Controller) Lite Controller](https://www.hiwonder.com/products/rrc-lite?srsltid=AfmBOorP3iSszjlniFgA0gsbfA9aUH3UK0MWuyPeuTUcW6RMQjcizhmE)
+* [GT24 B Differential Gear Set from Carisma RC](https://carisma-shop.com/collections/gt24-spares/products/gt24-b-differential-gear-set)
+* [Furitek Micro Komodo 1212 3450KV Brushless Motor](https://furitek.com/products/furitek-micro-komodo-1212-3456kv-brushless-motor-with-15t-steel-pinion-for-fury-wagon-fx118)
+* [Furiteck Lizard Pro 30A/50A Brushless ESC](https://furitek.com/products/combo-of-furitek-lizard-pro-30a-50a-brushed-brushless-esc-for-axial-scx24-with-bluetooth)
+* [Gens Ace 2S1P 1300mAh 7.4V battery](https://www.adrenalinehobby.com/products/gens-ace-g-tech-1300mah-2s-7-4v-25c-lipo-deans-plug?_pos=1&_sid=dde29d30b&_ss=r)
+* [Sun Founder SG90 Micro Digital 9G Servo Motor](https://www.sunfounder.com/products/sg90-micro-digital-servo?srsltid=AfmBOop4G8SB4zvimDdmDlNUaAaMoN5-eXqEeMZD69HXEi-1QH7Qkzmw)
+* Mini Rocker Switch
+* Micro SD card
+
