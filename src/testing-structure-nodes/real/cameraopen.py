@@ -6,21 +6,22 @@ from std_msgs.msg import Bool
 from picamera2 import Picamera2
 from geometry_msgs.msg import Twist
 
-LOWER_ORANGE1 = np.array([180, 100, 100])
-UPPER_ORANGE1 = np.array([180, 255, 255])
-LOWER_ORANGE2 = np.array([0, 80, 80])
-UPPER_ORANGE2 = np.array([20, 255, 255])
-
-LOWER_BLUE = np.array([101, 20, 30])
-UPPER_BLUE = np.array([125, 255, 255])
-
 LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
-UPPER_BLACK_THRESHOLD = np.array([180, 255, 80])
+UPPER_BLACK_THRESHOLD = np.array([180, 255, 62])
+
+LOWER_BLUE = np.array([107, 88, 0])
+UPPER_BLUE = np.array([121, 255, 211])
+
+LOWER_ORANGE1 = np.array([0, 101, 169])
+UPPER_ORANGE1 = np.array([27, 219, 255])
+
 
 ROI_LEFT_BOT = [0, 300, 100, 340]
 ROI_RIGHT_BOT = [540, 300, 640, 340]
 ROI_LEFT_TOP = [0, 285, 40, 300]
 ROI_RIGHT_TOP = [600, 285, 640, 300]
+
+
 
 ROI_LINE = [0,0,50,50]
 
@@ -30,7 +31,6 @@ started = False
 
 
 def findMaxContour(contours):
-
     max_area = 0
     for i in range(len(contours)):
         area = cv2.contourArea(contours[i])
@@ -67,26 +67,16 @@ class CameraNode(Node):
 
 
     def process_frame(self):
-        if not self.started:
+        if not started:
             return
         
         frame = self.picam2.capture_array()
         frame = cv2.resize(frame, (640, 480))
-        
-        if self.debug:
-            cv2.rectangle(frame, (ROI_LEFT_TOP[0], ROI_LEFT_TOP[1]),
-                  (ROI_LEFT_TOP[0] + ROI_LEFT_TOP[2], ROI_LEFT_TOP[1] + ROI_LEFT_TOP[3]), (255, 0, 0), 2)
-            cv2.rectangle(frame, (ROI_RIGHT_TOP[0], ROI_RIGHT_TOP[1]),
-                  (ROI_RIGHT_TOP[0] + ROI_RIGHT_TOP[2], ROI_RIGHT_TOP[1] + ROI_RIGHT_TOP[3]), (0, 0, 255), 2)
-        
-
-
-            cv2.imshow("Region of Interest", frame)
 
 
         img_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        img_thresh = cv2.inRange(img_hsv, self.LOWER_BLACK_THRESHOLD, self.UPPER_BLACK_THRESHOLD)
+        img_thresh = cv2.inRange(img_hsv, LOWER_BLACK_THRESHOLD, UPPER_BLACK_THRESHOLD)
 
 
         left_contours_top, hierarchy = cv2.findContours(
@@ -127,7 +117,7 @@ class CameraNode(Node):
         right_area = right_area_bot + right_area_top
         left_area = left_area_bot + left_area_top
 
-        b_mask = cv2.inRange(img_hsv, self.LOWER_BLUE, self.UPPER_BLUE)
+        b_mask = cv2.inRange(img_hsv, LOWER_BLUE, UPPER_BLUE)
         contours_blue = cv2.findContours(
             b_mask[ROI_LINE[1] : ROI_LINE[3], ROI_LINE[0] : ROI_LINE[2]],
             cv2.RETR_EXTERNAL,
@@ -136,8 +126,8 @@ class CameraNode(Node):
 
  
         o_mask = cv2.bitwise_or(
-            cv2.inRange(img_hsv, self.LOWER_ORANGE1, self.UPPER_ORANGE1),
-            cv2.inRange(img_hsv, self.LOWER_ORANGE2, self.UPPER_ORANGE2),
+            cv2.inRange(img_hsv, LOWER_ORANGE1, UPPER_ORANGE1),
+            cv2.inRange(img_hsv, LOWER_ORANGE2, UPPER_ORANGE2),
         )
 
         contours_orange = cv2.findContours(
@@ -149,7 +139,7 @@ class CameraNode(Node):
         max_blue_area = findMaxContour(contours_blue)
         max_orange_area = findMaxContour(contours_orange)
 
-        if self.debug:
+        if debug:
             for i in range(len(contours_orange)):
                 cnt = contours_orange[i]
                 cnt[:, :, 0] += ROI_LINE[0]  # x offset
@@ -168,6 +158,15 @@ class CameraNode(Node):
                     frame, contours_blue, i, (255, 0, 0), 1
                 )
 
+            cv2.rectangle(frame, (ROI_LEFT_TOP[0], ROI_LEFT_TOP[1]),
+                  (ROI_LEFT_TOP[0] + ROI_LEFT_TOP[2], ROI_LEFT_TOP[1] + ROI_LEFT_TOP[3]), (255, 0, 0), 2)
+            cv2.rectangle(frame, (ROI_RIGHT_TOP[0], ROI_RIGHT_TOP[1]),
+                  (ROI_RIGHT_TOP[0] + ROI_RIGHT_TOP[2], ROI_RIGHT_TOP[1] + ROI_RIGHT_TOP[3]), (0, 0, 255), 2)
+        
+
+
+            cv2.imshow("Region of Interest", frame)
+
 
 
         msg = Twist()
@@ -180,12 +179,12 @@ class CameraNode(Node):
 
     def change_state(self,msg:Bool):
         if msg.data == False:
-            if self.started:
+            if started:
                 cv2.destroyAllWindows()
                 super.destroy_node()
 
         else:
-            self.started = True
+            started = True
         
 
 def main(args=None):

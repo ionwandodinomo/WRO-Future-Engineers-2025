@@ -7,7 +7,12 @@ from std_msgs.msg import Float32
 
 PD = 0.2
 PG = 0.0035
+LINE_THRESH = 120
+WALL_THRESH = 20
+MAX_TURN_DEGREE = 50
+TRACK_DIR = 0
 
+turn_count = 0 
 class NavigateNode(Node):
     def __init__(self):
         super().__init__('nagivate_node')
@@ -54,6 +59,27 @@ class NavigateNode(Node):
             self.curr_diff = self.left_area - self.right_area
 
             angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
+
+            if TRACK_DIR == 0:
+                if self.max_orange_area >= LINE_THRESH:
+                    TRACK_DIR = 1
+                    turn_count += 1
+                elif self.max_blue_area >= LINE_THRESH:
+                    TRACK_DIR = -1
+
+            elif TRACK_DIR == 1:
+                if self.max_orange_area >= LINE_THRESH:
+                    angle = MAX_TURN_DEGREE
+                elif self.max_blue_area >= LINE_THRESH:
+                    angle = 0
+                    turn_count += 1
+            elif TRACK_DIR == -1:
+                if self.max_orange_area >= LINE_THRESH:
+                    angle = 0
+                    turn_count += 1
+                elif self.max_blue_area >= LINE_THRESH:
+                    angle = -MAX_TURN_DEGREE
+
             self.send_command(angle,self.speed)
 
             self.last_diff = self.curr
