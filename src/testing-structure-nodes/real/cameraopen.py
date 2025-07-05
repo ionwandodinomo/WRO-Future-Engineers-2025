@@ -26,8 +26,18 @@ ROI_LINE = [0,0,50,50]
 
 debug = True
 started = False
+
+
+
+def findMaxContour(contours):
+
+    max_area = 0
+    for i in range(len(contours)):
+        area = cv2.contourArea(contours[i])
+        max_area = max(area, max_area)
+    return max_area
     
-class CameraNode(Node,Info):
+class CameraNode(Node):
     
     def __init__(self):
         super().__init__('camera_node')
@@ -108,28 +118,11 @@ class CameraNode(Node,Info):
             cv2.CHAIN_APPROX_NONE,
         )
 
-        left_area_top = 0
-        left_area_bot = 0
+        left_area_top = findMaxContour(left_contours_top)
+        left_area_bot = findMaxContour(left_contours_bot)
 
-        right_area_top = 0
-        right_area_bot = 0
-
-        for i in range(len(left_contours_top)):
-            cnt = left_contours_top[i]
-            area = cv2.contourArea(cnt)
-            left_area_top = max(area, left_area_top)
-        for i in range(len(left_contours_bot)):
-            cnt = left_contours_bot[i]
-            area = cv2.contourArea(cnt)
-            left_area_bot = max(area, left_area_bot)
-        for i in range(len(right_contours_top)):
-            cnt = right_contours_top[i]
-            area = cv2.contourArea(cnt)
-            right_area_top = max(area, right_area_top)
-        for i in range(len(right_contours_bot)):
-            cnt = right_contours_bot[i]
-            area = cv2.contourArea(cnt)
-            right_area_bot = max(area, right_area_bot)
+        right_area_top = findMaxContour(right_contours_top)
+        right_area_bot = findMaxContour(right_contours_bot)
 
         right_area = right_area_bot + right_area_top
         left_area = left_area_bot + left_area_top
@@ -153,28 +146,29 @@ class CameraNode(Node,Info):
             cv2.CHAIN_APPROX_SIMPLE,
         )[-2]
 
-        max_blue_area = 0
-        max_orange_area = 0
+        max_blue_area = findMaxContour(contours_blue)
+        max_orange_area = findMaxContour(contours_orange)
 
-        for i in range(len(contours_orange)):
-            cnt = contours_orange[i]
-            max_orange_area = max(cv2.contourArea(cnt), max_orange_area)
-            cnt[:, :, 0] += ROI_LINE[0]  # x offset
-            cnt[:, :, 1] += ROI_LINE[1]  # y offset
-            if self.debug:
+        if self.debug:
+            for i in range(len(contours_orange)):
+                cnt = contours_orange[i]
+                cnt[:, :, 0] += ROI_LINE[0]  # x offset
+                cnt[:, :, 1] += ROI_LINE[1]  # y offset
+                
                 cv2.drawContours(
                     frame, contours_orange, i, (255, 255, 0), 1
                 )
-        for i in range(len(contours_blue)):
-            cnt = contours_blue[i]
-            max_blue_area = max(cv2.contourArea(cnt), max_blue_area)
-            cnt[:, :, 0] += ROI_LINE[0]  # x offset
-            cnt[:, :, 1] += ROI_LINE[1]  # y offset
-            
-            if self.debug:
+
+            for i in range(len(contours_blue)):
+                cnt = contours_blue[i]
+                cnt[:, :, 0] += ROI_LINE[0]  # x offset
+                cnt[:, :, 1] += ROI_LINE[1]  # y offset
+                
                 cv2.drawContours(
-                    frame, contours_blue, i, (255, 255, 0), 1
+                    frame, contours_blue, i, (255, 0, 0), 1
                 )
+
+
 
         msg = Twist()
         msg.wall_area_left = left_area
