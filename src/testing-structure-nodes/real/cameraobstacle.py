@@ -55,10 +55,14 @@ class CameraNode(Node):
     def __init__(self):
         super().__init__('camera_node')
         self.picam2 = Picamera2()
-        self.picam2.preview_configuration.main.size = (640, 480)
+        self.picam2.preview_configuration.main.size = (640,480)
         self.picam2.preview_configuration.main.format = "RGB888"
-        self.picam2.preview_configuration.controls.FrameRate = 30
+        print(self.picam2.preview_configuration.controls.FrameRate)
+        self.picam2.preview_configuration.controls.FrameRate = 25
+        self.picam2.set_controls({"Brightness": 0.05})
+        print(self.picam2.preview_configuration.controls.FrameRate)
         self.picam2.preview_configuration.align()
+        self.picam2.configure("preview")
         self.picam2.start()
         
 

@@ -1,6 +1,7 @@
 import cv2 as cv
 from picamera2 import Picamera2
 
+
 max_value = 255
 max_value_H = 360//2
 low_H = 0
