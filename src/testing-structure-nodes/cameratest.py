@@ -1,13 +1,19 @@
 import cv2
 import numpy as np
 from picamera2 import Picamera2
-import ros_robot_controller_sdk as rcc
-
-board = rcc.Board()
 
 # Initialize camera
 picam2 = Picamera2()
+picam2.preview_configuration.main.size = (640,480)
+picam2.preview_configuration.main.format = "RGB888"
+print(picam2.preview_configuration.controls.FrameRate)
+picam2.preview_configuration.controls.FrameRate = 25
+picam2.set_controls({"Brightness": 0.05})
+print(picam2.preview_configuration.controls.FrameRate)
+picam2.preview_configuration.align()
+picam2.configure("preview")
 picam2.start()
+
 
 # Define rectangular ROIs
 left_roi = (0, 255, 130, 80)     # x, y, w, h
