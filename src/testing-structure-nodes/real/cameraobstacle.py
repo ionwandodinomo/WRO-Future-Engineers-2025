@@ -6,34 +6,65 @@ from std_msgs.msg import Bool
 from picamera2 import Picamera2
 from geometry_msgs.msg import Twist
 
-class Info:
-    LOWER_ORANGE1 = np.array([180, 100, 100])
-    UPPER_ORANGE1 = np.array([180, 255, 255])
-    LOWER_ORANGE2 = np.array([0, 80, 80])
-    UPPER_ORANGE2 = np.array([20, 255, 255])
 
-    LOWER_BLUE = np.array([101, 20, 30])
-    UPPER_BLUE = np.array([125, 255, 255])
+LINE_THRESHOLD = 120 
 
-    LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
-    UPPER_BLACK_THRESHOLD = np.array([180, 255, 80])
+PILLAR_SIZE = 320
 
-    ROI_LEFT_BOT = [0, 300, 100, 340]
-    ROI_RIGHT_BOT = [540, 300, 640, 340]
-    ROI_LEFT_TOP = [0, 285, 40, 300]
-    ROI_RIGHT_TOP = [600, 285, 640, 300]
+DC_SPEED = 1342
+MID_SERVO = 82
+MAX_TURN_DEGREE = 42
 
-    ROI_LINE = [0,0,50,50]
+LOWER_RED_THRESHOLD1 = np.array([0, 154, 70])
+UPPER_RED_THRESHOLD1 = np.array([4, 255, 255])
+LOWER_RED_THRESHOLD2 = np.array([174, 180, 70])
+UPPER_RED_THRESHOLD2 = np.array([180, 255, 255])
 
-    debug = True
-    started = False
-    
-class CameraNode(Node,Info):
-    
+LOWER_GREEN_THRESHOLD = np.array([65, 85, 40])
+UPPER_GREEN_THRESHOLD = np.array([105, 255, 185])
+
+LOWER_MAGENTA_THRESHOLD1 = np.array([0, 100, 50])
+UPPER_MAGENTA_THRESHOLD1 = np.array([0, 215, 255])
+
+LOWER_MAGENTA_THRESHOLD2 = np.array([150, 150, 70])
+UPPER_MAGENTA_THRESHOLD2 = np.array([172, 255, 255])
+
+LOWER_ORANGE1 = np.array([180, 100, 100])
+UPPER_ORANGE1 = np.array([180, 255, 255])
+LOWER_ORANGE2 = np.array([0, 80, 80])
+UPPER_ORANGE2 = np.array([20, 255, 255])
+
+LOWER_BLUE = np.array([101, 20, 30])
+UPPER_BLUE = np.array([125, 255, 255])
+
+LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
+UPPER_BLACK_THRESHOLD = np.array([180, 255, 80])
+
+ROI_LEFT_BOT = [0, 300, 100, 340]
+ROI_RIGHT_BOT = [540, 300, 640, 340]
+ROI_LEFT_TOP = [0, 285, 40, 300]
+ROI_RIGHT_TOP = [600, 285, 640, 300]
+
+ROI_LINE = [0,0,50,50]
+
+
+debug = True
+started = False
+
+class CameraNode(Node):
     def __init__(self):
         super().__init__('camera_node')
         self.picam2 = Picamera2()
+        self.picam2.preview_configuration.main.size = (640,480)
+        self.picam2.preview_configuration.main.format = "RGB888"
+        print(self.picam2.preview_configuration.controls.FrameRate)
+        self.picam2.preview_configuration.controls.FrameRate = 25
+        self.picam2.set_controls({"Brightness": 0.05})
+        print(self.picam2.preview_configuration.controls.FrameRate)
+        self.picam2.preview_configuration.align()
+        self.picam2.configure("preview")
         self.picam2.start()
+        
 
         self.publisher_ = self.create_publisher(Twist, 'camera', 10)
 
@@ -50,17 +81,17 @@ class CameraNode(Node,Info):
 
 
     def process_frame(self):
-        if not self.started:
+        if not started:
             return
         
         frame = self.picam2.capture_array()
         frame = cv2.resize(frame, (640, 480))
         
-        if self.debug:
-            cv2.rectangle(frame, (self.ROI_LEFT_TOP[0], self.ROI_LEFT_TOP[1]),
-                  (self.ROI_LEFT_TOP[0] + self.ROI_LEFT_TOP[2], self.ROI_LEFT_TOP[1] + self.ROI_LEFT_TOP[3]), (255, 0, 0), 2)
-            cv2.rectangle(frame, (self.ROI_RIGHT_TOP[0], self.ROI_RIGHT_TOP[1]),
-                  (self.ROI_RIGHT_TOP[0] + self.ROI_RIGHT_TOP[2], self.ROI_RIGHT_TOP[1] + self.ROI_RIGHT_TOP[3]), (0, 0, 255), 2)
+        if debug:
+            cv2.rectangle(frame, (ROI_LEFT_TOP[0], ROI_LEFT_TOP[1]),
+                  (ROI_LEFT_TOP[0] + ROI_LEFT_TOP[2], ROI_LEFT_TOP[1] + ROI_LEFT_TOP[3]), (255, 0, 0), 2)
+            cv2.rectangle(frame, (ROI_RIGHT_TOP[0], ROI_RIGHT_TOP[1]),
+                  (ROI_RIGHT_TOP[0] + ROI_RIGHT_TOP[2], ROI_RIGHT_TOP[1] + ROI_RIGHT_TOP[3]), (0, 0, 255), 2)
         
 
 
@@ -69,33 +100,33 @@ class CameraNode(Node,Info):
 
         img_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        img_thresh = cv2.inRange(img_hsv, self.LOWER_BLACK_THRESHOLD, self.UPPER_BLACK_THRESHOLD)
+        img_thresh = cv2.inRange(img_hsv, LOWER_BLACK_THRESHOLD, UPPER_BLACK_THRESHOLD)
 
 
         left_contours_top, hierarchy = cv2.findContours(
             img_thresh[
-                self.ROI_LEFT_TOP[1] : self.ROI_LEFT_TOP[3], self.ROI_LEFT_TOP[0] : self.ROI_LEFT_TOP[2]
+                ROI_LEFT_TOP[1] : ROI_LEFT_TOP[3], ROI_LEFT_TOP[0] : ROI_LEFT_TOP[2]
             ],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_NONE,
         )
         right_contours_top, hierarchy = cv2.findContours(
             img_thresh[
-                self.ROI_RIGHT_TOP[1] : self.ROI_RIGHT_TOP[3], self.ROI_RIGHT_TOP[0] : self.ROI_RIGHT_TOP[2]
+                ROI_RIGHT_TOP[1] : ROI_RIGHT_TOP[3], ROI_RIGHT_TOP[0] : ROI_RIGHT_TOP[2]
             ],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_NONE,
         )
         left_contours_bot, hierarchy = cv2.findContours(
             img_thresh[
-                self.ROI_LEFT_BOT[1] : self.ROI_LEFT_BOT[3], self.ROI_LEFT_BOT[0] : self.ROI_LEFT_BOT[2]
+                ROI_LEFT_BOT[1] : ROI_LEFT_BOT[3], ROI_LEFT_BOT[0] : ROI_LEFT_BOT[2]
             ],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_NONE,
         )
         right_contours_bot, hierarchy = cv2.findContours(
             img_thresh[
-                self.ROI_RIGHT_BOT[1] : self.ROI_RIGHT_BOT[3], self.ROI_RIGHT_BOT[0] : self.ROI_RIGHT_BOT[2]
+                ROI_RIGHT_BOT[1] : ROI_RIGHT_BOT[3], ROI_RIGHT_BOT[0] : ROI_RIGHT_BOT[2]
             ],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_NONE,
@@ -127,21 +158,21 @@ class CameraNode(Node,Info):
         right_area = right_area_bot + right_area_top
         left_area = left_area_bot + left_area_top
 
-        b_mask = cv2.inRange(img_hsv, self.LOWER_BLUE, self.UPPER_BLUE)
+        b_mask = cv2.inRange(img_hsv, LOWER_BLUE, UPPER_BLUE)
         contours_blue = cv2.findContours(
-            b_mask[self.ROI_LINE[1] : self.ROI_LINE[3], self.ROI_LINE[0] : self.ROI_LINE[2]],
+            b_mask[ROI_LINE[1] : ROI_LINE[3], ROI_LINE[0] : ROI_LINE[2]],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_SIMPLE,
         )[-2]
 
  
         o_mask = cv2.bitwise_or(
-            cv2.inRange(img_hsv, self.LOWER_ORANGE1, self.UPPER_ORANGE1),
-            cv2.inRange(img_hsv, self.LOWER_ORANGE2, self.UPPER_ORANGE2),
+            cv2.inRange(img_hsv, LOWER_ORANGE1, UPPER_ORANGE1),
+            cv2.inRange(img_hsv, LOWER_ORANGE2, UPPER_ORANGE2),
         )
 
         contours_orange = cv2.findContours(
-            o_mask[self.ROI_LINE[1] : self.ROI_LINE[3], self.ROI_LINE[0] : self.ROI_LINE[2]],
+            o_mask[ROI_LINE[1] : ROI_LINE[3], ROI_LINE[0] : ROI_LINE[2]],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_SIMPLE,
         )[-2]
@@ -152,8 +183,8 @@ class CameraNode(Node,Info):
         for i in range(len(contours_orange)):
             cnt = contours_orange[i]
             max_orange_area = max(cv2.contourArea(cnt), max_orange_area)
-            cnt[:, :, 0] += self.ROI_LINE[0]  # x offset
-            cnt[:, :, 1] += self.ROI_LINE[1]  # y offset
+            cnt[:, :, 0] += ROI_LINE[0]  # x offset
+            cnt[:, :, 1] += ROI_LINE[1]  # y offset
             if self.debug:
                 cv2.drawContours(
                     frame, contours_orange, i, (255, 255, 0), 1
@@ -161,8 +192,8 @@ class CameraNode(Node,Info):
         for i in range(len(contours_blue)):
             cnt = contours_blue[i]
             max_blue_area = max(cv2.contourArea(cnt), max_blue_area)
-            cnt[:, :, 0] += self.ROI_LINE[0]  # x offset
-            cnt[:, :, 1] += self.ROI_LINE[1]  # y offset
+            cnt[:, :, 0] += ROI_LINE[0]  # x offset
+            cnt[:, :, 1] += ROI_LINE[1]  # y offset
             
             if self.debug:
                 cv2.drawContours(
