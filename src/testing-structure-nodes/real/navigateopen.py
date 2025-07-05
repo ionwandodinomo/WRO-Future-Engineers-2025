@@ -3,7 +3,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import math
 from std_msgs.msg import Float32
-from open_interfaces.srv import SendCommand
 
 
 PD = 0.2
