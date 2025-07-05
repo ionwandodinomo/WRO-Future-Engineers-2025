@@ -33,6 +33,10 @@ class CameraNode(Node,Info):
     def __init__(self):
         super().__init__('camera_node')
         self.picam2 = Picamera2()
+        self.picam2.preview_configuration.main.size = (640, 480)
+        self.picam2.preview_configuration.main.format = "RGB888"
+        self.picam2.preview_configuration.controls.FrameRate = 30
+        self.picam2.preview_configuration.align()
         self.picam2.start()
 
         self.publisher_ = self.create_publisher(Twist, 'camera', 10)
