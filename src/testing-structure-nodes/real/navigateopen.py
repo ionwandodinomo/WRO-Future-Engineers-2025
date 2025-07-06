@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from std_msgs.msg import Int32MultiArray
 import math
 from std_msgs.msg import Float32
 import time
@@ -30,12 +30,12 @@ class NavigateNode(Node):
 
         self.current_angle = 0
 
-        self.subscription_cam = self.create_subscription(Twist, "camera", self.cam_call,
+        self.subscription_cam = self.create_subscription(Int32MultiArray, "camera", self.cam_call,
 10)
         self.subscription_imu = self.create_subscription(Float32, "imu", self.imu_call,
 10)
 
-        self.publisher = self.create_publisher(Twist, 'send_command',10)
+        self.publisher = self.create_publisher(Int32MultiArray, 'send_command',10)
         self.timer = self.create_timer(0.01, self.send_command)
 
         self.mode = None
@@ -44,17 +44,16 @@ class NavigateNode(Node):
 
     def send_command(self):
         global servo, dc
-        request = Twist()
-        request.servo = servo
-        request.dc = dc
+        request = Int32MultiArray()
+        request.data = [servo,dc]
         self.publisher_.publish(request)
         self.get_logger().info(f'Angle: {servo}, speed: {dc}')
         
     def cam_call(self, msg):
-        self.left_area = msg.wall_area_left
-        self.right_area = msg.wall_area_right
-        self.max_orange_area = msg.line_orange_area
-        self.max_blue_area = msg.line_blue_area
+        self.left_area = msg.data[0]
+        self.right_area = msg.data[1]
+        self.max_orange_area = msg.data[2]
+        self.max_blue_area =msg.data[3]
 
     def imu_call(self,msg):
         self.current_angle = msg.data

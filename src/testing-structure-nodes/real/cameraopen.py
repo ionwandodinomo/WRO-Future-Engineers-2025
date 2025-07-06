@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from std_msgs.msg import Bool
 from picamera2 import Picamera2
-from geometry_msgs.msg import Twist
+from std_msgs.msg import Int32MultiArray
 
 LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
 UPPER_BLACK_THRESHOLD = np.array([180, 255, 62])
@@ -53,7 +53,7 @@ class CameraNode(Node):
         self.picam2.configure("preview")
         self.picam2.start()
 
-        self.publisher_ = self.create_publisher(Twist, 'camera', 10)
+        self.publisher_ = self.create_publisher(Int32MultiArray, 'camera', 10)
 
         """
         self.subscription = self.create_subscription(
@@ -165,14 +165,12 @@ class CameraNode(Node):
 
 
             cv2.imshow("Region of Interest", frame)
+            cv2.waitKey(1)
 
 
 
-        msg = Twist()
-        msg.wall_area_left = left_area
-        msg.wall_area_right = right_area
-        msg.line_orange_area = max_orange_area
-        msg.line_blue_area = max_blue_area
+        msg = Int32MultiArray()
+        msg.data = [int(left_area),int(right_area), int(max_orange_area),int(max_blue_area)]
 
         self.publisher_.publish(msg)
 

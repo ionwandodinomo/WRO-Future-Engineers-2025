@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from std_msgs.msg import Int32MultiArray
 from std_msgs.msg import Bool
 from challenge import ros_robot_controller_sdk as rcc
 import time
@@ -20,13 +20,13 @@ class ControlNode(Node):
 
         #self.subscription_running = self.create_subscription(Bool, '/states/running', self.shutdown, 10)
 
-        self.srv = self.create_subscription(Twist, 'send_command', self.add_callback,10)
+        self.srv = self.create_subscription(Int32MultiArray, 'send_command', self.add_callback,10)
         self.get_logger().info('Service Server Ready: Waiting for requests...')
 
     def add_callback(self, request, response):
- 
-        dcspeed = request.dc
-        servo_angle = pwm(request.servo+MID_SERVO)
+        
+        dcspeed = request.data[1]
+        servo_angle = pwm(request.data[0]+MID_SERVO)
 
         self.get_logger().info(f'DC Motor: {dcspeed}')
         self.get_logger().info(f'Servo: {servo_angle}')
