@@ -24,6 +24,7 @@ The GEns Ace 2S1p 1300mAh 7.4 LiPo battery is overkill for the power supply of o
 
 # Power Draw
 | Component | Voltage | Max Current Draw |
+| --- | --- | --- |
 | RRC Lite Controller | 5v | 0.5A |
 | YDLidar T-mini|5v|0.3A|
 | Furitek Micro Komodo Motor | 7.4V | 5A |
