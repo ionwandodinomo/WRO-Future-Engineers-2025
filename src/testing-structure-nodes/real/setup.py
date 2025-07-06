@@ -16,7 +16,7 @@ description="Autonomous RC car ROS 2 package",
 entry_points={
 "console_scripts": [
         "cameraopen_node = challenge.cameraopen_node:main",
-        "navigateopen_node = challenge.navigateopen_node:main",
+        "navigate_node = challenge.navigate_node:main",
         "control_node = challenge.control_node:main",
         "cameraobstacle_node = challenge.cameraobstacle_node:main",
         "navigateobstacle_node = challenge.navigateoobstacle_node:main",

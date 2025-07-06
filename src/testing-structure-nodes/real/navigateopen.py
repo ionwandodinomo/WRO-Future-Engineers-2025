@@ -46,7 +46,7 @@ class NavigateNode(Node):
         self.mode = None
         self.run()
 
-    def send_LED(self):
+    def send_LED(self,msg):
         msg = Int32MultiArray()
         msg.data = [1,*LED1]
         msg.data = [2,*LED2]
@@ -71,7 +71,7 @@ class NavigateNode(Node):
         self.current_angle = msg.data
 
     def run(self):
-        global turn_count, servo,dc,angle
+        global turn_count, servo,dc,angle,LED1
         LED1 = [255,255,0]
         time.sleep(1)
         while True:
