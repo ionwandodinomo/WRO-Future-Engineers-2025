@@ -27,7 +27,7 @@ class ControlNode(Node):
 
        
 
-    def add_callback(self, request, response):
+    def add_callback(self, request):
         
         dcspeed = request.data[1]
         servo_angle = pwm(request.data[0]+MID_SERVO)
@@ -40,8 +40,6 @@ class ControlNode(Node):
         
         board.pwm_servo_set_position(0.1, [[2, dcspeed]])
         time.sleep(0.1)
-
-        return response
     
 
 

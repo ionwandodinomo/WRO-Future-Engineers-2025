@@ -11,14 +11,10 @@ PG = 0.0035
 LINE_THRESH = 120
 WALL_THRESH = 20
 MAX_TURN_DEGREE = 50
-TRACK_DIR = 0
 
-servo = 0
-dc = 0
-LED1 = [0,0,0]
-LED2 = [0,0,0]
 
-turn_count = 0 
+
+
 class NavigateNode(Node):
     def __init__(self):
         super().__init__('nagivate_node')
@@ -29,6 +25,10 @@ class NavigateNode(Node):
         self.speed = 1550
         self.curr_diff = 0
         self.last_diff = 0
+        self.track_dir = 0
+        self.servo = 0
+        self.dc = 0
+        self.turn_count = 0 
 
         self.current_angle = 0
 
@@ -38,28 +38,31 @@ class NavigateNode(Node):
 10)
 
         self.publisher = self.create_publisher(Int32MultiArray, 'send_command',10)
-        self.timer = self.create_timer(0.01, self.send_command)
+        self.timer_motors = self.create_timer(0.01, self.send_command)
 
         self.LED = self.create_publisher(Int32MultiArray, 'LED_command',10)
-        self.timer = self.create_timer(0.1, self.send_LED)
+        self.timer_led = self.create_timer(0.1, self.send_LED)
 
-        self.mode = None
-        self.run()
+        self.LED1 = [255,255,0]
+        self.LED2 = [0,0,0]
+        time.sleep(1)
 
-    def send_LED(self,msg):
+        self.timer_logic = self.create_timer(0.01, self.run)
+
+    def send_LED(self):
         msg = Int32MultiArray()
-        msg.data = [1,*LED1]
-        msg.data = [2,*LED2]
-        self.publisher_.publish(msg)
+        msg.data = [1,*self.LED1]
+        self.LED.publish(msg)
+        msg.data = [2,*self.LED2]
+        self.LED.publish(msg)
         return
 
 
     def send_command(self):
-        global servo, dc
         request = Int32MultiArray()
-        request.data = [servo,dc]
-        self.publisher_.publish(request)
-        self.get_logger().info(f'Angle: {servo}, speed: {dc}')
+        request.data = [self.servo,self.dc]
+        self.publisher.publish(request)
+        self.get_logger().info(f'Angle: {self.servo}, speed: {self.dc}')
         
     def cam_call(self, msg):
         self.left_area = msg.data[0]
@@ -71,47 +74,43 @@ class NavigateNode(Node):
         self.current_angle = msg.data
 
     def run(self):
-        global turn_count, servo,dc,angle,LED1,LED2,MAX_TURN_DEGREE,LINE_THRESH,TRACK_DIR,WALL_THRESH,PD,PG
-        LED1 = [255,255,0]
-        time.sleep(1)
-        while True:
+        global MAX_TURN_DEGREE,LINE_THRESH,WALL_THRESH,PD,PG
+        if self.turn_count == 12:
+            self.servo = 0
+            self.dc = self.speed
+            time.sleep(1)
+            return
 
-            if turn_count == 12:
-                break
+        self.curr_diff = self.left_area - self.right_area
 
-            self.curr_diff = self.left_area - self.right_area
+        angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
 
-            angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
+        if self.track_dir == 0:
+            if self.max_orange_area >= LINE_THRESH:
+                self.track_dir = 1
+                self.turn_count += 1
+            elif self.max_blue_area >= LINE_THRESH:
+                self.track_dir = -1
 
-            if TRACK_DIR == 0:
-                if self.max_orange_area >= LINE_THRESH:
-                    TRACK_DIR = 1
-                    turn_count += 1
-                elif self.max_blue_area >= LINE_THRESH:
-                    TRACK_DIR = -1
+        elif self.track_dir == 1:
+            if self.max_orange_area >= LINE_THRESH:
+                angle = MAX_TURN_DEGREE
+            elif self.max_blue_area >= LINE_THRESH:
+                angle = 0
+                self.turn_count += 1
+        elif self.track_dir == -1:
+            if self.max_orange_area >= LINE_THRESH:
+                angle = 0
+                self.turn_count += 1
+            elif self.max_blue_area >= LINE_THRESH:
+                angle = -MAX_TURN_DEGREE
 
-            elif TRACK_DIR == 1:
-                if self.max_orange_area >= LINE_THRESH:
-                    angle = MAX_TURN_DEGREE
-                elif self.max_blue_area >= LINE_THRESH:
-                    angle = 0
-                    turn_count += 1
-            elif TRACK_DIR == -1:
-                if self.max_orange_area >= LINE_THRESH:
-                    angle = 0
-                    turn_count += 1
-                elif self.max_blue_area >= LINE_THRESH:
-                    angle = -MAX_TURN_DEGREE
+        self.servo = angle
+        self.dc = self.speed
 
-            servo = angle
-            dc = self.speed
+        self.last_diff = self.curr_diff
 
-            self.last_diff = self.curr_diff
-
-        servo = angle
-        dc = self.speed
-        time.sleep(1)
-        return
+        
 
 
 
