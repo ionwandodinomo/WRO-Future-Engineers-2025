@@ -12,7 +12,6 @@ max_turn_degree = 32
 board.pwm_servo_set_position(0.1, [[1, pwm(mid)]])
 # 'Arm' the ESC
 board.pwm_servo_set_position(6, 1500, 100) 
-time.sleep(6)
 print("Ready\n")
 
 
