@@ -22,7 +22,7 @@ Steering precision is of the upmost importance for this competition. This servo 
 # Power Considerations
 The GEns Ace 2S1p 1300mAh 7.4 LiPo battery is overkill for the power supply of our car. This battery has a continous discharge rate of 25C, delivering more than enough power for the peak demand of our electronics, inlcuding the SG90 Servo, Furitek motor, ESC, Raspbeery Pi 5 and the RRC Lite Controller. The ESC, connected directly to the controller, regulates the voltage to the motor, avoiding brownouts even under full load.
 
-# Power Draw
+## Power Draw
 | Component | Voltage | Max Current Draw |
 | --- | --- | --- |
 | RRC Lite Controller | 5v | 0.5A |
