@@ -15,7 +15,7 @@ def pwm(degree):  # angle must be adjusted to pwm angle for servo
 
 class ControlNode(Node):
     def __init__(self):
-        super().__init__('control_node')
+        super().__init__('control')
         self.started = False
 
         #self.subscription_running = self.create_subscription(Bool, '/states/running', self.shutdown, 10)
