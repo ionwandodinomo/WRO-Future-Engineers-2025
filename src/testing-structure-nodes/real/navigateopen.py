@@ -15,6 +15,8 @@ TRACK_DIR = 0
 
 servo = 0
 dc = 0
+LED1 = [0,0,0]
+LED2 = [0,0,0]
 
 turn_count = 0 
 class NavigateNode(Node):
@@ -38,8 +40,18 @@ class NavigateNode(Node):
         self.publisher = self.create_publisher(Int32MultiArray, 'send_command',10)
         self.timer = self.create_timer(0.01, self.send_command)
 
+        self.LED = self.create_publisher(Int32MultiArray, 'LED_command', self.add_callback,10)
+        self.timer = self.create_timer(0.1, self.send_LED)
+
         self.mode = None
         self.run()
+
+    def send_LED(self):
+        msg = Int32MultiArray()
+        msg.data = [1,*LED1]
+        msg.data = [2,*LED2]
+        self.publisher_.publish(msg)
+        return
 
 
     def send_command(self):
@@ -60,6 +72,8 @@ class NavigateNode(Node):
 
     def run(self):
         global turn_count, servo,dc,angle
+        LED1 = [255,255,0]
+        time.sleep(1)
         while True:
 
             if turn_count == 12:

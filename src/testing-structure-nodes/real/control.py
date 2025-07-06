@@ -25,6 +25,8 @@ class ControlNode(Node):
         self.srv = self.create_subscription(Int32MultiArray, 'send_command', self.add_callback,10)
         self.get_logger().info('Service Server Ready: Waiting for requests...')
 
+       
+
     def add_callback(self, request, response):
         
         dcspeed = request.data[1]
@@ -40,6 +42,8 @@ class ControlNode(Node):
         time.sleep(0.1)
 
         return response
+    
+
 
 
 
