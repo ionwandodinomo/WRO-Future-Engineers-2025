@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
-import ros_robot_controller_sdk as rcc
+from challenge import ros_robot_controller_sdk as rcc
 import time
 
 board = rcc.Board()
@@ -20,7 +20,7 @@ class ControlNode(Node):
 
         #self.subscription_running = self.create_subscription(Bool, '/states/running', self.shutdown, 10)
 
-        self.srv = self.create_service(Twist, 'send_command', self.add_callback)
+        self.srv = self.create_subscription(Twist, 'send_command', self.add_callback,10)
         self.get_logger().info('Service Server Ready: Waiting for requests...')
 
     def add_callback(self, request, response):

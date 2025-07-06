@@ -13,6 +13,9 @@ WALL_THRESH = 20
 MAX_TURN_DEGREE = 50
 TRACK_DIR = 0
 
+servo = 0
+dc = 0
+
 turn_count = 0 
 class NavigateNode(Node):
     def __init__(self):
@@ -32,19 +35,20 @@ class NavigateNode(Node):
         self.subscription_imu = self.create_subscription(Float32, "imu", self.imu_call,
 10)
 
-        self.client = self.create_client(Twist, 'send_command')
+        self.publisher = self.create_publisher(Twist, 'send_command',10)
+        self.timer = self.create_timer(0.01, self.send_command)
 
         self.mode = None
         self.run()
 
 
-    def send_command(self, servo, dc):
+    def send_command(self):
+        global servo, dc
         request = Twist()
         request.servo = servo
         request.dc = dc
-        future = self.client.call_async(request)
-        rclpy.spin_until_future_complete(self, future)
-        return future.result()
+        self.publisher_.publish(request)
+        self.get_logger().info(f'Angle: {servo}, speed: {dc}')
         
     def cam_call(self, msg):
         self.left_area = msg.wall_area_left
@@ -56,6 +60,7 @@ class NavigateNode(Node):
         self.current_angle = msg.data
 
     def run(self):
+        global turn_count, servo,dc,angle
         while True:
 
             if turn_count == 12:
@@ -85,11 +90,13 @@ class NavigateNode(Node):
                 elif self.max_blue_area >= LINE_THRESH:
                     angle = -MAX_TURN_DEGREE
 
-            self.send_command(angle,self.speed)
+            servo = angle
+            dc = self.speed
 
             self.last_diff = self.curr
 
-        self.send_command(0,self.speed)
+        servo = angle
+        dc = self.speed
         time.sleep(1)
         return
 

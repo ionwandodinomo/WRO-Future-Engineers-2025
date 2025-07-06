@@ -28,7 +28,6 @@ ROI_RIGHT_TOP = [600, 285, 640, 300]
 ROI_LINE = [0,0,50,50]
 
 debug = True
-started = False
 
 
 
@@ -69,8 +68,6 @@ class CameraNode(Node):
 
 
     def process_frame(self):
-        if not started:
-            return
         
         frame = self.picam2.capture_array()
         frame = cv2.resize(frame, (640, 480))
@@ -178,16 +175,6 @@ class CameraNode(Node):
         msg.line_blue_area = max_blue_area
 
         self.publisher_.publish(msg)
-
-    def change_state(self,msg:Bool):
-        if msg.data == False:
-            if started:
-                cv2.destroyAllWindows()
-                super.destroy_node()
-
-        else:
-            started = True
-        
 
 def main(args=None):
     # Initialize ROS2 node
