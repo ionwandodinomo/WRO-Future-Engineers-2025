@@ -13,7 +13,7 @@
 # Movement Considerations
 For the use of this competition, movement precision and responsiveness are the top priorities.
 
-## Furitek Mirco Komodo 1212 3450KV Brushless Motor
+## Furitek Micro Komodo 1212 3450KV Brushless Motor
 We selected this motor due to its lightweight design and high power. The motor is high effeciency, and allows control over the speed of the car. This motor allows us to frequently change the speed and acceleration of the car, giving a high degree of control over the car. The motor's teeth pair with the GT24 Differential gear set, eliminating the need for any gear in between.
 
 ## SunFounder SG90 Mirco Digital 9G Servo
@@ -21,6 +21,21 @@ Steering precision is of the upmost importance for this competition. This servo 
 
 # Power Considerations
 The GEns Ace 2S1p 1300mAh 7.4 LiPo battery is overkill for the power supply of our car. This battery has a continous discharge rate of 25C, delivering more than enough power for the peak demand of our electronics, inlcuding the SG90 Servo, Furitek motor, ESC, Raspbeery Pi 5 and the RRC Lite Controller. The ESC, connected directly to the controller, regulates the voltage to the motor, avoiding brownouts even under full load.
+
+# Power Draw
+|Component|Voltage|Max Current Draw|
+|RRC Lite Controller|5v|0.5A|
+|YDLidar T-mini|5v|0.3A|
+|Furitek Micro Komodo Motor|7.4V|5A|
+|Furitek Lizard Pro ESC|8.4V|50A|
+|SG90 Servo Motor|5v|0.25A|
+|Pi Camera|5v|0.25A|
+|MicroSD, Leds, and Speakers|5v|0.2A|
+Total Power Draw
+|Category|Value|
+|Average Current Draw|10.5A|
+|Battery Output Capacity|32.5A|
+|Headroom|22A|
 
 # Assembly Instructions
 
