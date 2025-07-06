@@ -23,19 +23,19 @@ Steering precision is of the upmost importance for this competition. This servo 
 The GEns Ace 2S1p 1300mAh 7.4 LiPo battery is overkill for the power supply of our car. This battery has a continous discharge rate of 25C, delivering more than enough power for the peak demand of our electronics, inlcuding the SG90 Servo, Furitek motor, ESC, Raspbeery Pi 5 and the RRC Lite Controller. The ESC, connected directly to the controller, regulates the voltage to the motor, avoiding brownouts even under full load.
 
 # Power Draw
-|Component|Voltage|Max Current Draw|
-|RRC Lite Controller|5v|0.5A|
-|YDLidar T-mini|5v|0.3A|
-|Furitek Micro Komodo Motor|7.4V|5A|
-|Furitek Lizard Pro ESC|8.4V|50A|
-|SG90 Servo Motor|5v|0.25A|
-|Pi Camera|5v|0.25A|
-|MicroSD, Leds, and Speakers|5v|0.2A|
-Total Power Draw
-|Category|Value|
-|Average Current Draw|10.5A|
-|Battery Output Capacity|32.5A|
-|Headroom|22A|
+| Component | Voltage | Max Current Draw |
+| RRC Lite Controller | 5v | 0.5A |
+| YDLidar T-mini|5v|0.3A|
+| Furitek Micro Komodo Motor | 7.4V | 5A |
+| Furitek Lizard Pro ESC | 8.4V | 50A |
+| SG90 Servo Motor | 5v | 0.25A |
+| Pi Camera | 5v | 0.25A |
+| MicroSD, Leds, and Speakers | 5v | 0.2A |
+ Total Power Draw
+| Category | Value |
+| Average Current Draw | 10.5A |
+| Battery Output Capacity | 32.5A |
+| Headroom | 22A |
 
 # Assembly Instructions
 
