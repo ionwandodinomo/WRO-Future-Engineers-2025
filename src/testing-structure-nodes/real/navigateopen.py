@@ -40,7 +40,7 @@ class NavigateNode(Node):
         self.publisher = self.create_publisher(Int32MultiArray, 'send_command',10)
         self.timer = self.create_timer(0.01, self.send_command)
 
-        self.LED = self.create_publisher(Int32MultiArray, 'LED_command', self.add_callback,10)
+        self.LED = self.create_publisher(Int32MultiArray, 'LED_command',10)
         self.timer = self.create_timer(0.1, self.send_LED)
 
         self.mode = None
@@ -71,7 +71,7 @@ class NavigateNode(Node):
         self.current_angle = msg.data
 
     def run(self):
-        global turn_count, servo,dc,angle,LED1
+        global turn_count, servo,dc,angle,LED1,LED2,MAX_TURN_DEGREE,LINE_THRESH,TRACK_DIR,WALL_THRESH,PD,PG
         LED1 = [255,255,0]
         time.sleep(1)
         while True:
@@ -106,7 +106,7 @@ class NavigateNode(Node):
             servo = angle
             dc = self.speed
 
-            self.last_diff = self.curr
+            self.last_diff = self.curr_diff
 
         servo = angle
         dc = self.speed
