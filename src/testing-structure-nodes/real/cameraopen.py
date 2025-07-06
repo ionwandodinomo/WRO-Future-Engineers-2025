@@ -14,6 +14,8 @@ UPPER_BLUE = np.array([121, 255, 211])
 
 LOWER_ORANGE1 = np.array([0, 101, 169])
 UPPER_ORANGE1 = np.array([27, 219, 255])
+LOWER_ORANGE2 = np.array([0, 0, 0])
+UPPER_ORANGE2 = np.array([0, 0, 0])
 
 
 ROI_LEFT_BOT = [0, 300, 100, 340]

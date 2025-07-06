@@ -3,6 +3,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import math
 from std_msgs.msg import Float32
+import time
 
 
 PD = 0.2
@@ -56,6 +57,10 @@ class NavigateNode(Node):
 
     def run(self):
         while True:
+
+            if turn_count == 12:
+                break
+
             self.curr_diff = self.left_area - self.right_area
 
             angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
@@ -83,6 +88,10 @@ class NavigateNode(Node):
             self.send_command(angle,self.speed)
 
             self.last_diff = self.curr
+
+        self.send_command(0,self.speed)
+        time.sleep(1)
+        return
 
 
 
