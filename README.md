@@ -32,8 +32,10 @@ The GEns Ace 2S1p 1300mAh 7.4 LiPo battery is overkill for the power supply of o
 | SG90 Servo Motor | 5v | 0.25A |
 | Pi Camera | 5v | 0.25A |
 | MicroSD, Leds, and Speakers | 5v | 0.2A |
+
  Total Power Draw
 | Category | Value |
+|---|---|
 | Average Current Draw | 10.5A |
 | Battery Output Capacity | 32.5A |
 | Headroom | 22A |
