@@ -11,7 +11,7 @@ class LEDController(Node):
         self.get_logger().info('Turning off both RGB LEDs')
         self.board.set_rgb([[1, 0, 0, 0], [2, 0, 0, 0]])
         
-        self.srv = self.create_service(Int32MultiArray, 'LED_command', self.run_custom)
+        self.srv = self.create_subscription(Int32MultiArray, 'LED_command', self.run_custom,10)
         self.get_logger().info('Service Server Ready: Waiting for requ ests...')
 
         
@@ -24,7 +24,7 @@ class LEDController(Node):
 def main(args=None):
     rclpy.init(args=args)
     led_node = LEDController()
-    led_node.spin()
+    rclpy.spin(led_node)
     rclpy.shutdown()
 
 if __name__ == '__main__':
