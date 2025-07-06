@@ -16,9 +16,17 @@ class LEDController(Node):
 
         
     def run_custom(self,msg):
-        colour = [msg[0],msg[1],msg[2]]
-        self.get_logger().info(f"Setting LEDs to custom colour")
-        self.board.set_rgb([[1, *colour], [2, *colour]])
+        colour = [msg[1],msg[2],msg[3]]
+        if msg[0]==0:
+            self.get_logger().info(f"Setting both LEDs to custom colour")
+            self.board.set_rgb([[1, *colour], [2, *colour]])
+
+        elif msg[0]==1:
+            self.get_logger().info(f"Setting LED1 to custom colour")
+            self.board.set_rgb([[1, *colour], [2, 0,0,0]])
+        elif msg[0]==2:
+            self.get_logger().info(f"Setting LED2 to custom colour")
+            self.board.set_rgb([[1, 0,0,0], [2, *colour]])
 
 
 def main(args=None):
