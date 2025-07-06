@@ -22,7 +22,7 @@ class NavigateNode(Node):
         self.right_area = 0
         self.max_orange_area = 0
         self.max_blue_area = 0
-        self.speed = 1550
+        self.speed = 1366
         self.curr_diff = 0
         self.last_diff = 0
         self.track_dir = 0
@@ -105,14 +105,13 @@ class NavigateNode(Node):
             elif self.max_blue_area >= LINE_THRESH:
                 angle = -MAX_TURN_DEGREE
 
-        self.servo = angle
+        #self.servo = angle
+        self.servo = 0
         self.dc = self.speed
 
         self.last_diff = self.curr_diff
 
         
-
-
 
 def main(args=None):
     # Initialize ROS2 node

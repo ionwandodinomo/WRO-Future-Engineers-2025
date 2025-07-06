@@ -26,10 +26,17 @@ class IMUNode(Node):
     def imu_callback(self, msg):
         self.currentAngle = radiansToDegrees(msg.vector.z)
 
+
     def publish_imu(self):
         msg = Float32()
         msg.data = self.currentAngle
         self.publisher_.publish(msg)
+        self.get_logger().info(f'Angle: {self.currentAngle}')
+
+    def angleReached(self, target):
+        diff = (self.currentAngle - target + 360) % 360
+        return diff < 1 or diff > 359
+ 
 
 
 def main(args=None):

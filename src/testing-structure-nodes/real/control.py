@@ -44,10 +44,6 @@ class ControlNode(Node):
 
 
 
-
-
-    
-
 def main():
     rclpy.init()
     node = ControlNode()
@@ -56,5 +52,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    board.pwm_servo_set_position(0.1, [[1,  pwm(MID_SERVO)]])
-    time.sleep(0.1)
