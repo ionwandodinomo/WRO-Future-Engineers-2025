@@ -21,8 +21,6 @@ class ControlNode(Node):
         #self.subscription_running = self.create_subscription(Bool, '/states/running', self.shutdown, 10)
         board.pwm_servo_set_position(0.1, [[1,  pwm(MID_SERVO)]])
         time.sleep(0.1)
-        board.pwm_servo_set_position(0.1, [[2, 1500]])
-        time.sleep(0.1)
 
         self.srv = self.create_subscription(Int32MultiArray, 'send_command', self.add_callback,10)
         self.get_logger().info('Service Server Ready: Waiting for requests...')
@@ -56,3 +54,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    board.pwm_servo_set_position(0.1, [[1,  pwm(MID_SERVO)]])
+    time.sleep(0.1)
