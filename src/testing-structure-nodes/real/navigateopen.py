@@ -1,12 +1,19 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from std_msgs.msg import Int32MultiArray
 import math
 from std_msgs.msg import Float32
+import time
 
 
 PD = 0.2
 PG = 0.0035
+LINE_THRESH = 120
+WALL_THRESH = 20
+MAX_TURN_DEGREE = 50
+
+
+
 
 class NavigateNode(Node):
     def __init__(self):
@@ -15,50 +22,96 @@ class NavigateNode(Node):
         self.right_area = 0
         self.max_orange_area = 0
         self.max_blue_area = 0
-        self.speed = 1550
+        self.speed = 1366
         self.curr_diff = 0
         self.last_diff = 0
+        self.track_dir = 0
+        self.servo = 0
+        self.dc = 0
+        self.turn_count = 0 
 
         self.current_angle = 0
 
-        self.subscription_cam = self.create_subscription(Twist, "camera", self.cam_call,
+        self.subscription_cam = self.create_subscription(Int32MultiArray, "camera", self.cam_call,
 10)
         self.subscription_imu = self.create_subscription(Float32, "imu", self.imu_call,
 10)
 
-        self.client = self.create_client(Twist, 'send_command')
+        self.publisher = self.create_publisher(Int32MultiArray, 'send_command',10)
+        self.timer_motors = self.create_timer(0.01, self.send_command)
 
-        self.mode = None
-        self.run()
+        self.LED = self.create_publisher(Int32MultiArray, 'LED_command',10)
+        self.timer_led = self.create_timer(0.1, self.send_LED)
+
+        self.LED1 = [255,255,0]
+        self.LED2 = [0,0,0]
+        time.sleep(1)
+
+        self.timer_logic = self.create_timer(0.01, self.run)
+
+    def send_LED(self):
+        msg = Int32MultiArray()
+        msg.data = [1,*self.LED1]
+        self.LED.publish(msg)
+        msg.data = [2,*self.LED2]
+        self.LED.publish(msg)
+        return
 
 
-    def send_command(self, servo, dc):
-        request = Twist()
-        request.servo = servo
-        request.dc = dc
-        future = self.client.call_async(request)
-        rclpy.spin_until_future_complete(self, future)
-        return future.result()
+    def send_command(self):
+        request = Int32MultiArray()
+        request.data = [self.servo,self.dc]
+        self.publisher.publish(request)
+        self.get_logger().info(f'Angle: {self.servo}, speed: {self.dc}')
         
     def cam_call(self, msg):
-        self.left_area = msg.wall_area_left
-        self.right_area = msg.wall_area_right
-        self.max_orange_area = msg.line_orange_area
-        self.max_blue_area = msg.line_blue_area
+        self.left_area = msg.data[0]
+        self.right_area = msg.data[1]
+        self.max_orange_area = msg.data[2]
+        self.max_blue_area =msg.data[3]
 
     def imu_call(self,msg):
         self.current_angle = msg.data
 
     def run(self):
-        while True:
-            self.curr_diff = self.left_area - self.right_area
+        global MAX_TURN_DEGREE,LINE_THRESH,WALL_THRESH,PD,PG
+        if self.turn_count == 12:
+            self.servo = 0
+            self.dc = self.speed
+            time.sleep(1)
+            return
 
-            angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
-            self.send_command(angle,self.speed)
+        self.curr_diff = self.left_area - self.right_area
 
-            self.last_diff = self.curr
+        angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
 
+        if self.track_dir == 0:
+            if self.max_orange_area >= LINE_THRESH:
+                self.track_dir = 1
+                self.turn_count += 1
+            elif self.max_blue_area >= LINE_THRESH:
+                self.track_dir = -1
 
+        elif self.track_dir == 1:
+            if self.max_orange_area >= LINE_THRESH:
+                angle = MAX_TURN_DEGREE
+            elif self.max_blue_area >= LINE_THRESH:
+                angle = 0
+                self.turn_count += 1
+        elif self.track_dir == -1:
+            if self.max_orange_area >= LINE_THRESH:
+                angle = 0
+                self.turn_count += 1
+            elif self.max_blue_area >= LINE_THRESH:
+                angle = -MAX_TURN_DEGREE
+
+        #self.servo = angle
+        self.servo = 0
+        self.dc = self.speed
+
+        self.last_diff = self.curr_diff
+
+        
 
 def main(args=None):
     # Initialize ROS2 node

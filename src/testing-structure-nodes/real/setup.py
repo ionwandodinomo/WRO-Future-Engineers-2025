@@ -1,5 +1,5 @@
 from setuptools import setup
-package_name = "open"
+package_name = "challenge"
 setup(
 name=package_name,
 version="0.1.0",
@@ -15,10 +15,13 @@ maintainer="you",
 description="Autonomous RC car ROS 2 package",
 entry_points={
 "console_scripts": [
-"camera_node = open.camera_node:main",
-"navigate_node = open.navigate_node:main",
-"control_node = open.control_node:main",
-"imu = open.imu:main",
+        "cameraopen_node = challenge.cameraopen_node:main",
+        "navigate_node = challenge.navigate_node:main",
+        "control_node = challenge.control_node:main",
+        "cameraobstacle_node = challenge.cameraobstacle_node:main",
+        "navigateobstacle_node = challenge.navigateoobstacle_node:main",
+        "imu = challenge.imu:main",
+        "led_node = challenge.led_node:main",
 ],
 },
 )

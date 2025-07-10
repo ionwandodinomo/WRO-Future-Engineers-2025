@@ -1,7 +1,8 @@
 import time
 import rclpy
 from rclpy.node import Node
-from led_controller import ros_robot_controller_sdk as rrc
+from std_msgs.msg import Int32MultiArray
+from challenge import ros_robot_controller_sdk as rrc
 
 class LEDController(Node):
     def __init__(self):
@@ -9,27 +10,29 @@ class LEDController(Node):
         self.board = rrc.Board()
         self.get_logger().info('Turning off both RGB LEDs')
         self.board.set_rgb([[1, 0, 0, 0], [2, 0, 0, 0]])
-        self.run_sequence()
+        
+        self.srv = self.create_subscription(Int32MultiArray, 'LED_command', self.run_custom,10)
+        self.get_logger().info('Service Server Ready: Waiting for requ ests...')
 
-    def run_sequence(self):
-        colors = [
-            ("red", [255, 0, 0]),
-            ("green", [0, 255, 0]),
-            ("blue", [0, 0, 255]),
-            ("yellow", [255, 255, 0]),
-        ]
+        
+    def run_custom(self,msg):
+        colour = [msg[1],msg[2],msg[3]]
+        if msg[0]==0:
+            self.get_logger().info(f"Setting both LEDs to custom colour")
+            self.board.set_rgb([[1, *colour], [2, *colour]])
 
-        for name, rgb in colors:
-            self.get_logger().info(f"Setting LEDs to {name}")
-            self.board.set_rgb([[1, *rgb], [2, *rgb]])
-            time.sleep(1)
+        elif msg[0]==1:
+            self.get_logger().info(f"Setting LED1 to custom colour")
+            self.board.set_rgb([[1, *colour], [2, 0,0,0]])
+        elif msg[0]==2:
+            self.get_logger().info(f"Setting LED2 to custom colour")
+            self.board.set_rgb([[1, 0,0,0], [2, *colour]])
 
-        self.get_logger().info("Turning off both RGB LEDs")
-        self.board.set_rgb([[1, 0, 0, 0], [2, 0, 0, 0]])
 
 def main(args=None):
     rclpy.init(args=args)
     led_node = LEDController()
+    rclpy.spin(led_node)
     rclpy.shutdown()
 
 if __name__ == '__main__':
