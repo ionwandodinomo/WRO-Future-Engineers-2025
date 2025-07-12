@@ -58,14 +58,6 @@ class CameraNode(Node):
 
         self.publisher_ = self.create_publisher(Int32MultiArray, 'camera', 10)
 
-        """
-        self.subscription = self.create_subscription(
-            Bool,
-            "/startopen",
-            self.change_state,
-            10)"""
-
-
         self.timer = self.create_timer(0.1, self.process_frame)
 
 
@@ -143,19 +135,16 @@ class CameraNode(Node):
         
 
         if debug:
-            # Draw max orange contour (orange)
             if max_orange_contour is not None:
                 max_orange_contour[:, :, 0] += ROI_LINE[0]
                 max_orange_contour[:, :, 1] += ROI_LINE[1]
                 cv2.drawContours(frame, [max_orange_contour], -1, (0, 165, 255), 2)
 
-            # Draw max blue contour (blue)
             if max_blue_contour is not None:
                 max_blue_contour[:, :, 0] += ROI_LINE[0]
                 max_blue_contour[:, :, 1] += ROI_LINE[1]
                 cv2.drawContours(frame, [max_blue_contour], -1, (255, 0, 0), 2)
-
-            # Draw max black contours (magenta for visibility)
+            
             if max_left_top_contour is not None:
                 max_left_top_contour[:, :, 0] += ROI_LEFT_TOP[0]
                 max_left_top_contour[:, :, 1] += ROI_LEFT_TOP[1]
@@ -176,7 +165,6 @@ class CameraNode(Node):
                 max_right_bot_contour[:, :, 1] += ROI_RIGHT_BOT[1]
                 cv2.drawContours(frame, [max_right_bot_contour], -1, (255, 0, 255), 2)
 
-            # Draw all ROIs with logical color coding
             cv2.rectangle(frame, 
                         (ROI_LEFT_TOP[0], ROI_LEFT_TOP[1]), 
                         (ROI_LEFT_TOP[2], ROI_LEFT_TOP[3]), 
@@ -220,9 +208,9 @@ def main(args=None):
     rclpy.spin(camera_node)
     # Destroy node object
     camera_node.destroy_node()
-    # Shut down ROS2 node
+
     rclpy.shutdown()
-# If this script is the main program, main function is executed.
+
 if __name__ == "__main__":
     main()
 

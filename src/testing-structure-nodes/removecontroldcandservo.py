@@ -6,7 +6,7 @@ from readchar import readkey, key
 
 board = rcc.Board()
 def pwm(degree):
-	return round(degree*11.1 + 500)
+	return round(degree*11.1 + 1500)
 mid = 80
 max_turn_degree = 32
 board.pwm_servo_set_position(0.1, [[1, pwm(mid)]])

@@ -7,10 +7,10 @@ import time
 
 board = rcc.Board()
 
-MID_SERVO = 128
+MID_SERVO = 20
 
-def pwm(degree):  # angle must be adjusted to pwm angle for servo
-    return round(degree * 11.1 + 500)
+def pwm(degree):
+    return round(degree * 11.1 + 1500)
 
 
 class ControlNode(Node):

@@ -10,7 +10,7 @@ PD = 0.2
 PG = 0.0035
 LINE_THRESH = 120
 WALL_THRESH = 20
-MAX_TURN_DEGREE = 50
+MAX_TURN_DEGREE = 60
 
 
 
@@ -29,6 +29,8 @@ class NavigateNode(Node):
         self.servo = 0
         self.dc = 0
         self.turn_count = 0 
+        self.turning = False
+        self.turning_start_angle = 0
 
         self.current_angle = 0
 
@@ -72,7 +74,11 @@ class NavigateNode(Node):
 
     def imu_call(self,msg):
         self.current_angle = msg.data
-
+    
+    def angleReached(self, target):
+        diff = (self.current_angle - target + 360) % 360
+        return diff < 1 or diff > 359
+    
     def run(self):
         global MAX_TURN_DEGREE,LINE_THRESH,WALL_THRESH,PD,PG
         if self.turn_count == 12:
@@ -85,25 +91,35 @@ class NavigateNode(Node):
 
         angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
 
-        if self.track_dir == 0:
+        if self.turning:
+            if self.angleReached(90):
+                self.turning = False
+                self.turn_count += 1
+                angle = 0
+            else:
+                angle = MAX_TURN_DEGREE
+                
+        elif self.track_dir == 0:
             if self.max_orange_area >= LINE_THRESH:
                 self.track_dir = 1
-                self.turn_count += 1
+                self.turning = True
             elif self.max_blue_area >= LINE_THRESH:
                 self.track_dir = -1
+                self.turning = True
 
         elif self.track_dir == 1:
             if self.max_orange_area >= LINE_THRESH:
-                angle = MAX_TURN_DEGREE
-            elif self.max_blue_area >= LINE_THRESH:
-                angle = 0
-                self.turn_count += 1
+                self.turning = True
+
+            """elif self.max_blue_area >= LINE_THRESH:
+                angle = 0"""
+
         elif self.track_dir == -1:
-            if self.max_orange_area >= LINE_THRESH:
-                angle = 0
-                self.turn_count += 1
-            elif self.max_blue_area >= LINE_THRESH:
-                angle = -MAX_TURN_DEGREE
+            """if self.max_orange_area >= LINE_THRESH:
+                angle = 0"""
+            if self.max_blue_area >= LINE_THRESH:
+                self.turning = True
+
 
         #self.servo = angle
         self.servo = 0
@@ -114,16 +130,10 @@ class NavigateNode(Node):
         
 
 def main(args=None):
-    # Initialize ROS2 node
     rclpy.init(args=args)
-    # Create MinimalSubscriber object
     navigate_node = NavigateNode()
-    # Enter the event loop of ROS2 node
     rclpy.spin(navigate_node)
-    # Destroy node object
     navigate_node.destroy_node()
-    # Shut down ROS2 node
     rclpy.shutdown()
-# If this script is the main program, the main function is executed.
 if __name__ == "__main__":
     main()

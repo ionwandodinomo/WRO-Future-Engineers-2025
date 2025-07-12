@@ -6,8 +6,8 @@ import ros_robot_controller_sdk as rcc
 import time
 board = rcc.Board()
 
-def pwm(degree):  # angle must be adjusted to pwm angle for servo
-    return round(degree * 11.1 + 500)
+def pwm(degree):  
+    return round(degree * 11.1 + 1500)
 
 LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
 UPPER_BLACK_THRESHOLD = np.array([180, 255, 62])
@@ -34,7 +34,8 @@ PD = 0.001
 PG = 0.0002
 LINE_THRESH = 120
 WALL_THRESH = 20
-MAX_TURN_DEGREE = 50
+MAX_TURN_DEGREE = 60
+MID_SERVO = 20
 speed = 1400
 last_diff = 0
 
@@ -207,7 +208,7 @@ while True:
     servo = angle
     #servo = 0
     dc = speed
-    board.pwm_servo_set_position(0.1, [[1, pwm(angle+128)]])
+    board.pwm_servo_set_position(0.1, [[1, pwm(angle+MID_SERVO)]])
     time.sleep(0.1)
 
     last_diff = curr_diff
