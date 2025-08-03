@@ -200,15 +200,10 @@ class CameraNode(Node):
         self.publisher_.publish(msg)
 
 def main(args=None):
-    # Initialize ROS2 node
     rclpy.init(args=args)
-    # Create MinimalPublisher object
     camera_node = CameraNode()
-    # Enter the event loop of ROS2 node
     rclpy.spin(camera_node)
-    # Destroy node object
     camera_node.destroy_node()
-
     rclpy.shutdown()
 
 if __name__ == "__main__":

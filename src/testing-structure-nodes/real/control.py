@@ -7,10 +7,11 @@ import time
 
 board = rcc.Board()
 
-MID_SERVO = 20
+MID_SERVO = 0
 
 def pwm(degree):
     return round(degree * 11.1 + 1500)
+
 
 
 class ControlNode(Node):

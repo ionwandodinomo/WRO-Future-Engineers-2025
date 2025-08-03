@@ -6,11 +6,11 @@ from std_msgs.msg import Float32
 import time
 
 
-PD = 0.0003
-PG = 0.0002
+PD = 0.00003
+PG = 0.00002
 LINE_THRESH = 120
 WALL_THRESH = 20
-MAX_TURN_DEGREE = 60
+MAX_TURN_DEGREE = 50
 
 
 
@@ -22,7 +22,7 @@ class NavigateNode(Node):
         self.right_area = 0
         self.max_orange_area = 0
         self.max_blue_area = 0
-        self.speed = 1366
+        self.speed = 1620
         self.curr_diff = 0
         self.last_diff = 0
         self.track_dir = 0
@@ -75,10 +75,11 @@ class NavigateNode(Node):
     def imu_call(self,msg):
         self.current_angle = msg.data
     
-    def angleReached(self, target):
-        diff = (self.current_angle - target + 360) % 360
-        return diff < 1 or diff > 359
-    
+    def angleReached(self, delta):
+        diff = (self.current_angle - self.turning_start_angle + 360) % 360
+        self.get_logger().info(f"{diff} degrees away")
+        return diff >= delta
+
     def run(self):
         global MAX_TURN_DEGREE,LINE_THRESH,WALL_THRESH,PD,PG
         if self.turn_count == 12:
@@ -92,34 +93,55 @@ class NavigateNode(Node):
         angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
 
         if self.turning:
-            if self.angleReached(90):
-                self.turning = False
-                self.turn_count += 1
-                angle = 0
-            else:
-                angle = MAX_TURN_DEGREE
+            if self.track_dir == -1:
+                if self.angleReached(90) or self.max_orange_area >= LINE_THRESH:
+                    self.turning = False
+                    angle = 0
+                    self.turn_count += 1
+                else:
+                    angle = -MAX_TURN_DEGREE
+            elif self.track_dir == 1:
+                if self.angleReached(270) or self.max_blue_area >= LINE_THRESH:
+                    self.turning = False
+                    angle = 0
+                    self.turn_count += 1
+                else:
+                    angle = MAX_TURN_DEGREE
                 
         elif self.track_dir == 0:
-            if self.max_orange_area >= LINE_THRESH:
+            if self.left_area < WALL_THRESH:
+                self.track_dir = -1
+                self.turning = True
+                self.turning_start_angle = self.current_angle
+            elif self.right_area < WALL_THRESH:
                 self.track_dir = 1
                 self.turning = True
+                self.turning_start_angle = self.current_angle
+            elif self.max_orange_area >= LINE_THRESH:
+                self.track_dir = 1
+                self.turning = True
+                self.turning_start_angle = self.current_angle
             elif self.max_blue_area >= LINE_THRESH:
                 self.track_dir = -1
                 self.turning = True
+                self.turning_start_angle = self.current_angle
+
 
         elif self.track_dir == 1:
             if self.max_orange_area >= LINE_THRESH:
                 self.turning = True
-
-            elif self.max_blue_area >= LINE_THRESH:
-                angle = 0
+                self.turning_start_angle = self.current_angle
+            if self.right_area < WALL_THRESH:
+                self.turning = True
+                self.turning_start_angle = self.current_angle
 
         elif self.track_dir == -1:
-            if self.max_orange_area >= LINE_THRESH:
-                angle = 0
             if self.max_blue_area >= LINE_THRESH:
                 self.turning = True
-
+                self.turning_start_angle = self.current_angle
+            if self.left_area < WALL_THRESH:
+                self.turning = True
+                self.turning_start_angle = self.current_angle
 
         self.servo = angle
         self.dc = self.speed
