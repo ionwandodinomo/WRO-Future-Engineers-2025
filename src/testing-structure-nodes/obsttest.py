@@ -6,6 +6,9 @@ import ros_robot_controller_sdk as rcc
 import time
 board = rcc.Board()
 
+#red is right
+#green is left
+
 def pwm(degree):  
     pw = round(degree * 11.1 + 1500)
     return max(0, min(65535, pw))
@@ -21,49 +24,19 @@ UPPER_ORANGE1 = np.array([27, 255, 255])
 LOWER_ORANGE2 = np.array([0, 0, 0])
 UPPER_ORANGE2 = np.array([0, 0, 0])
 
-ROI_LEFT_TOP = [0, 220, 100, 270]        
-ROI_RIGHT_TOP = [540, 240, 640, 290]
-ROI_LEFT_BOT = [0, 270, 40, 295]
-ROI_RIGHT_BOT = [600, 290, 640, 315]
+LOWER_RED_THRESHOLD1 = np.array([0, 120, 138])
+UPPER_RED_THRESHOLD1 = np.array([8, 255, 255])
+LOWER_RED_THRESHOLD2 = np.array([163, 120, 138]) 
+UPPER_RED_THRESHOLD2 = np.array([180, 255, 255]) 
 
-ROI_LINE1 = [525,400,600,425]
-ROI_LINE2 = [40,400,115,425]
+LOWER_GREEN_THRESHOLD = np.array([71, 82, 75])
+UPPER_GREEN_THRESHOLD = np.array([100, 255, 178])
 
-PD = 0.0005
-PG = 0.007
-LINE_THRESH = 120
-WALL_THRESH = 20
-MAX_TURN_DEGREE = 50
-MID_SERVO = 0
-speed = 1620
-last_diff = 0
-turning = False
-turn_dir = 0
-track_dir = 0
-turn_count = 0
-max_turns = 12
-import rclpy
-import cv2
-import numpy as np
-from picamera2 import Picamera2
-import ros_robot_controller_sdk as rcc
-import time
-board = rcc.Board()
+LOWER_MAGENTA_THRESHOLD1 = np.array([0, 0, 0])
+UPPER_MAGENTA_THRESHOLD1 = np.array([0, 0, 0])
+LOWER_MAGENTA_THRESHOLD2 = np.array([137, 168, 173])
+UPPER_MAGENTA_THRESHOLD2 = np.array([162, 255, 255])
 
-def pwm(degree):  
-    pw = round(degree * 11.1 + 1500)
-    return max(0, min(65535, pw))
-
-LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
-UPPER_BLACK_THRESHOLD = np.array([180, 255, 100])
-
-LOWER_BLUE = np.array([91, 115, 103])
-UPPER_BLUE = np.array([132, 255, 255])
-
-LOWER_ORANGE1 = np.array([0, 101, 173])
-UPPER_ORANGE1 = np.array([27, 255, 255])
-LOWER_ORANGE2 = np.array([0, 0, 0])
-UPPER_ORANGE2 = np.array([0, 0, 0])
 
 #ROI_LEFT_TOP = [0, 220, 100, 270]        
 #ROI_RIGHT_TOP = [540, 240, 640, 290]
@@ -74,28 +47,35 @@ ROI_RIGHT_TOP = [465, 240, 640, 290]
 ROI_LEFT_BOT = [0, 270, 115, 295]
 ROI_RIGHT_BOT = [525, 290, 640, 315]
 
+
 ROI_LINE1 = [525,400,600,425]
 ROI_LINE2 = [40,400,115,425]
+ROI_PILLAR = [0,125,640,400]
+RED_TARGET = 110
+GREEN_TARGET = 530
 
-PD = 0.00002
-PG = 0.003
+PD = 0.0003
+PG = 0.0002
+PILLAR_PD = 0.00003
+PILLAR_PG = 0.00002
 LINE_THRESH = 120
 WALL_THRESH = 20
-#MAX_TURN_DEGREE = 50
-MAX_TURN_DEGREE = 40
+MAX_TURN_DEGREE = 55
+PILLAR_THRESH = 100
 MID_SERVO = 0
-speed = 1620
+speed = 1600
 last_diff = 0
 turning = False
 turn_dir = 0
 track_dir = 0
-turn_count = 0
-max_turns = 12
+curr_diff = 0
+
 
 debug = True
 
-
 def findMaxContourShape(contours):
+    if contours is None:
+        raise Exception
     max_area = 0
     max_contour = None
     for cnt in contours:
@@ -105,10 +85,9 @@ def findMaxContourShape(contours):
             max_contour = cnt
     return max_contour, max_area
 
-def clamp_to_max(angle):
-    if angle >0:
-        return min(angle, MAX_TURN_DEGREE)
-    return max(angle, -MAX_TURN_DEGREE)
+def is_valid_contour(c):
+    return c is not None and isinstance(c, (list, tuple, np.ndarray)) and len(c) > 0
+
 picam2 = Picamera2()
 picam2.preview_configuration.main.size = (640,480)
 picam2.preview_configuration.main.format = "RGB888"
@@ -133,7 +112,11 @@ while True:
         cv2.inRange(img_hsv, LOWER_ORANGE1, UPPER_ORANGE1),
         cv2.inRange(img_hsv, LOWER_ORANGE2, UPPER_ORANGE2),
     )
-
+    r_mask = cv2.bitwise_or(
+            cv2.inRange(img_hsv, LOWER_RED_THRESHOLD1, UPPER_RED_THRESHOLD1),
+            cv2.inRange(img_hsv, LOWER_RED_THRESHOLD2, UPPER_RED_THRESHOLD2),
+        )
+    g_mask = cv2.inRange(img_hsv, LOWER_GREEN_THRESHOLD, UPPER_GREEN_THRESHOLD)
 
     left_contours_top, hierarchy = cv2.findContours(
         img_thresh[
@@ -188,6 +171,17 @@ while True:
         cv2.CHAIN_APPROX_SIMPLE,
     )[-2]
 
+    contours_red = cv2.findContours(
+            r_mask[ROI_PILLAR[1] : ROI_PILLAR[3], ROI_PILLAR[0] : ROI_PILLAR[2]],
+            cv2.RETR_EXTERNAL,
+            cv2.CHAIN_APPROX_SIMPLE,
+        )[-2]
+        
+    contours_green = cv2.findContours(
+        g_mask[ROI_PILLAR[1] : ROI_PILLAR[3], ROI_PILLAR[0] : ROI_PILLAR[2]],
+        cv2.RETR_EXTERNAL,
+        cv2.CHAIN_APPROX_SIMPLE,
+    )[-2]
 
     max_left_top_contour, left_area_top = findMaxContourShape(left_contours_top)
     max_right_top_contour, right_area_top = findMaxContourShape(right_contours_top)
@@ -198,17 +192,10 @@ while True:
     max_orange_contour1, max_orange_area1 = findMaxContourShape(contours_orange1)
     max_blue_contour2, max_blue_area2 = findMaxContourShape(contours_blue2)
     max_orange_contour2, max_orange_area2 = findMaxContourShape(contours_orange2)
-
-
+    max_red_contour, max_red_area = findMaxContourShape(contours_red)
+    max_green_contour, max_green_area = findMaxContourShape(contours_green)
     right_area = right_area_bot + right_area_top
     left_area = left_area_bot + left_area_top
-
-    if max_turns <= turn_count:
-        board.pwm_servo_set_position(0.1, [[1, 1500]])
-        board.pwm_servo_set_position(0.1, [[2, 1500]])
-        break
-
-
 
     if debug:
         # Draw max orange contour (orange)
@@ -234,6 +221,7 @@ while True:
             max_blue_contour2[:, :, 1] += ROI_LINE2[1]
             cv2.drawContours(frame, [max_blue_contour2], -1, (255, 0, 0), 2)
 
+
         # Draw max black contours (magenta for visibility)
         if max_left_top_contour is not None:
             max_left_top_contour[:, :, 0] += ROI_LEFT_TOP[0]
@@ -255,25 +243,35 @@ while True:
             max_right_bot_contour[:, :, 1] += ROI_RIGHT_BOT[1]
             cv2.drawContours(frame, [max_right_bot_contour], -1, (255, 0, 255), 2)
 
+        if max_green_contour is not None:
+            max_green_contour[:, :, 0] += ROI_PILLAR[0]
+            max_green_contour[:, :, 1] += ROI_PILLAR[1]
+            cv2.drawContours(frame, [max_green_contour], -1, (0, 255, 0), 2)
+
+        if max_red_contour is not None:
+            max_red_contour[:, :, 0] += ROI_PILLAR[0]
+            max_red_contour[:, :, 1] += ROI_PILLAR[1]
+            cv2.drawContours(frame, [max_red_contour], -1, (0, 0, 255), 2)
+
         # Draw all ROIs with logical color coding
-        cv2.rectangle(frame,
-                    (ROI_LEFT_TOP[0], ROI_LEFT_TOP[1]),
-                    (ROI_LEFT_TOP[2], ROI_LEFT_TOP[3]),
+        cv2.rectangle(frame, 
+                    (ROI_LEFT_TOP[0], ROI_LEFT_TOP[1]), 
+                    (ROI_LEFT_TOP[2], ROI_LEFT_TOP[3]), 
                     (255, 0, 0), 2)        # Blue - top left
 
-        cv2.rectangle(frame,
-                    (ROI_RIGHT_TOP[0], ROI_RIGHT_TOP[1]),
-                    (ROI_RIGHT_TOP[2], ROI_RIGHT_TOP[3]),
+        cv2.rectangle(frame, 
+                    (ROI_RIGHT_TOP[0], ROI_RIGHT_TOP[1]), 
+                    (ROI_RIGHT_TOP[2], ROI_RIGHT_TOP[3]), 
                     (0, 0, 255), 2)       # Red - top right
 
-        cv2.rectangle(frame,
-                    (ROI_LEFT_BOT[0], ROI_LEFT_BOT[1]),
-                    (ROI_LEFT_BOT[2], ROI_LEFT_BOT[3]),
+        cv2.rectangle(frame, 
+                    (ROI_LEFT_BOT[0], ROI_LEFT_BOT[1]), 
+                    (ROI_LEFT_BOT[2], ROI_LEFT_BOT[3]), 
                     (0, 255, 0), 2)       # Green - bottom left
 
-        cv2.rectangle(frame,
-                    (ROI_RIGHT_BOT[0], ROI_RIGHT_BOT[1]),
-                    (ROI_RIGHT_BOT[2], ROI_RIGHT_BOT[3]),
+        cv2.rectangle(frame, 
+                    (ROI_RIGHT_BOT[0], ROI_RIGHT_BOT[1]), 
+                    (ROI_RIGHT_BOT[2], ROI_RIGHT_BOT[3]), 
                     (255, 255, 0), 2)     # Cyan - bottom right
 
         cv2.rectangle(frame, 
@@ -285,32 +283,100 @@ while True:
                     (ROI_LINE2[0], ROI_LINE2[1]), 
                     (ROI_LINE2[2], ROI_LINE2[3]), 
                     (0, 255, 255), 2)     # Yellow - center/orientation line
+        
+        cv2.rectangle(frame, 
+                    (ROI_PILLAR[0], ROI_PILLAR[1]), 
+                    (ROI_PILLAR[0] + ROI_PILLAR[2], ROI_PILLAR[1] + ROI_PILLAR[3]), 
+                    (0, 255, 255), 2)
 
-        cv2.imshow("Region of Interest", frame)
-        cv2.waitKey(1)
-
-
-    curr_diff = right_area-left_area
-
-    angle = int((curr_diff * PG + (curr_diff-last_diff) * PD))
-
-    print(left_area,right_area,angle)
     max_blue_area= max_blue_area2+max_blue_area1
     max_orange_area = max_orange_area1+max_orange_area2
+    if is_valid_contour(max_red_contour) and is_valid_contour(max_green_contour):
+        if PILLAR_THRESH < cv2.contourArea(max_red_contour) > cv2.contourArea(max_green_contour):
+            selected_contour = max_red_contour
+            target = RED_TARGET
+            sign = 1
+            cv2.line(frame, (RED_TARGET, 0), (RED_TARGET, 480), (0, 0, 255), 2)
+        elif PILLAR_THRESH < cv2.contourArea(max_green_contour):
+            selected_contour = max_green_contour
+            target = GREEN_TARGET
+            sign = -1
+            cv2.line(frame, (GREEN_TARGET, 0), (GREEN_TARGET, 480), (0, 255, 0), 2)
+        else:
+            selected_contour = None
 
+    elif is_valid_contour(max_red_contour) and PILLAR_THRESH < cv2.contourArea(max_red_contour):
+        selected_contour = max_red_contour
+        target = RED_TARGET
+        sign = 1
+        cv2.line(frame, (RED_TARGET, 0), (RED_TARGET, 480), (0, 0, 255), 2)
+
+    elif is_valid_contour(max_green_contour) and PILLAR_THRESH < cv2.contourArea(max_green_contour):
+        selected_contour = max_green_contour
+        target = GREEN_TARGET
+        sign = -1
+        cv2.line(frame, (GREEN_TARGET, 0), (GREEN_TARGET, 480), (0, 255, 0), 2)
+
+    else:
+        selected_contour = None
+
+
+    if selected_contour is not None:
+        x, y, w, h = cv2.boundingRect(selected_contour)
+        cX = x + w // 2
+        cY = y + h // 2
+
+        # Normalize y-distance
+        pillar_roi_bottom = ROI_PILLAR[1] + ROI_PILLAR[3]
+        pillar_roi_top = ROI_PILLAR[1]
+        normalized_y = (cY - pillar_roi_top) / (pillar_roi_bottom - pillar_roi_top)
+        normalized_y = np.clip(normalized_y, 0.0, 1.0)
+
+        # Dynamic gain
+        dynamic_gain = PILLAR_PG + (1 - normalized_y) * 0.0005
+
+        # Calculate error with correct sign
+        if sign == 1:
+            error = target - cX
+        else:
+            error = cX - target
+
+        angle = int(MAX_TURN_DEGREE * (error * dynamic_gain + (error - last_diff) * PILLAR_PD))
+
+        # Optional: reduce speed when close
+        if normalized_y < 0.3:
+            speed = 1550
+        else:
+            speed = 1600
+
+        # Debug draw center
+        cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
+    else:
+        # Fall back to black area balance logic
+        curr_diff = left_area - right_area
+        angle = int(-MAX_TURN_DEGREE*(curr_diff * PG + (curr_diff-last_diff) * PD))
+
+    cv2.imshow("Region of Interest", frame)
+    cv2.waitKey(1)
+    
+    print(angle)
     if turning:
         print("turning")
         if track_dir == 1:
             if max_blue_area >= LINE_THRESH:
+                angle = 0
                 turning = False
-                turn_count += 1
+            else:
+                angle = -MAX_TURN_DEGREE
 
-        if track_dir == -1:
+        if track_dir == 0:
             if max_orange_area >= LINE_THRESH:
+                angle = 0
                 turning = False
-                turn_count += 1
+            else:
+                angle = MAX_TURN_DEGREE
 
-    elif track_dir == 0:
+    if track_dir == 0:
         if max_orange_area >= LINE_THRESH:
             track_dir = 1
             turning = True
@@ -322,15 +388,25 @@ while True:
         if max_orange_area >= LINE_THRESH:
             turning = True
 
+        elif max_blue_area >= LINE_THRESH:
+            angle = 0
+
     elif track_dir == -1:
-        if max_blue_area >= LINE_THRESH:
+        if max_orange_area >= LINE_THRESH:
+            angle = 0
+        elif max_blue_area >= LINE_THRESH:
             turning = True
 
 
     servo = angle
+    print(angle)
     dc = speed
-    board.pwm_servo_set_position(0.1, [[1, pwm(clamp_to_max(angle+MID_SERVO))]])
+    board.pwm_servo_set_position(0.1, [[1, pwm(angle+MID_SERVO)]])
     board.pwm_servo_set_position(0.1, [[2, dc]])
     time.sleep(0.1)
 
     last_diff = curr_diff
+
+
+
+    
