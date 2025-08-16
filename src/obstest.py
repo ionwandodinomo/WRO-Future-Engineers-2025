@@ -42,9 +42,13 @@ ROI_LEFT_TOP = [0, 220, 100, 270]
 ROI_RIGHT_TOP = [540, 220, 640, 270]
 ROI_LEFT_BOT = [0, 270, 40, 295]
 ROI_RIGHT_BOT = [600, 270, 640, 295]
+# ROI_LEFT_TOP = [0, 220, 225, 270]        
+# ROI_RIGHT_TOP = [415, 240, 640, 290]
+# ROI_LEFT_BOT = [0, 270, 115, 295]
+# ROI_RIGHT_BOT = [525, 290, 640, 315]
 
 ROI_LINE = [277,300,352,325]
-ROI_PILLAR = [0,125,640,400]
+ROI_PILLAR = [0,140,640,400]
 RED_TARGET = 110
 GREEN_TARGET = 530
 
@@ -52,16 +56,18 @@ GREEN_TARGET = 530
 # PG = 0.00002
 # PILLAR_PD = 0.00003
 # PILLAR_PG = 0.00002
-PD = 0.0001
-PG = 0.0007
-PILLAR_PD = 0.0008
-PILLAR_PG = 0.00105
+PD = 0.0000002
+PG = 0.000003
+PDLOW = 0.00001
+PGLOW = 0.0015
+PILLAR_PD = 0.005
+PILLAR_PG = 0.0035
 LINE_THRESH = 120
 WALL_THRESH = 20
 MAX_TURN_DEGREE = 40
-PILLAR_THRESH = 100
-MID_SERVO = 0
-speed = 1600
+PILLAR_THRESH = 150
+MID_SERVO = -6
+speed = 1620
 last_diff = 0
 turning = False
 turn_dir = 0
@@ -90,7 +96,7 @@ picam2 = Picamera2()
 picam2.preview_configuration.main.size = (640,480)
 picam2.preview_configuration.main.format = "RGB888"
 print(picam2.preview_configuration.controls.FrameRate)
-picam2.preview_configuration.controls.FrameRate = 25
+picam2.preview_configuration.controls.FrameRate = 75
 picam2.set_controls({"Brightness": 0.05})
 print(picam2.preview_configuration.controls.FrameRate)
 picam2.preview_configuration.align()
@@ -308,9 +314,31 @@ while True:
 #             error = target - cX
         
         error = cX-target
+        
+        angle = int((-MAX_TURN_DEGREE * (error * dynamic_gain + ((error - last_diff) * PILLAR_PD))))#*(normalized_y+1))#*(normalized_y/2+0.5))
+        
+#         if normalized_y > 0.545:
+#             curr_diff = right_area - left_area
+#             angle = int(-MAX_TURN_DEGREE * (-curr_diff * PILLAR_PG + (-curr_diff - last_diff) * PILLAR_PD))
+#             angle=0
 
-        angle = int((-MAX_TURN_DEGREE * (error * dynamic_gain + (error - last_diff) * PILLAR_PD)))#*(normalized_y/2+0.5))
-        print (error, dynamic_gain, error, last_diff, cX, target)
+#             if right_area > 1250 and left_area > 1250:
+#                 angle = int((curr_diff * PGLOW + (curr_diff-last_diff) * PDLOW))
+#             else:
+#             curr_diff = right_area - left_area
+#             angle = int((curr_diff * PG + (curr_diff-last_diff) * PD))
+
+#         if normalized_y < 0.15:
+#             angle=angle/2
+        if normalized_y > 0.3:
+            RED_TARGET = 50
+            GREEN_TARGET = 590
+        else:
+            RED_TARGET = 110
+            GREEN_TARGET = 530
+
+
+        print (error, dynamic_gain, error, last_diff, cX, target, normalized_y)
 #         angle = int(-MAX_TURN_DEGREE * (error * dynamic_gain * PILLAR_PD))
 
 
@@ -324,9 +352,12 @@ while True:
         cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
     else:
         # Fall back to black area balance logic
-        curr_diff = left_area - right_area
-        angle = int(-MAX_TURN_DEGREE * (curr_diff * PILLAR_PG + (curr_diff - last_diff) * PILLAR_PD))
-
+        curr_diff = right_area - left_area
+        angle = int(-MAX_TURN_DEGREE * (-curr_diff * PILLAR_PG + (-curr_diff - last_diff) * PILLAR_PD))
+#         if right_area > 1250 and left_area > 1250:
+#             angle = int((curr_diff * PGLOW + (curr_diff-last_diff) * PDLOW))
+#         else:
+#         angle = int((curr_diff * PG + (curr_diff-last_diff) * PD))
     cv2.imshow("Region of Interest", frame)
     cv2.waitKey(1)
     
@@ -376,7 +407,7 @@ while True:
     
     servo = angle
     print(angle,speed)
-    dc = speed
+    dc = 1600
     board.pwm_servo_set_position(0.1, [[1, pwm(angle+MID_SERVO)]])
     board.pwm_servo_set_position(0.1, [[2, dc]])
     time.sleep(0.1)
