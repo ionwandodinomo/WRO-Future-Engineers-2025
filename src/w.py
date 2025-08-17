@@ -16,7 +16,7 @@ def pwm(degree):
 LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
 UPPER_BLACK_THRESHOLD = np.array([180, 255, 83])
 
-LOWER_BLUE = np.array([97, 115, 103])
+LOWER_BLUE = np.array([91, 115, 103])
 UPPER_BLUE = np.array([132, 255, 255])
 
 LOWER_ORANGE1 = np.array([0, 101, 173])
@@ -37,29 +37,30 @@ UPPER_MAGENTA_THRESHOLD1 = np.array([0, 0, 0])
 LOWER_MAGENTA_THRESHOLD2 = np.array([137, 168, 173])
 UPPER_MAGENTA_THRESHOLD2 = np.array([162, 255, 255])
 
-ROI_LEFT_TOP = [0, 230, 100, 300]        
-ROI_RIGHT_TOP = [540, 240, 640, 300]
-ROI_LEFT_BOT = [0, 300, 40, 325]
-ROI_RIGHT_BOT = [600, 300, 640, 325]
+
+ROI_LEFT_TOP = [0, 220, 100, 270]        
+ROI_RIGHT_TOP = [540, 220, 640, 270]
+ROI_LEFT_BOT = [0, 270, 40, 295]
+ROI_RIGHT_BOT = [600, 270, 640, 295]
 # ROI_LEFT_TOP = [0, 220, 225, 270]        
 # ROI_RIGHT_TOP = [415, 240, 640, 290]
 # ROI_LEFT_BOT = [0, 270, 115, 295]
 # ROI_RIGHT_BOT = [525, 290, 640, 315]
 
-ROI_LINE1 = [485,415,560,440]
-ROI_LINE2 = [80,415,155,440]
+ROI_LINE1 = [525,455,600,480]
+ROI_LINE2 = [40,455,115,480]
 ROI_PILLAR = [0,140,640,380]
 RED_TARGET = 110
 GREEN_TARGET = 530
 
-PD = 0.00004
-PG = 0.0035
+PD = 0.00003
+PG = 0.003
 # PILLAR_PD = 0.00003
 # PILLAR_PG = 0.00002
 #PD = 0.000000002
 #PG = 0.00000003
 PDLOW = 0.00001
-PGLOW = 0.002
+PGLOW = 0.0015
 min_size=100000
 #PILLAR_PD = 0.005
 # PILLAR_PD = 0.003
@@ -69,10 +70,10 @@ PILLAR_PG = 0.05
 LINE_THRESH = 120
 WALL_THRESH = 20
 MAX_TURN_DEGREE = 40
-MAX_TURN_LESS = 18
-PILLAR_THRESH = 900
+MAX_TURN_LESS = 20
+PILLAR_THRESH = 1200
 MID_SERVO = -6
-speed = 1608
+speed = 1605
 last_pil_diff = 0
 last_diff = 0
 turning = False
@@ -97,20 +98,6 @@ def findMaxContourShape(contours):
             max_area = area
             max_contour = cnt
     return max_contour, max_area
-
-import cv2
-
-def findSecondMaxContourShape(contours):
-    if not contours or len(contours) < 2:
-        return None, 0 
-
-    contours_sorted = sorted(contours, key=cv2.contourArea, reverse=True)
-
-    second_max_contour = contours_sorted[1]
-    second_max_area = cv2.contourArea(second_max_contour)
-
-    return second_max_contour, second_max_area
-
 
 def is_valid_contour(c):
     return c is not None and isinstance(c, (list, tuple, np.ndarray)) and len(c) > 0
@@ -233,7 +220,7 @@ while True:
     max_green_contour, max_green_area = findMaxContourShape(contours_green)
     right_area = right_area_bot + right_area_top
     left_area = left_area_bot + left_area_top
-    if True:
+    if debug:
         # Draw max orange contour (orange)
         if max_orange_contour1 is not None:
             max_orange_contour1[:, :, 0] += ROI_LINE1[0]
@@ -332,14 +319,14 @@ while True:
             target = RED_TARGET
             sign = 1
             
-            if True:
+            if debug:
                 cv2.line(frame, (RED_TARGET, 0), (RED_TARGET, 480), (0, 0, 255), 2)
         elif PILLAR_THRESH < cv2.contourArea(max_green_contour):
             selected_contour = max_green_contour
             target = GREEN_TARGET
             sign = -1
             
-            if True:
+            if debug:
                 cv2.line(frame, (GREEN_TARGET, 0), (GREEN_TARGET, 480), (0, 255, 0), 2)
         else:
             selected_contour = None
@@ -349,14 +336,14 @@ while True:
         target = RED_TARGET
         sign = 1
         
-        if True:
+        if debug:
             cv2.line(frame, (RED_TARGET, 0), (RED_TARGET, 480), (0, 0, 255), 2)
 
     elif is_valid_contour(max_green_contour) and PILLAR_THRESH < cv2.contourArea(max_green_contour):
         selected_contour = max_green_contour
         target = GREEN_TARGET
         sign = -1
-        if True:
+        if debug:
             cv2.line(frame, (GREEN_TARGET, 0), (GREEN_TARGET, 480), (0, 255, 0), 2)
 
     else:
@@ -436,77 +423,10 @@ while True:
 #             angle=angle/2
 #         print(cX,cY)
         #if (cX  < 100 or cX > 540 ) and cY > 300:
-        if (cX  < 80 or cX > 600 ) and cY > 320:
-            max_red_contour, max_red_area = findSecondMaxContourShape(contours_red)
-            max_green_contour, max_green_area = findSecondMaxContourShape(contours_green)
-            
-            if max_green_area > PILLAR_THRESH-600:
-                selected_contour = max_green_contour
-            elif max_red_area > PILLAR_THRESH-600:
-                selected_contour = max_red_contour
-            else:
-                selected_contour = None
-                
-            if selected_contour is not None:
-                size = cv2.contourArea(selected_contour)
-        #         min_size = min(size, min_size)
-        #         print("size:", size, "min size", min_size)
-                x, y, w, h = cv2.boundingRect(selected_contour)
-                #y += ROI_PILLAR[1]
-                
-                cX = x + w // 2
-                cY = y + h // 2
+        if (cX  < 120 or cX > 520 ) and cY > 310:
 
-                # Normalize y-distance
-                pillar_roi_bottom = ROI_PILLAR[3]
-                pillar_roi_top = ROI_PILLAR[1]
-                normalized_y = (cY - pillar_roi_top) / (pillar_roi_bottom - pillar_roi_top)
-                normalized_y = np.clip(normalized_y, 0.0, 1.0)
-
-                # Dynamic gain
-                dynamic_gain = PILLAR_PG + (1 - normalized_y) * 0.0005
-
-                # Calculate error with correct sign
-        #         if sign == 1:
-        #             error = cX - target
-        #         else:
-        #             error = target - cX
-                if normalized_y < 0.2:
-                    RED_TARGET = 320
-                    GREEN_TARGET = 320
-                elif normalized_y < 0.35:
-                    RED_TARGET = 200
-                    GREEN_TARGET = 440
-        #             RED_TARGET = 200
-        #             GREEN_TARGET = 440
-                elif normalized_y < 0.4:
-                    RED_TARGET = 150
-                    GREEN_TARGET = 390
-                elif normalized_y < 0.45:
-                    RED_TARGET = 110
-                    GREEN_TARGET = 530
-        #             RED_TARGET = 110
-        #             GREEN_TARGET = 530
-                else:
-                    RED_TARGET = 75
-                    GREEN_TARGET = 565
-        #             RED_TARGET = 150
-        #             GREEN_TARGET = 490
-        #         print("normalized_y:", normalized_y, "cY:", cY)
-                """if (left_area >4500 and right_area<2000 and track_dir==-1):
-                    GREEN_TARGET = 180
-                if (left_area <2000 and right_area>4500 and track_dir==1):
-                    RED_TARGET = 360"""
-                
-                error = cX-target
-                
-        #         angle = int((-MAX_TURN_DEGREE * (error * dynamic_gain + ((error - last_pil_diff) * PILLAR_PD))))#*(normalized_y+1))#*(normalized_y/2+0.5))
-                angle = -(int((error * dynamic_gain) + ((error - last_pil_diff) * PILLAR_PD)))#*(normalized_y+1))#*(normalized_y/2+0.5)))
-                
-            else:
-                curr_diff = right_area - left_area
-                angle = int((curr_diff * PGLOW)) # + (curr_diff-last_diff) * PD))
-                #angle = (int((error * dynamic_gain) + ((error - last_pil_diff) * PILLAR_PD)))
+            curr_diff = right_area - left_area
+            angle = int((curr_diff * PGLOW)) # + (curr_diff-last_diff) * PD))
             #angle = 0
             print("using walls", angle)
             print("ignoring pillar")
@@ -523,7 +443,7 @@ while True:
             speed = 1600"""
 
         # Debug draw center
-        if True:
+        if debug:
             cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
         print("normalized_y: ", normalized_y)
     else:
@@ -542,10 +462,10 @@ while True:
             print("turning")
             if track_dir==1:
                 #angle = min( -7, angle)
-#                 angle = -MAX_TURN_LESS
-                angle = min (-MAX_TURN_LESS, angle)
+                angle = -MAX_TURN_LESS
             else:
-                angle = max (MAX_TURN_LESS, angle)
+                #angle = max (7, angle)
+                angle = MAX_TURN_LESS
         
         
     max_blue_area = max_blue_area2+max_blue_area1
@@ -582,7 +502,7 @@ while True:
       
     if debug:
         cv2.imshow("Region of Interest", frame)
-    cv2.waitKey(1)
+        cv2.waitKey(1)
         
     print(angle, "turn: ", turn_count)
     """if turning:
@@ -641,3 +561,7 @@ while True:
 
 
     
+
+    
+
+
