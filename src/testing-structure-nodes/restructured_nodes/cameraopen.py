@@ -7,26 +7,30 @@ from picamera2 import Picamera2
 from std_msgs.msg import Int32MultiArray
 
 LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
-UPPER_BLACK_THRESHOLD = np.array([180, 255, 62])
+UPPER_BLACK_THRESHOLD = np.array([180, 255, 100])
 
-LOWER_BLUE = np.array([107, 88, 0])
-UPPER_BLUE = np.array([121, 255, 211])
+LOWER_BLUE = np.array([91, 115, 103])
+UPPER_BLUE = np.array([132, 255, 255])
 
-LOWER_ORANGE1 = np.array([0, 101, 169])
-UPPER_ORANGE1 = np.array([27, 219, 255])
+LOWER_ORANGE1 = np.array([0, 101, 173])
+UPPER_ORANGE1 = np.array([27, 255, 255])
 LOWER_ORANGE2 = np.array([0, 0, 0])
 UPPER_ORANGE2 = np.array([0, 0, 0])
 
+#ROI_LEFT_TOP = [0, 220, 100, 270]        
+#ROI_RIGHT_TOP = [540, 240, 640, 290]
+ROI_LEFT_TOP = [0, 220, 175, 270]        
+ROI_RIGHT_TOP = [465, 240, 640, 290]
+#ROI_LEFT_BOT = [0, 400, 40, 425]
+#ROI_RIGHT_BOT = [600, 420, 640, 445]
+ROI_LEFT_BOT = [0, 270, 115, 295]
+ROI_RIGHT_BOT = [525, 290, 640, 315]
 
 
-ROI_LEFT_TOP = [0, 245, 100, 285]        
-ROI_RIGHT_TOP = [540, 250, 640, 290]
-ROI_LEFT_BOT = [0, 285, 40, 300]
-ROI_RIGHT_BOT = [600, 290, 640, 305]
+ROI_LINE1 = [525,400,600,425]
+ROI_LINE2 = [40,400,115,425]
 
-ROI_LINE = [277,300,75,25]
-
-debug = True
+debug = False
 
 
 
@@ -49,7 +53,7 @@ class CameraNode(Node):
         self.picam2.preview_configuration.main.size = (640,480)
         self.picam2.preview_configuration.main.format = "RGB888"
         print(self.picam2.preview_configuration.controls.FrameRate)
-        self.picam2.preview_configuration.controls.FrameRate = 25
+        self.picam2.preview_configuration.controls.FrameRate = 50
         self.picam2.set_controls({"Brightness": 0.05})
         print(self.picam2.preview_configuration.controls.FrameRate)
         self.picam2.preview_configuration.align()
@@ -58,7 +62,15 @@ class CameraNode(Node):
 
         self.publisher_ = self.create_publisher(Int32MultiArray, 'camera', 10)
 
-        self.timer = self.create_timer(0.1, self.process_frame)
+        """
+        self.subscription = self.create_subscription(
+            Bool,
+            "/startopen",
+            self.change_state,
+            10)"""
+
+
+        self.timer = self.create_timer(0.01, self.process_frame)
 
 
 
@@ -107,26 +119,40 @@ class CameraNode(Node):
             cv2.CHAIN_APPROX_NONE,
         )
         
-        contours_blue = cv2.findContours(
-            b_mask[ROI_LINE[1] : ROI_LINE[3], ROI_LINE[0] : ROI_LINE[2]],
+        contours_blue1 = cv2.findContours(
+            b_mask[ROI_LINE1[1] : ROI_LINE1[3], ROI_LINE1[0] : ROI_LINE1[2]],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_SIMPLE,
         )[-2]
 
-        contours_orange = cv2.findContours(
-            o_mask[ROI_LINE[1] : ROI_LINE[3], ROI_LINE[0] : ROI_LINE[2]],
+        contours_orange1 = cv2.findContours(
+            o_mask[ROI_LINE1[1] : ROI_LINE1[3], ROI_LINE1[0] : ROI_LINE1[2]],
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_SIMPLE,
         )[-2]
+
+        contours_blue2 = cv2.findContours(
+            b_mask[ROI_LINE2[1] : ROI_LINE2[3], ROI_LINE2[0] : ROI_LINE2[2]],
+            cv2.RETR_EXTERNAL,
+            cv2.CHAIN_APPROX_SIMPLE,
+        )[-2]
+
+        contours_orange2 = cv2.findContours(
+            o_mask[ROI_LINE2[1] : ROI_LINE2[3], ROI_LINE2[0] : ROI_LINE2[2]],
+            cv2.RETR_EXTERNAL,
+            cv2.CHAIN_APPROX_SIMPLE,
+        )[-2]
+
         
-
         max_left_top_contour, left_area_top = findMaxContourShape(left_contours_top)
         max_right_top_contour, right_area_top = findMaxContourShape(right_contours_top)
         max_left_bot_contour, left_area_bot = findMaxContourShape(left_contours_bot)
         max_right_bot_contour, right_area_bot = findMaxContourShape(right_contours_bot)
 
-        max_blue_contour, max_blue_area = findMaxContourShape(contours_blue)
-        max_orange_contour, max_orange_area = findMaxContourShape(contours_orange)
+        max_blue_contour1, max_blue_area1 = findMaxContourShape(contours_blue1)
+        max_orange_contour1, max_orange_area1 = findMaxContourShape(contours_orange1)
+        max_blue_contour2, max_blue_area2 = findMaxContourShape(contours_blue2)
+        max_orange_contour2, max_orange_area2 = findMaxContourShape(contours_orange2)
 
 
         right_area = right_area_bot + right_area_top
@@ -135,16 +161,30 @@ class CameraNode(Node):
         
 
         if debug:
-            if max_orange_contour is not None:
-                max_orange_contour[:, :, 0] += ROI_LINE[0]
-                max_orange_contour[:, :, 1] += ROI_LINE[1]
-                cv2.drawContours(frame, [max_orange_contour], -1, (0, 165, 255), 2)
+            # Draw max orange contour (orange)
+            if max_orange_contour1 is not None:
+                max_orange_contour1[:, :, 0] += ROI_LINE1[0]
+                max_orange_contour1[:, :, 1] += ROI_LINE1[1]
+                cv2.drawContours(frame, [max_orange_contour1], -1, (0, 165, 255), 2)
 
-            if max_blue_contour is not None:
-                max_blue_contour[:, :, 0] += ROI_LINE[0]
-                max_blue_contour[:, :, 1] += ROI_LINE[1]
-                cv2.drawContours(frame, [max_blue_contour], -1, (255, 0, 0), 2)
-            
+            # Draw max blue contour (blue)
+            if max_blue_contour1 is not None:
+                max_blue_contour1[:, :, 0] += ROI_LINE1[0]
+                max_blue_contour1[:, :, 1] += ROI_LINE1[1]
+                cv2.drawContours(frame, [max_blue_contour1], -1, (255, 0, 0), 2)
+
+            if max_orange_contour2 is not None:
+                max_orange_contour2[:, :, 0] += ROI_LINE2[0]
+                max_orange_contour2[:, :, 1] += ROI_LINE2[1]
+                cv2.drawContours(frame, [max_orange_contour2], -1, (0, 165, 255), 2)
+
+            # Draw max blue contour (blue)
+            if max_blue_contour2 is not None:
+                max_blue_contour2[:, :, 0] += ROI_LINE2[0]
+                max_blue_contour2[:, :, 1] += ROI_LINE2[1]
+                cv2.drawContours(frame, [max_blue_contour2], -1, (255, 0, 0), 2)
+
+            # Draw max black contours (magenta for visibility)
             if max_left_top_contour is not None:
                 max_left_top_contour[:, :, 0] += ROI_LEFT_TOP[0]
                 max_left_top_contour[:, :, 1] += ROI_LEFT_TOP[1]
@@ -165,6 +205,7 @@ class CameraNode(Node):
                 max_right_bot_contour[:, :, 1] += ROI_RIGHT_BOT[1]
                 cv2.drawContours(frame, [max_right_bot_contour], -1, (255, 0, 255), 2)
 
+            # Draw all ROIs with logical color coding
             cv2.rectangle(frame, 
                         (ROI_LEFT_TOP[0], ROI_LEFT_TOP[1]), 
                         (ROI_LEFT_TOP[2], ROI_LEFT_TOP[3]), 
@@ -186,8 +227,13 @@ class CameraNode(Node):
                         (255, 255, 0), 2)     # Cyan - bottom right
 
             cv2.rectangle(frame, 
-                        (ROI_LINE[0], ROI_LINE[1]), 
-                        (ROI_LINE[0] + ROI_LINE[2], ROI_LINE[1] + ROI_LINE[3]), 
+                        (ROI_LINE1[0], ROI_LINE1[1]), 
+                        (ROI_LINE1[2], ROI_LINE1[3]), 
+                        (0, 255, 255), 2)     # Yellow - center/orientation line
+            
+            cv2.rectangle(frame, 
+                        (ROI_LINE2[0], ROI_LINE2[1]), 
+                        (ROI_LINE2[2], ROI_LINE2[3]), 
                         (0, 255, 255), 2)     # Yellow - center/orientation line
 
             cv2.imshow("Region of Interest", frame)
@@ -195,18 +241,23 @@ class CameraNode(Node):
 
 
         msg = Int32MultiArray()
-        msg.data = [int(left_area),int(right_area), int(max_orange_area),int(max_blue_area)]
+        msg.data = [int(left_area),int(right_area), int(max_orange_area1+max_orange_area2),int(max_blue_area1+max_blue_area2)]
 
         self.publisher_.publish(msg)
 
-def main(args=None):
-    rclpy.init(args=args)
-    camera_node = CameraNode()
-    rclpy.spin(camera_node)
-    camera_node.destroy_node()
-    rclpy.shutdown()
 
+
+def main(args=None):
+    # Initialize ROS2 node
+    rclpy.init(args=args)
+    # Create MinimalPublisher object
+    camera_node = CameraNode()
+    # Enter the event loop of ROS2 node
+    rclpy.spin(camera_node)
+    # Destroy node object
+    camera_node.destroy_node()
+    # Shut down ROS2 node
+    rclpy.shutdown()
+# If this script is the main program, main function is executed.
 if __name__ == "__main__":
     main()
-
-

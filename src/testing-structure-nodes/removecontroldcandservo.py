@@ -6,9 +6,9 @@ from readchar import readkey, key
 
 board = rcc.Board()
 def pwm(degree):
-	return round(degree*11.1 + 500)
-mid = 80
-max_turn_degree = 32
+	return round(degree*11.1 + 1500)
+mid = 20
+max_turn_degree = 60
 board.pwm_servo_set_position(0.1, [[1, pwm(mid)]])
 # 'Arm' the ESC
 board.pwm_servo_set_position(6, 1500, 100) 
@@ -65,6 +65,6 @@ if __name__ == '__main__':
             print(f"speed down: {b}")
         #bldc
         pw = pwm(s)
-        board.pwm_servo_set_position(0.1, [[1, pwm(pw)]])
+        board.pwm_servo_set_position(0.1, [[1, pw]])
         board.pwm_servo_set_position(0.1, [[2, b]])
         time.sleep(0.01)

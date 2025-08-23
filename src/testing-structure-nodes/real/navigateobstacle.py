@@ -4,13 +4,19 @@ from std_msgs.msg import Int32MultiArray
 import math
 from std_msgs.msg import Float32
 import time
+import cv2
 
 
-PD = 0.0003
-PG = 0.0002
+PD = 0.2
+PG = 0.0035
 LINE_THRESH = 120
 WALL_THRESH = 20
 MAX_TURN_DEGREE = 60
+PILLAR_THRESH = 200
+
+RED_TARGET = 200
+GREEN_TARGET = 200
+
 
 
 
@@ -59,7 +65,6 @@ class NavigateNode(Node):
         self.LED.publish(msg)
         return
 
-
     def send_command(self):
         request = Int32MultiArray()
         request.data = [self.servo,self.dc]
@@ -71,6 +76,8 @@ class NavigateNode(Node):
         self.right_area = msg.data[1]
         self.max_orange_area = msg.data[2]
         self.max_blue_area = msg.data[3]
+        self.max_red_contour = msg.data[4]
+        self.max_green_contour = msg.data[5]
 
     def imu_call(self,msg):
         self.current_angle = msg.data
@@ -87,8 +94,15 @@ class NavigateNode(Node):
             time.sleep(1)
             return
 
-        self.curr_diff = self.left_area - self.right_area
+        
 
+        if cv2.contourArea(self.max_red_contour) > cv2.contourArea(self.max_green_contour):
+            self.target = RED_TARGET
+            self.curr_diff = self.target - self.max_red_contour
+        else:
+            self.target = GREEN_TARGET
+            self.curr_diff = self.target - self.max_green_contour
+        
         angle = int(self.curr_diff * PG + (self.curr_diff-self.last_diff) * PD)
 
         if self.turning:
@@ -111,17 +125,18 @@ class NavigateNode(Node):
             if self.max_orange_area >= LINE_THRESH:
                 self.turning = True
 
-            elif self.max_blue_area >= LINE_THRESH:
-                angle = 0
+            """elif self.max_blue_area >= LINE_THRESH:
+                angle = 0"""
 
         elif self.track_dir == -1:
-            if self.max_orange_area >= LINE_THRESH:
-                angle = 0
+            """if self.max_orange_area >= LINE_THRESH:
+                angle = 0"""
             if self.max_blue_area >= LINE_THRESH:
                 self.turning = True
 
 
         self.servo = angle
+        #self.servo = 0
         self.dc = self.speed
 
         self.last_diff = self.curr_diff
