@@ -16,7 +16,7 @@ def pwm(degree):
     pw = round(degree * 11.1 + 1500)
     return max(0, min(65535, pw))
 
-debug = False
+debug = True
 
 """LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
 UPPER_BLACK_THRESHOLD = np.array([180, 255, 83])
@@ -56,10 +56,10 @@ LOWER_MAGENTA_THRESHOLD = np.array([159, 0, 0])
 UPPER_MAGENTA_THRESHOLD = np.array([169, 255, 255])
 
 
-LOWER_RED_THRESHOLD1 = np.array([0, 138, 138])
+LOWER_RED_THRESHOLD1 = np.array([0, 138, 142])
 UPPER_RED_THRESHOLD1 = np.array([0, 255, 255])
-LOWER_RED_THRESHOLD2 = np.array([168, 120, 89])
-UPPER_RED_THRESHOLD2 = np.array([180, 255, 183])
+LOWER_RED_THRESHOLD2 = np.array([170, 118, 87])
+UPPER_RED_THRESHOLD2 = np.array([180, 255, 255])
 
 
 
@@ -74,8 +74,8 @@ ROI_RIGHT_BOT = [600, 270, 640, 295]
 # ROI_LEFT_BOT = [0, 270, 115, 295]
 # ROI_RIGHT_BOT = [525, 290, 640, 315]
 
-ROI_LINE1 = [525,400,600,425]
-ROI_LINE2 = [40,400,115,425]
+ROI_LINE1 = [525,420,600,445]
+ROI_LINE2 = [40,420,115,445]
 ROI_PILLAR = [0,150,640,380]
 RED_TARGET = 110
 GREEN_TARGET = 530
@@ -123,6 +123,17 @@ def findMaxContourShape(contours):
             max_area = area
             max_contour = cnt
     return max_contour, max_area
+
+def findSecondMaxContourShape(contours):
+    if not contours or len(contours) < 2:
+        return None, 0 
+
+    contours_sorted = sorted(contours, key=cv2.contourArea, reverse=True)
+
+    second_max_contour = contours_sorted[1]
+    second_max_area = cv2.contourArea(second_max_contour)
+
+    return second_max_contour, second_max_area
 
 def is_valid_contour(c):
     return c is not None and isinstance(c, (list, tuple, np.ndarray)) and len(c) > 0
@@ -210,6 +221,7 @@ while True:
     img_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     img_thresh = cv2.inRange(img_hsv, LOWER_BLACK_THRESHOLD, UPPER_BLACK_THRESHOLD)
+    img_thresh = cv2.bitwise_or(cv2.inRange(img_hsv, LOWER_MAGENTA_THRESHOLD, UPPER_MAGENTA_THRESHOLD),img_thresh)
     b_mask = cv2.inRange(img_hsv, LOWER_BLUE_THRESHOLD, UPPER_BLUE_THRESHOLD)
     o_mask = cv2.inRange(img_hsv, LOWER_ORANGE_THRESHOLD, UPPER_ORANGE_THRESHOLD)
 
@@ -297,6 +309,9 @@ while True:
     
     max_red_contour, max_red_area = findMaxContourShape(contours_red)
     max_green_contour, max_green_area = findMaxContourShape(contours_green)
+    red_contour2, red_area2 = findSecondMaxContourShape(contours_red)
+    green_contours, green_area2 = findSecondMaxContourShape(contours_green)
+    
     right_area = right_area_bot + right_area_top
     left_area = left_area_bot + left_area_top
     if True:
@@ -520,13 +535,18 @@ while True:
 #             angle=angle/2
 #         print(cX,cY)
         #if (cX  < 100 or cX > 540 ) and cY > 300:
-        if (cX  < 100 or cX > 540 ) and cY > 330:
+        if (cX  < 100 or cX > 540 ) and cY > 340:
 
             #curr_diff = right_area - left_area
             #angle = int((curr_diff * PG)) # + (curr_diff-last_diff) * PD))
             angle = 0
             # print("using walls", angle)
             print("ignoring pillar")
+            print(cX, cY)
+        if (cX  < 100 or cX > 540 ) and cY > 320 and (red_area2 < PILLAR_THRESH and green_area2 < PILLAR_THRESH) and not turning:
+            angle = 0
+            # print("using walls", angle)
+            print("ignoring pillar EBCAUSW IR SAEEES NO NEXT")
             print(cX, cY)
 
 
