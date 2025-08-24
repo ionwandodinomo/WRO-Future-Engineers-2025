@@ -74,8 +74,10 @@ ROI_RIGHT_BOT = [600, 270, 640, 295]
 # ROI_LEFT_BOT = [0, 270, 115, 295]
 # ROI_RIGHT_BOT = [525, 290, 640, 315]
 
-ROI_LINE1 = [525,420,600,445]
-ROI_LINE2 = [40,420,115,445]
+#ROI_LINE1 = [525,420,600,445]
+#ROI_LINE2 = [40,420,115,445]
+ROI_LINE1 = [277,250,352,275]
+ROI_LINE2 = [0,0,0,0]
 ROI_PILLAR = [0,150,640,380]
 RED_TARGET = 110
 GREEN_TARGET = 530
@@ -94,7 +96,7 @@ min_size=100000
 # PILLAR_PG = 0.0035
 PILLAR_PD = 0.3
 PILLAR_PG = 0.05
-LINE_THRESH = 120
+LINE_THRESH = 50
 WALL_THRESH = 20
 MAX_TURN_DEGREE = 40
 MAX_TURN_LESS = 20
@@ -110,6 +112,7 @@ curr_diff = 0
 error = 0
 angle = 0
 turn_count = 0
+time_after_turn = 0
 
 
 def findMaxContourShape(contours):
@@ -535,7 +538,7 @@ while True:
 #             angle=angle/2
 #         print(cX,cY)
         #if (cX  < 100 or cX > 540 ) and cY > 300:
-        if (cX  < 100 or cX > 540 ) and cY > 340:
+        if (cX  < 40 or cX > 600 ) and cY > 340:
 
             #curr_diff = right_area - left_area
             #angle = int((curr_diff * PG)) # + (curr_diff-last_diff) * PD))
@@ -543,7 +546,7 @@ while True:
             # print("using walls", angle)
             print("ignoring pillar")
             print(cX, cY)
-        if (cX  < 100 or cX > 540 ) and cY > 320 and (red_area2 < PILLAR_THRESH and green_area2 < PILLAR_THRESH) and not turning:
+        if (cX  < 100 or cX > 540 ) and cY > 310 and (red_area2 < PILLAR_THRESH and green_area2 < PILLAR_THRESH) and not turning and time_after_turn >= 5:
             angle = 0
             # print("using walls", angle)
             print("ignoring pillar EBCAUSW IR SAEEES NO NEXT")
@@ -563,6 +566,8 @@ while True:
         # Debug draw center
         cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
         print("normalized_y: ", normalized_y)
+        
+        
     else:
         # iall back to black area balance logic
         curr_diff = right_area - left_area
@@ -594,20 +599,24 @@ while True:
             turn_count += 1
             turning = False
             PILLAR_THRESH = 1200
+            time_after_turn = 0
             print("TURN ENDED")
         elif track_dir == -1 and max_orange_area >= LINE_THRESH:
             turn_count += 1
             turning = False
             PILLAR_THRESH = 1200
             print("TURNENEDEDED")
+            time_after_turn = 0
     
     elif track_dir == 0:
         if max_orange_area >= LINE_THRESH:
             track_dir = 1
             ROI_LINE1 = [0,0,0,0]
+            ROI_LINE2 = [40,420,115,445]
         elif max_blue_area >= LINE_THRESH:
             track_dir = -1
             ROI_LINE2 = [0,0,0,0]
+            ROI_LINE1 = [525,420,600,445]
             
     elif track_dir == 1:
         if max_orange_area >= LINE_THRESH:
@@ -621,6 +630,8 @@ while True:
             pass 
         elif max_blue_area >= LINE_THRESH:
             turning = True
+            
+    time_after_turn += 1
     if debug:        
         cv2.imshow("Region of Interest", frame)
     cv2.waitKey(1)
@@ -684,7 +695,5 @@ while True:
     
 
     
-
-
 
 
