@@ -32,6 +32,8 @@ def pwm(degree):
     return second_max_contour, second_max_area"""
 
 def sortContourShapes(contours):
+    if not contours:
+        return [None]
     contours_sorted = sorted(contours, key=cv2.contourArea, reverse=True)
     return contours_sorted
 
@@ -85,7 +87,7 @@ def check_node_status():
     return '/ros_robot_controller/button' in res
 
 
-def findContours(thresh,roi):
+"""def findContours(thresh,roi):
     contours, hierarchy = cv2.findContours(
         thresh[
             roi[1] : roi[3], roi[0] : roi[2]
@@ -93,4 +95,36 @@ def findContours(thresh,roi):
         cv2.RETR_EXTERNAL,
         cv2.CHAIN_APPROX_NONE,
     )
-    return contours, hierarchy
+    return contours, hierarchy"""
+
+def findContours(img_lab, lab_range, ROI):
+    
+    x1, y1, x2, y2 = ROI
+    if x1 >= x2 or y1 >= y2:  # invalid ROI
+        return []
+
+    img_segmented = img_lab[y1:y2, x1:x2]
+    if img_segmented is None or img_segmented.size == 0:
+        return []
+    
+    #segment image to only be the ROI
+    img_segmented = img_lab[ROI[1]:ROI[3], ROI[0]:ROI[2]]
+    
+    lower_mask = np.array(lab_range[0])
+    upper_mask = np.array(lab_range[1])
+
+    #threshold image
+    mask = cv2.inRange(img_segmented, lower_mask, upper_mask)
+    
+    kernel = np.ones((5, 5), np.uint8)
+    
+    #perform erosion and dilation
+    eMask = cv2.erode(mask, kernel, iterations=1)
+    dMask = cv2.dilate(eMask, kernel, iterations=1)
+    
+    #find contours
+    contours = cv2.findContours(dMask, cv2.RETR_EXTERNAL,
+    cv2.CHAIN_APPROX_SIMPLE)[-2]
+    
+    return contours
+

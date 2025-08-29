@@ -1,5 +1,37 @@
 import numpy as np
-ROI_LEFT_TOP = [0, 220, 100, 270]        
+import numpy as np
+
+
+rMagenta = [[0, 171, 106], [255, 195, 135]]
+rRed = [[0, 153, 140], [131, 198, 171]]
+rGreen = [[0, 56, 114], [230, 103, 161]]
+rBlue = [[54, 124, 25], [148, 164, 121]]
+rOrange = [[124, 137, 108], [219, 199, 255]]
+rBlack = [[0, 104, 80], [130, 255, 255]]
+
+UPPER_RED_THRESHOLD1 = np.array(rRed[0])
+LOWER_RED_THRESHOLD1 = np.array(rRed[1])
+UPPER_RED_THRESHOLD2 = np.array([0,0,0])
+LOWER_RED_THRESHOLD2 = np.array([0,0,0])
+
+UPPER_GREEN_THRESHOLD = np.array(rGreen[0])
+LOWER_GREEN_THRESHOLD =  np.array(rGreen[1])
+
+UPPER_BLUE_THRESHOLD = np.array(rBlue[0])
+LOWER_BLUE_THRESHOLD = np.array(rBlue[1])
+
+UPPER_ORANGE_THRESHOLD = np.array(rOrange[0])
+LOWER_ORANGE_THRESHOLD = np.array(rOrange[1])
+
+UPPER_BLACK_THRESHOLD = np.array(rBlack[0])
+LOWER_BLACK_THRESHOLD = np.array(rBlack[1])
+
+UPPER_MAGENTA_THRESHOLD = np.array(rMagenta[0])
+LOWER_MAGENTA_THRESHOLD = np.array(rMagenta[0])
+
+
+
+ROI_LEFT_TOP = [0, 220, 100, 270]
 ROI_RIGHT_TOP = [540, 220, 640, 270]
 ROI_LEFT_BOT = [0, 270, 40, 295]
 ROI_RIGHT_BOT = [600, 270, 640, 295]
@@ -22,33 +54,7 @@ MAX_TURN_DEGREE = 40
 MAX_TURN_LESS = 20
 PILLAR_THRESH = 1200
 MID_SERVO = -6
-
 LIDAR_POWER_PIN = 17
-
-
-"""LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
-UPPER_BLACK_THRESHOLD = np.array([180, 255, 83])
-
-LOWER_BLUE = np.array([91, 115, 103])
-UPPER_BLUE = np.array([132, 255, 255])
-
-LOWER_ORANGE1 = np.array([0, 101, 173])
-UPPER_ORANGE1 = np.array([27, 255, 255])
-LOWER_ORANGE2 = np.array([0, 0, 0])
-UPPER_ORANGE2 = np.array([0, 0, 0])
-
-LOWER_GREEN_THRESHOLD = np.array([71, 212, 60])
-UPPER_GREEN_THRESHOLD = np.array([100, 255, 200])
-
-LOWER_MAGENTA_THRESHOLD1 = np.array([0, 0, 0])
-UPPER_MAGENTA_THRESHOLD1 = np.array([0, 0, 0])
-LOWER_MAGENTA_THRESHOLD2 = np.array([137, 168, 173])
-UPPER_MAGENTA_THRESHOLD2 = np.array([162, 255, 255])
-
-LOWER_RED_THRESHOLD1 = np.array([0, 138, 39])
-UPPER_RED_THRESHOLD1 = np.array([7, 255, 255])
-LOWER_RED_THRESHOLD2 = np.array([171, 120, 39])
-UPPER_RED_THRESHOLD2 = np.array([180, 255, 255])"""
 
 # cambridge
 LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])

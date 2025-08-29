@@ -2,19 +2,13 @@ import rclpy
 import cv2
 import numpy as np
 from picamera2 import Picamera2
-from gpiozero import DigitalOutputDevice
+import threading
 import ros_robot_controller_sdk as rcc
 from helper import *
 from CONSTS import *
-from lidar_parser import *
-from imu import *
 #from exit_parking import unpark
 import time
 board = rcc.Board()
-lidar_power = DigitalOutputDevice(LIDAR_POWER_PIN)
-lidar_power.on()
-time.sleep(1)
-print("LD19 powered ON via GPIO 17.")
 
 #red is right
 #green is left
@@ -51,11 +45,10 @@ frame = cv2.resize(frame, (640, 480))
 img_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 img_thresh = cv2.inRange(img_hsv, LOWER_BLACK_THRESHOLD, UPPER_BLACK_THRESHOLD)
 
-left_contours_top, hierarchy = findContours(img_thresh, ROI_LEFT_TOP)
-right_contours_top, hierarchy = findContours(img_thresh, ROI_RIGHT_TOP)
-left_contours_bot, hierarchy = findContours(img_thresh, ROI_LEFT_BOT)
-right_contours_bot, hierarchy = findContours(img_thresh, ROI_RIGHT_BOT)
-
+left_contours_top = findContours(frame, rBlack, ROI_LEFT_TOP)
+right_contours_top = findContours(frame, rBlack, ROI_RIGHT_TOP)
+left_contours_bot = findContours(frame, rBlack, ROI_LEFT_BOT)
+right_contours_bot = findContours(frame, rBlack, ROI_RIGHT_BOT) 
 max_left_top_contour = sortContourShapes(left_contours_top)[0]
 left_area_top = cv2.contourArea(max_left_top_contour) if is_valid_contour(max_left_top_contour) else 0
 
@@ -71,123 +64,16 @@ right_area_bot = cv2.contourArea(max_right_bot_contour) if is_valid_contour(max_
 right_area = right_area_bot + right_area_top
 left_area = left_area_bot + left_area_top
 
-
-latest_points = {}  # angle (int) → (distance, confidence, timestamp)
-
-CONF_THRESHOLD = 50
-
-def store_latest_points(parsed):
-    """Update the latest points dictionary with the newest packet if confidence is good."""
-    angles = interpolate_angles(parsed["start_angle"], parsed["end_angle"], len(parsed["points"]))
-    ts = parsed["timestamp"]
-
-    for (dist, conf), angle in zip(parsed["points"], angles):
-        angle_key = int(round(angle)) % 360
-
-        # Only update if confidence is above threshold
-        if conf >= CONF_THRESHOLD:
-            latest_points[angle_key] = (dist, conf, ts)
-        else:
-            # keep old value if it exists
-            if angle_key not in latest_points:
-                latest_points[angle_key] = (dist, conf, ts)  # accept if nothing stored yet
-
-
-def get_latest_distance(angle_query, tolerance=2):
-    """
-    Get the most recent distance for the given angle.
-    `tolerance` = how many degrees off we can match.
-    """
-    angle_key = int(round(angle_query)) % 360
-
-    # Try exact match
-    if angle_key in latest_points:
-        dist, conf, ts = latest_points[angle_key]
-        return {"distance": dist, "confidence": conf, "angle": angle_key, "timestamp": ts}
-
-    # Try within ±tolerance degrees
-    candidates = [
-        (abs(k - angle_key), k, latest_points[k])
-        for k in latest_points
-        if abs((k - angle_key + 180) % 360 - 180) <= tolerance
-    ]
-
-    if not candidates:
-        return None
-
-    _, k, (dist, conf, ts) = min(candidates, key=lambda x: x[0])
-    return {"distance": dist, "confidence": conf, "angle": k, "timestamp": ts}
-
-
-
-if right_area > left_area and right_area > 2000:
-    track_dir = -1
-elif left_area > right_area and left_area > 2000:
-    track_dir = 1
-     
-if track_dir != 0:
-    # unparking code here
-    #unpark(board,track_dir)
-    ser = serial.Serial(PORT, BAUD, timeout=0.1)
-    buffer = bytearray()
-
-    imu_proc = start_imu_stream()
-    in_vector_block = False
-    last_yaw = None
-
-    try:
-        while True:
-            data = ser.read(256)
-            if data:
-                buffer += data
-                while True:
-                    idx = find_packet_start(buffer)
-                    if idx == -1 or len(buffer) - idx < PACKET_LEN:
-                        break
-                    packet = buffer[idx:idx+PACKET_LEN]
-                    buffer = buffer[idx+PACKET_LEN:]
-
-                    parsed = parse_packet(packet)
-                    if parsed:
-                        store_latest_points(parsed)
-
-            d = get_latest_distance(90.0)
-            if d:
-                print(f"Latest distance at 90 dgrees: {d['distance']} mm (conf: {d['confidence']})")
-
-            line = read_imu_line(imu_proc)
-            if line:
-                if line.startswith("vector:"):
-                    in_vector_block = True
-                elif in_vector_block and line.startswith("z:"):
-                    try:
-                        z_rad = float(line.split(":", 1)[1].strip())
-                        z_deg = math.degrees(z_rad)
-                        last_yaw = (z_rad, z_deg)
-                        print(f"IMU yaw = {z_rad:.3f} rad ({z_deg:.1f}°)")
-                    except ValueError:
-                        pass
-                    in_vector_block = False
-
-            # DO UNPARKING CODE HERE
-            time.sleep(0.1)
-
-    except KeyboardInterrupt:
-        print("Stopping lidar + IMU loop…")
-    finally:
-        stop_imu_stream(imu_proc)
-        ser.close()
-        lidar_power.off()
-        time.sleep(1)   
-
-
-
-if check_node_status():
-    print("ROS2 node detected")
-    listen_to_button_events() 
-    print("STARTING OBSTACLE CHALLENGE CODE")
-
-
+# if right_area > left_area and right_area > 2000:
+#     track_dir = -1
+# elif left_area > right_area and left_area > 2000:
+#     track_dir = 1
+#     
+# if track_dir != 0:
+#     #unpark(board,track_dir)
+#     pass
+    
+time.sleep(1)
 
 while True:
     frame = picam2.capture_array()
@@ -218,18 +104,22 @@ while True:
         )
     g_mask = cv2.inRange(img_hsv, LOWER_GREEN_THRESHOLD, UPPER_GREEN_THRESHOLD)
 
-    left_contours_top, hierarchy = findContours(img_thresh, ROI_LEFT_TOP)
-    right_contours_top, hierarchy = findContours(img_thresh, ROI_RIGHT_TOP)
-    left_contours_bot, hierarchy = findContours(img_thresh, ROI_LEFT_BOT)
-    right_contours_bot, hierarchy = findContours(img_thresh, ROI_RIGHT_BOT)
+    left_contours_top, hierarchy = findContours(frame, rBlack, ROI_LEFT_TOP)
+    right_contours_top, hierarchy = findContours(frame, rBlack, ROI_RIGHT_TOP)
+    left_contours_bot, hierarchy = findContours(frame, rBlack, ROI_LEFT_BOT)
+    right_contours_bot, hierarchy = findContours(frame, rBlack, ROI_RIGHT_BOT)
 
-    contours_blue1, _ = findContours(b_mask,ROI_LINE1)
-    contours_orange1, _ = findContours(o_mask,ROI_LINE1)
+    contours_blue1 = findContours(frame, rBlue, ROI_LINE1)
 
-    contours_blue2, _ = findContours(b_mask,ROI_LINE2)
-    contours_orange2, _ = findContours(o_mask,ROI_LINE2)
-    contours_red, _ = findContours(r_mask,ROI_PILLAR)
-    contours_green = findContours(g_mask,ROI_PILLAR)
+    contours_orange1 = findContours(frame, rOrange, ROI_LINE1)
+    contours_blue2 = findContours(frame, rBlue, ROI_LINE2)
+
+    contours_orange2 = findContours(frame, rOrange, ROI_LINE2)
+
+    
+    contours_red = findContours(frame, rRed, ROI_PILLAR)
+
+    contours_green = findContours(frame, rGreen, ROI_PILLAR)
 
     max_left_top_contour = sortContourShapes(left_contours_top)[0]
     left_area_top = cv2.contourArea(max_left_top_contour) if is_valid_contour(max_left_top_contour) else 0
@@ -246,6 +136,7 @@ while True:
     right_area = right_area_bot + right_area_top
     left_area = left_area_bot + left_area_top
 
+
     max_blue_contour1 = sortContourShapes(contours_blue1)[0] if contours_blue1 else None
     max_blue_area1 = cv2.contourArea(max_blue_contour1) if is_valid_contour(max_blue_contour1) else 0
     max_orange_contour1 = sortContourShapes(contours_orange1)[0] if contours_orange1 else None
@@ -257,6 +148,8 @@ while True:
 
     max_blue_area = max_blue_area2+max_blue_area1
     max_orange_area = max_orange_area2+max_orange_area1
+
+    
 
     red_contours =  sortContourShapes(contours_red)
     max_red_contour = red_contours[0] if red_contours else None
@@ -306,6 +199,8 @@ while True:
         drawRect(ROI_LINE2, frame, color=(0, 255, 255), thickness=2)     # Yellow - center/orientation line
         drawRect(ROI_PILLAR, frame, color=(0, 255, 255), thickness=2)
 
+    size = 0
+
     if is_valid_contour(max_red_contour) and is_valid_contour(max_green_contour):
         if PILLAR_THRESH < cv2.contourArea(max_red_contour) > cv2.contourArea(max_green_contour):
             selected_contour = max_red_contour
@@ -331,6 +226,7 @@ while True:
 
     else:
         selected_contour = None
+
 
     if is_valid_contour(selected_contour):
         last_diff = 0
@@ -459,8 +355,3 @@ while True:
     last_diff = curr_diff
     last_pill_diff= error
 
-
-
-
-
-# START PARKING CODE HERE SIMILAR TO LIDAR ABOVE
