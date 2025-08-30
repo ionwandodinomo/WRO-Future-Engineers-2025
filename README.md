@@ -22,7 +22,7 @@ Engineering Documentation 🛠️
 
 ## Content of Documentation 📖
 * **[The Team](#the-team-boygirlboy)**
-* **[Challenge Overview](#challenge-overview)**
+* **[Challenge Overview](#challenge-overview-page_facing_up)**
 	* `[Explain the challenge itself. Explain basic robot specs like os, modules, etc.] {EDIT}`
 * **[Mechanical Breakdown :wrench:](#mechanical-breakdown-wrench)**
 	* `[MAKE SURE TO ADD POSSIBLE IMPROVEMENTS] {EDIT}`
@@ -48,13 +48,13 @@ Engineering Documentation 🛠️
 
 &nbsp; 
 
-## Challenge Overview 📑
+## Challenge Overview :page_facing_up:
 `describe the challenge itself here, and include basic robot specifications like operating system, modules, sensors, etc. {EDIT}`
 
 &nbsp; 
 
 ## Mechanical Breakdown :wrench:
-Our car uses primarily 3D printed PLA filament as the structural material. We used the [Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/) from Prusa Research, as well as the `[JOHN'S PRINTER].` 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. Our CAD softwares of choice were [Onshape](https://www.onshape.com/en/), as well as [TinkerCAD](https://www.tinkercad.com/) for simpler geometry. We strongly recommend these two softwares for basic component design, as they are generally easy to learn, and provide convenient online cloud storage.
+Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the **`[JOHN'S PRINTER].**` 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. Our CAD softwares of choice were **[Onshape](https://www.onshape.com/en/)**, as well as **[TinkerCAD](https://www.tinkercad.com/)** for simpler geometry. We strongly recommend these two softwares for basic component design, as they are generally easy to learn, and provide convenient online cloud storage.
 
 Provided below are models of the 3D printed parts, individually, as well as on the final car.
 
