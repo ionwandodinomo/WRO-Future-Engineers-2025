@@ -112,6 +112,7 @@ if track_dir != 0:
     imu_proc = start_imu_stream()
     in_vector_block = False
     last_yaw = None
+    initial_yaw = None
 
     # Movement states
     state = "detect_wall"  # Other states: reverse_steer, reverse_straight, forward_out
@@ -167,7 +168,7 @@ if track_dir != 0:
                     set_steering("right")
                 else:
                     set_steering("left")
-                set_motion("reverse", speed=0.3)
+                set_motion("reverse")
 
                 if front and front["distance"] > 500:  # >50cm front clearance
                     state = "reverse_straight"
@@ -175,7 +176,7 @@ if track_dir != 0:
 
             elif state == "reverse_straight":
                 set_steering("straight")
-                set_motion("reverse", speed=0.3)
+                set_motion("reverse")
 
                 if front and front["distance"] > 800:  # Enough front clearance
                     state = "forward_out"
@@ -183,7 +184,7 @@ if track_dir != 0:
 
             elif state == "forward_out":
                 set_steering("straight")
-                set_motion("forward", speed=0.4)
+                set_motion("forward")
 
                 # Use IMU to correct orientation if needed
                 if abs(last_yaw - initial_yaw) < 5:

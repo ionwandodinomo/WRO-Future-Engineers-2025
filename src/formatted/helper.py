@@ -42,8 +42,8 @@ def is_valid_contour(c):
 
 def drawContour(contour, roi, frame, color=(0, 255, 0), thickness=2):
     if is_valid_contour(contour):
-        contour[:, :, 0] += roi[0]
-        contour[:, :, 1] += roi[1]
+        #contour[:, :, 0] += roi[0]
+        #contour[:, :, 1] += roi[1]
         cv2.drawContours(frame, [contour], -1, color, thickness)
 
 def drawRect(roi, frame, color=(0, 255, 0), thickness=2):
@@ -107,6 +107,7 @@ def findContours(img_lab, lab_range, ROI):
     if img_segmented is None or img_segmented.size == 0:
         return []
     
+    
     #segment image to only be the ROI
     img_segmented = img_lab[ROI[1]:ROI[3], ROI[0]:ROI[2]]
     
@@ -126,5 +127,15 @@ def findContours(img_lab, lab_range, ROI):
     contours = cv2.findContours(dMask, cv2.RETR_EXTERNAL,
     cv2.CHAIN_APPROX_SIMPLE)[-2]
     
-    return contours
+    contour2 = []
+    for contour in contours:
+        contour[:, :, 0] += ROI[0]
+        contour[:, :, 1] += ROI[1]
+        contour2.append(contour)
+    
+    return contour2
+
+
+def LED(board, colour):
+    board.set_rgb([[1, *colour], [2, *colour]])
 
