@@ -1,3 +1,48 @@
+&nbsp;
+Engineering Documentation 🛠️
+======
+
+> This repository details Team Tralalero Tralala’s building and programming process in the 2025 WRO Future Engineers Competition.
+
+---
+
+ ## Content of Repository 📘
+* `models` - 3D CAD files
+* `others` - Other essential files
+* `schemes` - Electrical schematics
+* `src` - Main and other programs to run/control software
+* `t-photos` - Team photos
+* `v-photos` - Robot photos
+* `video` - Video demonstration
+
+&nbsp; 
+
+## Content of Documentation📖
+* **[The Team](#-the-team-)**
+* **[Challenge Overview](#-overview-)**
+	* [Explain the challenge itself. Explain basic robot specs like os, modules, etc.] {EDIT}
+* **[Mechanical Breakdown :wrench:](#-breakdown-)**
+	* [MAKE SURE TO ADD POSSIBLE IMPROVEMENTS] {EDIT}
+* **[Mobility Management :car:](#-mobility-)**
+	*	[The Chassis](#-chassis-)
+		*	[Introduce rear wheel drive system, independent from free-spinning front wheels.] {EDIT}
+	* [Drive System](#-drive-)
+	* [Steer System](#-steer-)
+* **[Power and Sense Management :zap:](#-power-and-sense-)**
+	*	[The Battery](#-battery-)
+	* [Electrical Wiring](#-wiring-)
+	* [The Sensors](#-sensors-)
+* **[Software :computer:](#-software-)**
+	*	[Initialization](#-initialization-)
+	* [Object Detection](#detection)
+	* [Wall Management and Turning](#wall-and-turning)
+* **[Assembly Instructions](#assembly)**
+
+&nbsp; 
+
+## The Team :boy::girl::boy:
+sum sum team introduction sum sum {EDIT}
+
 ## Engineering Materials
 * Raspberry Pi 5 (8 GB)
 * [RRC (Ros Robot Controller) Lite Controller](https://www.hiwonder.com/products/rrc-lite?srsltid=AfmBOorP3iSszjlniFgA0gsbfA9aUH3UK0MWuyPeuTUcW6RMQjcizhmE)
