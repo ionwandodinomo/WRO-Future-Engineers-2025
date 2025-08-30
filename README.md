@@ -102,7 +102,7 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 |:---:|:---:|:---:|
 | <img src="images/assembly-components-back.png" width="250"/> | <img src="images/assembly-components-left.png" width="250"/> | <img src="images/assembly-components-right.png" width="250"/> |
 
-These parts were designed with modularity in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis. 
+These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis. 
 
 We found this much more convenient while testing, as it allows for edits to be made to a specific part of the car, and easily replaced and updated without collateral impact to the rest of the body.
 
