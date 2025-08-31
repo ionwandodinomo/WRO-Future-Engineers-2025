@@ -364,6 +364,9 @@ Another consideration improving the **balance** of the robot, which directly inf
 
 <br>
 
+---
+
+<br>
 
 ### Drive System
 
