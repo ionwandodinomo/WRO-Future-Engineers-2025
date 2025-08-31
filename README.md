@@ -136,9 +136,61 @@ Provided below are models of the 3D printed parts, individually, as well as on t
       <img src="other/placeholder.png" width="200"/>
     </td>
   </tr>
+  <tr>
+    <td align="center" width="25%">
+      <b>Camera Mount</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>ESC Holder</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Battery Tray</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Motor Bracket</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="25%">
+      <b>Servo Mount</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Front Bumper</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Rear Bumper</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Side Guard (Left)</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="25%">
+      <b>Side Guard (Right)</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Sensor Bracket</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Wheel Hub</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Spacer / Riser</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
 </table>  
-
-<br>
 
 ---
 
