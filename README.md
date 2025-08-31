@@ -392,16 +392,15 @@ This choice emphasized simplicity, direct torque delivery, and modularity when t
       <img src="other/motor.png" width="250"/><br>
       <b>Furitek Micro Komodo Motor</b>
     </td>
-    
+
     <!-- Motor Specs -->
     <td align="left" width="50%">
-      <b>Specifications</b>
+      <b>Specifications</b><br>
       <ul>
         <li>Voltage: 7.4V</li>
         <li>Max Current Draw: 5A</li>
         <li>Configuration: Rear-Wheel Drive</li>
         <li>Gear Ratio: 12:58</li>
-        <li>Compact size for small chassis integration</li>
         <li>Paired with Furitek Lizard Pro ESC</li>
       </ul>
     </td>
