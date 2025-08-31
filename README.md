@@ -72,6 +72,10 @@ Engineering Documentation 🛠️
 | Raspberry Pi 5 (8 GB) | SBC / Processor | — |
 | RRC Lite Controller | Controller | [Link](https://www.hiwonder.com/products/rrc-lite?srsltid=AfmBOorP3iSszjlniFgA0gsbfA9aUH3UK0MWuyPeuTUcW6RMQjcizhmE) |
 | GT24 B Differential Gear Set | Mechanical / Drive | [Link](https://carisma-shop.com/collections/gt24-spares/products/gt24-b-differential-gear-set) |
+| GT24 B Spur Gear 58t | Mechanical / Drive | [Link](https://carisma-shop.com/collections/gt24-spares/products/gt24-b-spur-gear-58t) |
+| GT24 SUBARU WRC WHEELS & TIRES SET | Drive | [Link](https://carisma-shop.com/collections/gt24-spares/products/gt24-subaru-wrc-wheels-tires-set-mounted) |
+| GT24 WHEEL Outdrive Set | Drive| [Link](https://carisma-shop.com/collections/gt24-spares/products/gt24-b-axle-outdrive-set) |
+| GT24 B Plastic Wheel lock nut set | Drive | [Link](https://carisma-shop.com/collections/gt24-spares/products/gt24-b-plastic-screw-on-wheel-nuts-x4) |
 | Furitek Micro Komodo 1212 3450KV Brushless Motor | Motor | [Link](https://furitek.com/products/furitek-micro-komodo-1212-3456kv-brushless-motor-with-15t-steel-pinion-for-fury-wagon-fx118) |
 | Furiteck Lizard Pro 30A/50A Brushless ESC | ESC | [Link](https://furitek.com/products/combo-of-furitek-lizard-pro-30a-50a-brushed-brushless-esc-for-axial-scx24-with-bluetooth) |
 | Gens Ace 2S1P 1300mAh 7.4V battery | Battery | [Link](https://www.adrenalinehobby.com/products/gens-ace-g-tech-1300mah-2s-7-4v-25c-lipo-deans-plug?_pos=1&_sid=dde29d30b&_ss=r) |
@@ -79,7 +83,7 @@ Engineering Documentation 🛠️
 | Mini Rocker Switch | Switch | — |
 | Raspberry Pi Camera Module 8 MP | Sensor / Camera | [Link](https://www.amazon.ca/TUOPUONE-Compatible-Raspberry-MIPI-CSI-Interface/dp/B0CPTPJLXL?th=1) |
 | Micro SD card | Storage | — |
-| LDRobot D500 lidar kit | Sensor / Lidar | [Link](https://www.amazon.ca/LDROBOT-Outdoor-Navigation-Scanning-Support/dp/B0DDKXQ23R) |
+| LDRobot LD19 lidar kit | Sensor / Lidar | [Link](https://www.aliexpress.com/item/1005003012681021.html?spm=a2g0o.order_list.order_list_main.11.7a3b18028WK12R) |
 
 <br>
 
