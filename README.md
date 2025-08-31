@@ -64,7 +64,6 @@ Engineering Documentation 🛠️
 
 <br>
 
-
 ### Materials List
 
 | Component | Type/Category | Link / Notes |
@@ -227,7 +226,6 @@ We found this approach much more convenient while testing, as it allows for chan
 
 <br>
 
-
 ### Possible Improvements
 - Upgrading print system to include **PETG** or **carbon fiber** filaments for more durable, high-quality parts.
 - Changing connection points to **snap-fits**, **press-fits**, etc, rather than screws, to simplify maintenance and quick iteration.
@@ -244,6 +242,8 @@ We found this approach much more convenient while testing, as it allows for chan
 For the use of this competition, movement precision and responsiveness are the top priorities.
 
 ---
+
+<br>
 
 ### The Chassis
 The chassis is located in the center of the car. It provides a strucutre to lay the majority of electrical components onto, namely the **two boards** as well as the **LIDAR**. It also serves as a medium to connect the front and rear wheel systems. The chassis itself is split into two seperate plates, that align together to form the abdomen of the car.
@@ -287,12 +287,15 @@ Another consideration improving the **balance** of the robot, which directly inf
   </tr>
 </table>  
 
+<br>
 
-### Possible Improvements
+#### Possible Improvements
 - Optimizing the location of our components, such as lowering the **LIDAR** or centralizing the **battery** for an ideal center of mass.
 - Adding **suspension** or other shock-absorbant materials for steadier and reliable conditions for the sensors
 - Design a housing to protect sensitive components from dust or other external debris.
 - Lowering the height of the camera; perhaps by using a more **LIDAR** dominant approach.
+
+<br>
 
 ### Drive System
 
