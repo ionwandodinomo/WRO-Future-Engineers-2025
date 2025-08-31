@@ -1,6 +1,6 @@
 
+<br>
 
-&nbsp;
 Engineering Documentation 🛠️
 ======
 
@@ -49,6 +49,8 @@ Engineering Documentation 🛠️
 ## The Team :boy::girl::boy:
 `sum sum team introduction sum sum {EDIT}`
 
+---
+
 <br>
 
 ## Challenge Overview 📑
@@ -85,7 +87,7 @@ Engineering Documentation 🛠️
 
 <br>
 
-Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the `[JOHN'S PRINTER].` 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. After assessment, it was chosen over other materials such as ABS or PETG.
+Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the `[JOHN'S PRINTER].` 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. After assessment, it was chosen over other materials such as ABS or PETG. These filaments are also all generally lighter, and much more customizable than other common materials, such as LEGO.
 
 <br>
 
@@ -109,7 +111,7 @@ In this particular environment, the cons of PLA aren't drastically impactful. Th
 
 Our CAD softwares of choice were **[Onshape](https://www.onshape.com/en/)**, as well as **[TinkerCAD](https://www.tinkercad.com/)** for simpler geometry. We strongly recommend these two softwares for basic component design, as they are generally easy to learn, and provide convenient online cloud storage.
 
-Provided below are models of the 3D printed parts, individually, as well as on the final car.
+Provided below are models of the 3D printed parts, individually, as well as on the final car. Note the .stl files can all be found in the `models` folder of this repository.
 
 <br>
 
@@ -193,7 +195,34 @@ We found this approach much more convenient while testing, as it allows for chan
 <br>
 
 ## Mobility Management :car:
+
+For the use of this competition, movement precision and responsiveness are the top priorities.
+
+---
+
 ### The Chassis
+The chassis is located in the center of the car. It provides a strucutre to lay the majority of electrical components onto, namely the two boards as well as the LIDAR. It also serves as a medium to connect the front and rear wheel systems. The chassis itself is split into two seperate plates, that align together to form the abdomen of the car.
+
+| Main Plate | Connective Plate | Together |
+|:---:|:---:|:---:|
+| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+
+Again, the choice of 3D printed PLA filament allows this precise jointery of components. They fit snugly together, and the friction also helps keep tight connection points along the entirety of the chassis. 
+
+After some trials with the 3D printer, our final print settings include a **0.4mm nozzle**, **~50% infill**, **brim disabled**, and **snug** supports. These specific choices enable a strudy, slightly flexible base, and remove the "junk" filament that might otherwise be printed with brim enabled or other kinds of supports.
+
+Another consideration improving the **balance** of the robot, which directly influences the consistency of our movement. Two vital aspects are maintaining a low, as well as centered point of mass. In another words, keeping our components, particulary the heavy ones, as low and as centralized as possible. For example, the boards, which are located at the very base and center of the car.
+
+<p align="center">
+  <img src="other/placeholder.png" width="300" alt="Previous Version"/>
+  <br>
+  <em>Original concept of a single chassis plate</em>
+</p>
+
+### Possible Improvements
+- Optimizing the location of our components, such as lowering the **LIDAR** or centralizing the **battery** for an ideal center of mass.
+- Adding **suspension** or other shock-absorbant materials for steadier and reliable conditions for the sensors
+- Design a housing to protect sensitive components from dust or other external debris. 
 
 ### Drive System
 
