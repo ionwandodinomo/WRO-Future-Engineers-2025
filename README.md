@@ -196,7 +196,6 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 <br>
 
-
 ### Full Assembly Views  
 
 #### Printed Assembly  
@@ -302,9 +301,22 @@ The chassis is located in the center of the car. It provides a strucutre to lay 
 
 <br>
 
-| Main Plate | Connective Plate | Together |
-|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <b>Main Plate</b><br>
+      <img src="other/placeholder.png" width="250"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Connective Plate</b><br>
+      <img src="other/placeholder.png" width="250"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Together</b><br>
+      <img src="other/placeholder.png" width="250"/>
+    </td>
+  </tr>
+</table>
 
 <br>
 
