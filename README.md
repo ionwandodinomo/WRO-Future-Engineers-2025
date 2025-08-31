@@ -7,7 +7,7 @@ Engineering Documentation 🛠️
 
 > This repository details Team Tralalero Tralala’s building and programming process in the 2025 WRO Future Engineers Competition.
 
-> <br>
+<br>
 
 ---
 
