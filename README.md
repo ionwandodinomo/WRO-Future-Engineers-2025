@@ -164,11 +164,11 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 | Top | Bottom | Front |
 |:---:|:---:|:---:|
-| <img src="v-photos/CAR_TOP" width="250"/> | <img src="v-photos/CAR_BOTTOM" width="250"/> | <img src="v-photos/CAR_FRONT" width="250"/> |
+| <img src="v-photos/CAR_TOP.png" width="250"/> | <img src="v-photos/CAR_BOTTOM.png" width="250"/> | <img src="v-photos/CAR_FRONT.png" width="250"/> |
 
 | Back | Left | Right |
 |:---:|:---:|:---:|
-| <img src="v-photos/CAR_BACK" width="250"/> | <img src="v-photos/CAR_LEFT" width="250"/> | <img src="v-photos/CAR_RIGHT" width="250"/> |
+| <img src="v-photos/CAR_BACK.png" width="250"/> | <img src="v-photos/CAR_LEFT.png" width="250"/> | <img src="v-photos/CAR_RIGHT.png" width="250"/> |
 
 These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis, as originally planned. Screws were avoided as much as possible, as they are less reflective of this idea, but regardless used when necessary. 
 
