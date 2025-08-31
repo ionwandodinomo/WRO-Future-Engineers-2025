@@ -148,11 +148,11 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 | Top | Bottom | Front |
 |:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+| <img src="v-photos/CAR_TOP" width="250"/> | <img src="v-photos/CAR_BOTTOM" width="250"/> | <img src="v-photos/CAR_FRONT" width="250"/> |
 
 | Back | Left | Right |
 |:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+| <img src="v-photos/CAR_BACK" width="250"/> | <img src="v-photos/CAR_LEFT" width="250"/> | <img src="v-photos/CAR_RIGHT" width="250"/> |
 
 <br>
 
