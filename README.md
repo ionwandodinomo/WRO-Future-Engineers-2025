@@ -81,15 +81,15 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 | Front | Back | Main Base Plate | Connective Base Plate |
 |:---:|:---:|:---:|:---:|
-| <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> |
+| <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> |
 
 | Part 5 | Part 6 | Part 7 | Part 8 |
 |:---:|:---:|:---:|:---:|
-| <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> |
+| <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> |
 
 | Part 9 | Part 10 | Part 11 | Part 12 |
 |:---:|:---:|:---:|:---:|
-| <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> | <img src="images/placeholder.png" width="200"/> |
+| <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> |
 
 ---
 
@@ -100,11 +100,11 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 | Top | Bottom | Front |
 |:---:|:---:|:---:|
-| <img src="images/placeholder.png" width="250"/> | <img src="images/assembly-screws-bottom.png" width="250"/> | <img src="images/assembly-screws-front.png" width="250"/> |
+| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
 
 | Back | Left | Right |
 |:---:|:---:|:---:|
-| <img src="images/placeholder.png" width="250"/> | <img src="images/assembly-screws-left.png" width="250"/> | <img src="images/assembly-screws-right.png" width="250"/> |
+| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
 
 ---
 
@@ -112,16 +112,16 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 | Top | Bottom | Front |
 |:---:|:---:|:---:|
-| <img src="images/placeholder.png" width="250"/> | <img src="images/assembly-components-bottom.png" width="250"/> | <img src="images/assembly-components-front.png" width="250"/> |
+| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
 
 | Back | Left | Right |
 |:---:|:---:|:---:|
-| <img src="images/placeholder.png" width="250"/> | <img src="images/assembly-components-left.png" width="250"/> | <img src="images/assembly-components-right.png" width="250"/> |
+| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
 
 These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis, as originally planned. 
 
 <figure>
-  <img src="images/placeholder.png" width="300" alt="Previous Version Design" style="border:1px solid #ccc; padding:2px;"/>
+  <img src="other/placeholder.png" width="300" alt="Previous Version Design" style="border:1px solid #ccc; padding:2px;"/>
   <figcaption>Original concept of a single chassis plate</figcaption>
 </figure>
 
