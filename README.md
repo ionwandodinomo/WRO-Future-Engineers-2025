@@ -25,7 +25,7 @@ Engineering Documentation 🛠️
 
 ## Content of Documentation 📖
 * **[The Team](#the-team-boygirlboy)**
-* **[Challenge Overview](#challenge-overview)**
+* **[Challenge Overview](#challenge-overview-)**
 	* `[Explain the challenge itself. Explain basic robot specs like os, modules, etc.] {EDIT}`
 * **[Mechanical Breakdown :wrench:](#mechanical-breakdown-wrench)**
 	* `[MAKE SURE TO ADD POSSIBLE IMPROVEMENTS] {EDIT}`
@@ -115,40 +115,29 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 <br>
 
-### 3D Printed Parts
 
-`[TAKE PICTURES OF THESE IN ONSHAPE PROBABLY]`
+### 3D Printed Parts  
 
-| Front | Back | Main Base Plate | Connective Base Plate |
-|:---:|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> |
-
-| Part 5 | Part 6 | Part 7 | Part 8 |
-|:---:|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> |
-
-| Part 9 | Part 10 | Part 11 | Part 12 |
-|:---:|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> |
-
-<br>
-
----
-
-<br>
-
-
-### Full Assembly Views
-
-#### Full Assembly (Printed Parts Only)
-
-| Top | Bottom | Front |
-|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
-
-| Back | Left | Right |
-|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <b>Front</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Back</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Main Base Plate</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Connective Base Plate</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
+</table>  
 
 <br>
 
@@ -156,15 +145,74 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 <br>
 
-#### Full Assembly (with Components)
 
-| Top | Bottom | Front |
-|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+### Full Assembly Views  
 
-| Back | Left | Right |
-|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+#### Printed Assembly  
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <b>Front View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Back View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Side View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>Top View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Isometric View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Exploded View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
+</table>  
+
+#### With Components  
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <b>Front View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Back View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Side View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>Top View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Isometric View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Exploded View</b><br>
+      <img src="other/placeholder.png" width="200"/>
+    </td>
+  </tr>
+</table>  
 
 These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis, as originally planned. Screws were avoided as much as possible, as they are less reflective of this idea, but regardless used when necessary. 
 
@@ -179,9 +227,6 @@ We found this approach much more convenient while testing, as it allows for chan
 
 <br>
 
----
-
-<br>
 
 ### Possible Improvements
 - Upgrading print system to include **PETG** or **carbon fiber** filaments for more durable, high-quality parts.
@@ -201,11 +246,15 @@ For the use of this competition, movement precision and responsiveness are the t
 ---
 
 ### The Chassis
-The chassis is located in the center of the car. It provides a strucutre to lay the majority of electrical components onto, namely the two boards as well as the LIDAR. It also serves as a medium to connect the front and rear wheel systems. The chassis itself is split into two seperate plates, that align together to form the abdomen of the car.
+The chassis is located in the center of the car. It provides a strucutre to lay the majority of electrical components onto, namely the **two boards** as well as the **LIDAR**. It also serves as a medium to connect the front and rear wheel systems. The chassis itself is split into two seperate plates, that align together to form the abdomen of the car.
+
+<br>
 
 | Main Plate | Connective Plate | Together |
 |:---:|:---:|:---:|
 | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
+
+<br>
 
 Again, the choice of 3D printed PLA filament allows this precise jointery of components. They fit snugly together, and the friction also helps keep tight connection points along the entirety of the chassis. 
 
@@ -213,16 +262,37 @@ After some trials with the 3D printer, our final print settings include a **0.4m
 
 Another consideration improving the **balance** of the robot, which directly influences the consistency of our movement. Two vital aspects are maintaining a low, as well as centered point of mass. In another words, keeping our components, particulary the heavy ones, as low and as centralized as possible. For example, the boards, which are located at the very base and center of the car.
 
+<br>
+
 <p align="center">
   <img src="other/placeholder.png" width="300" alt="Previous Version"/>
   <br>
-  <em>Original concept of a single chassis plate</em>
+  <em>Location of the Raspberry Pi and Arduino</em>
 </p>
+
+<br>
+
+<table>
+  <tr>
+    <td width="50%">
+      One restriction to take into account is the minimum height instated by the <b>camera</b>.  
+      <br><br>
+      We found that it had to be placed fairly high up, with a generous angle downwards, in order to consistently capture all the challenge objects.  
+      <br><br>
+      A <b>modular</b> design was implemented to test with different heights and angles, but the consequence of a high center of mass was left overlooked.  
+    </td>
+    <td width="50%" align="center">
+      <img src="other/placeholder.png" width="300"/>
+    </td>
+  </tr>
+</table>  
+
 
 ### Possible Improvements
 - Optimizing the location of our components, such as lowering the **LIDAR** or centralizing the **battery** for an ideal center of mass.
 - Adding **suspension** or other shock-absorbant materials for steadier and reliable conditions for the sensors
-- Design a housing to protect sensitive components from dust or other external debris. 
+- Design a housing to protect sensitive components from dust or other external debris.
+- Lowering the height of the camera; perhaps by using a more **LIDAR** dominant approach.
 
 ### Drive System
 
