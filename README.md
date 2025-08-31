@@ -364,64 +364,52 @@ Another consideration improving the **balance** of the robot, which directly inf
 
 <br>
 
+
 ### Drive System
 
-The robot uses a **rear-wheel drive (RWD) configuration** powered by the **Furitek Micro Komodo Motor**.  
-This choice emphasized simplicity, direct torque delivery, and modularity when testing drivetrain iterations.
+The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek Micro Komodo Motor**, paired with the **Furitek Lizard Pro ESC**. A **12:58 gear ratio** was selected to optimize torque delivery for obstacle navigation.  
 
 <br>
 
 #### Why Rear-Wheel Drive?  
-- **Lightweight Drive System** – The front wheels remain free for a simpler, lighter system.
-- **Efficient Transfer** – Torque from the motor is delivered directly to the gearbox, minimizing drivetrain energy losses.
-- **Modularity** – Allows swapping motor mounts and experimenting with different gear ratios without redesigning the entire chassis.  
+- **Lightweight Drive System**: The front wheels remain free for a simpler, lighter system.  
+- **Efficient Transfer**: Torque from the motor is delivered directly to the gearbox, minimizing drivetrain energy losses.  
+- **Modularity**: Allows swapping motor mounts and experimenting with different gear ratios without redesigning the entire chassis.  
 
 <br>
 
-#### The Furitek Micro Komodo
-- High torque output for low-speed movement.
-- Compact size compatible with the chassis.  
-- Paired effectively with the **Furitek Lizard Pro ESC**
-
-<br>
+#### Motor Specifications
 
 <table>
   <tr>
-    <!-- Motor Image -->
     <td align="center" width="50%">
-      <img src="other/motor.png" width="250"/><br>
-      <b>Furitek Micro Komodo Motor</b>
+      <b>Furitek Micro Komodo Motor</b><br>
+      <img src="other/motor.png" width="250"/>
     </td>
-
-    <!-- Motor Specs -->
     <td align="left" width="50%">
-      <b>Specifications</b><br>
       <ul>
-        <li>Voltage: 7.4V</li>
-        <li>Max Current Draw: 5A</li>
-        <li>Configuration: Rear-Wheel Drive</li>
-        <li>Gear Ratio: 12:58</li>
-        <li>Paired with Furitek Lizard Pro ESC</li>
+        <li><b>Type:</b> Brushless DC Motor</li>
+        <li><b>Voltage:</b> 7.4V nominal</li>
+        <li><b>Max Current Draw:</b> ~5A</li>
+        <li><b>ESC:</b> Furitek Lizard Pro</li>
+        <li><b>Gear Ratio:</b> 12:58</li>
+        <li><b>Drive Layout:</b> Rear-Wheel Drive (RWD)</li>
       </ul>
     </td>
   </tr>
-</table>
+</table>  
 
 <br>
 
-#### Challenges & Tradeoffs  
-- **Rear Weight Bias**: Locating the motor at the back concentrated mass near the rear axle, reducing overall balance when paired with the elevated camera mount.  
-- **Torque vs. Wheel Slip**: The 12:58 gear ratio gave strong low-end torque, but under sharp turns the excess torque occasionally caused the rear wheels to slip.  
-- **Space Limitation**: The rear drive motor reduced available space for additional rear-mounted components (e.g. sensors or battery).  
-
 ---
 
-#### Possible Improvements  
-- Experiment with **alternative gear ratios** (e.g. taller gearing for less wheel slip).  
-- Add a **gear reduction stage** with better torque distribution.  
-- Test **dual-motor drive** (left and right independently powered) to allow differential steering as a backup to front-servo steering.  
-- Lower the motor position relative to the axle to reduce **center of mass height**.  
-- Consider a **front-mounted battery** to counterbalance the rear-biased weight distribution.  
+<br>
+
+#### Mounting and Layout  
+
+- Motor secured to the **rear chassis plate**
+
+<br>
 
 ### Steer System
 
