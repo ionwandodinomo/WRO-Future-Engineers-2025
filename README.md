@@ -7,7 +7,7 @@ Engineering Documentation 🛠️
 
 ---
 
-&nbsp; 
+<br>
 
 ## Content of Repository 📘
 * `models` - 3D CAD files
@@ -18,7 +18,7 @@ Engineering Documentation 🛠️
 * `v-photos` - Robot photos
 * `video` - Video demonstration
 
-&nbsp; 
+<br>
 
 ## Content of Documentation 📖
 * **[The Team](#the-team-boygirlboy)**
@@ -41,22 +41,27 @@ Engineering Documentation 🛠️
 	* [Wall Management and Turning](#wall-management-and-turning)
 * **[Assembly Instructions](#assembly-instructions)**
 
-&nbsp; 
+<br>
 
 ## The Team :boy::girl::boy:
 `sum sum team introduction sum sum {EDIT}`
 
-&nbsp; 
+<br>
 
 ## Challenge Overview 📑
 `describe the challenge itself here, and include basic robot specifications like operating system, modules, sensors, etc. {EDIT}`
 
 ---
 
-&nbsp; 
+<br>
 
 ## Mechanical Breakdown :wrench:
+
+<br>
+
 Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the `[JOHN'S PRINTER].` 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. After assessment, it was chosen over other materials such as ABS or PETG.
+
+<br>
 
 | Material | Pros | Cons |
 |----------|--------|---------|
@@ -66,18 +71,25 @@ Our car uses primarily **3D printed PLA filament** as the structural material. W
 | **Nylon** | - Very durable| - Hard to print<br>- Hygroscopic (*retains moisture*) <br>- High temp needed |
 | **Carbon Fiber Filaments** | - Rigid<br>- Lightweight<br>- Strong | - Expensive<br>- Requires special setup<br>- Brittle |
 
+<br>
+
 In this particular environment, the cons of PLA aren't drastically impactful. The robot will not have to endure high temperatures, and load-bearing/flexibility is not a priority.
 
+<br>
+
 --- 
+
+<br>
 
 Our CAD softwares of choice were **[Onshape](https://www.onshape.com/en/)**, as well as **[TinkerCAD](https://www.tinkercad.com/)** for simpler geometry. We strongly recommend these two softwares for basic component design, as they are generally easy to learn, and provide convenient online cloud storage.
 
 Provided below are models of the 3D printed parts, individually, as well as on the final car.
 
+<br>
 
 ### 3D Printed Parts
 
-==[TAKE PICTURES OF THESE IN ONSHAPE PROBABLY]==
+`[TAKE PICTURES OF THESE IN ONSHAPE PROBABLY]`
 
 | Front | Back | Main Base Plate | Connective Base Plate |
 |:---:|:---:|:---:|:---:|
@@ -91,7 +103,11 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 |:---:|:---:|:---:|:---:|
 | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> | <img src="other/placeholder.png" width="200"/> |
 
+<br>
+
 ---
+
+<br>
 
 
 ### Full Assembly Views
@@ -106,7 +122,11 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 |:---:|:---:|:---:|
 | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
 
+<br>
+
 ---
+
+<br>
 
 #### Full Assembly (with Components)
 
@@ -118,27 +138,33 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 |:---:|:---:|:---:|
 | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
 
-These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis, as originally planned. 
+These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis, as originally planned. Screws were avoided as much as possible, as they are less reflective of this idea, but regardless used when necessary. 
 
-<figure>
-  <img src="other/placeholder.png" width="300" alt="Previous Version Design" style="border:1px solid #ccc; padding:2px;"/>
-  <figcaption>Original concept of a single chassis plate</figcaption>
-</figure>
+<p align="center">
+  <img src="other/placeholder.png" width="300" alt="Previous Version"/>
+  <br>
+  <em>Original concept of a single chassis plate</em>
+</p>
 
-Screws were avoided as much as possible, as they are less reflective of this idea, but regardless used when necessary. 
 
-We found this much more convenient while testing, as it allows for changes to be made to a specific part of the car, and easily replaced and updated without collateral impact to the rest of the body. In other words, an **iterative** approach.
+We found this approach much more convenient while testing, as it allows for changes to be made to a specific part of the car, and easily replaced and updated without collateral impact to the rest of the body. In other words, an **iterative** approach.
+
+<br>
 
 ---
+
+<br>
 
 ### Possible Improvements
 - Upgrading print system to include **PETG** or **carbon fiber** filaments for more durable, high-quality parts.
 - Changing connection points to **snap-fits**, **press-fits**, etc, rather than screws, to simplify maintenance and quick iteration.
 - Optimized print orientation to reduce warping and the need for potentially inaccurate supports.
 
+<br>
+
 ---
 
-&nbsp; 
+<br>
 
 ## Mobility Management :car:
 ### The Chassis
@@ -147,7 +173,7 @@ We found this much more convenient while testing, as it allows for changes to be
 
 ### Steer System
 
-&nbsp; 
+<br>
 
 ## Power and Sense Management :zap:
 ### The Battery
@@ -158,7 +184,7 @@ We found this much more convenient while testing, as it allows for changes to be
 ### The Sensors
 
 
-&nbsp; 
+<br>
 
 ## Software :computer:
 ### Initialization
@@ -167,7 +193,7 @@ We found this much more convenient while testing, as it allows for changes to be
 
 ### Wall Management and Turning
 
-&nbsp; 
+<br>
 
 ## Assembly Instructions 🛠️
 
