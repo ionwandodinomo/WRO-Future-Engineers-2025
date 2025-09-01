@@ -504,6 +504,11 @@ Since HSV ranges proved difficult, we made the switch over to LAB (lightness, re
 
 In addition to the switch to LAB, several more filters were applied and tested in an effort to increase colour detection accuracy
 
+
+Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
+To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
+
+
 Saturation: X
 - We had the idea to increase the saturation of the frame by units of magnitude to increase visibilitly between red and orange, especially in dull lighting
 - However, this messed up other colours, more specificall white, and it would show up "rainbow" due to the undertones being more visible
@@ -545,9 +550,6 @@ picam2.preview_configuration.align()
 picam2.configure("preview")
 picam2.start()
 ```
-
-Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
-To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
 
 ### Open Challenge
 #### Overview of Challenge
