@@ -19,7 +19,7 @@ The difficulty of the challenge comes from the changes in the width of the track
 </p>
 
 ### Our Solution
-To break down the challenge into manageable parts, we thought of it as three parts. These three parts are comprised of turning, driving in the straights, and counting the turns. In all three parts, 5 regions of interest were used. 4 of these regions are tracking the walls, using a LAB or HSV range to check for the black colour of the walls, returning a number for the total number of pixels of the left two regions, and a number for the total number of pixels of the right two regions. The last region of interest is used to track the blue and orange lines on the track, allowing us to ascertain the correct direction and the corners of the track.
+To break down the challenge into manageable parts, we thought of it as three parts. These three parts are comprised of turning, driving in the straights, and counting the turns. In all three parts, 6 regions of interest were used. 4 of these regions are tracking the walls, using a LAB or HSV range to check for the black colour of the walls, returning a number for the total number of pixels of the left two regions, and a number for the total number of pixels of the right two regions. The last two regions of interest are in the bottom left and right, used to track the blue and orange lines on the track, allowing us to ascertain the correct direction and the corners of the track. Only one of the two regions are used depending on the direction of the track.
 <p align="center">
 <img src="/other/placeholder.png" height="250">
   <br>
@@ -136,7 +136,7 @@ The addition of these extra features comes with its own set of difficulties. The
 </p>
 
 ### Our Solution
-We used the same 4 wall regions of interest, and moved the line regions to be in the bottom left or right corner of the camera to increase the length of the turn. To check for pillars, we included one large ROI checking for both red and green pillars, covering all of the bottom and middle of the camera.
+We used the same 4 wall regions of interest and 2 line detecting regions. To check for pillars, we included one large ROI checking for both red and green pillars, covering all of the bottom and middle of the camera.
 <p align="center">
 <img src="/other/placeholder.png" height="250">
   <br>
