@@ -19,9 +19,11 @@ most colours only care about the largest contour in the roi
 The open challenge is a time attack round, where each team has just 3 minutes to drive 3 laps autonomously on a track. Every round of the challenge, the layout is randomized, where each straight section can either consist of wide walls, leaving a large gap between the inside or outside walls, or narrow walls, giving the car much less space to manoeuvre. The track direction is also randomized. The goal of the open challenge is to finish the laps as fast and consistently as possible, not touching the inside walls or crashing the vehicle.
 
 The difficulty of the challenge comes from the changes in the width of the track, where the track turns from narrow to wide or from wide to narrow. This drastic change in the track can confuse the car, creating instances where it is difficult to ascertain the correct direction of the track or for the car to recognise the walls.
-
-ADD PHOTO OF MAP FROM BIRDS-EYE VIEW
-<img src="/other/placeholder.png" height="250">
+<p align="center">
+  <img src="/other/Map with Sections.jpg" height="350">
+  <br>
+  <em>Overhead view of map with sections</em>
+</p>
 
 #### Our Solution
 To break down the challenge into manageable parts, we thought of it as three parts. These three parts are comprised of turning, driving in the straights, and counting the turns. In all three parts, 5 regions of interest were used. 4 of these regions are tracking the walls, using a LAB or HSV range to check for the black colour of the walls, returning a number for the total number of pixels of the left two regions, and a number for the total number of pixels of the right two regions. The last region of interest is used to track the blue and orange lines on the track, allowing us to ascertain the correct direction and the corners of the track.
