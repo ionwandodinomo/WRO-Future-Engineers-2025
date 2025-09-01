@@ -47,10 +47,30 @@ Engineering Documentation 🛠️
 
 ## The Team :boy::girl::boy:
 `sum sum team introduction sum sum {EDIT}`
+<p align="center">
+	<img src="t-photos/serious1.JPEG" width="600"/> 
+  <br>
+  <em>Serious Photo</em>
+</p>
 
----
+### Team Members
+ - John Weng (left)
+ - Sunni Xue (middle)
+ - Eric Rao (right)
+
+|  | Funny Photos |  |
+|:---:|:---:|:---:|
+| <img src="t-photos/funny1.JPEG" width="350"/> | <img src="t-photos/funny2.JPEG" width="350"/> | <img src="t-photos/funny3.JPEG" width="350"/> |
 
 <br>
+
+### About us
+
+| Name | About us |
+| --- | --- |
+| John Weng | Hey! I'm a grade 12 student from Maple High School in Ontario, Canada, and this is my second year doing the Future Engineers Category for WRO. I love messing with mechanics and designing solutions to problems. I love playing sports, especially badminton and volleyball. |
+| Sunni Xue | guys add stuff herepls |
+| Eric Rao | guys add stuff herepls |
 
 ## Challenge Overview 📑
 `describe the challenge itself here, and include basic robot specifications like operating system, modules, sensors, etc. {EDIT}`
