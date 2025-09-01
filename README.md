@@ -523,11 +523,28 @@ colour flattening: X
 blur: !
 - gausian blur bruvski cuh less sharp ig
 - insert image of gui sunni do latoor ref/src collour
-Frame rate:
-max process ~64 fps
-25, 30, 50, 75 tested
-exposure
-Camera settings:
+
+Unexpectedly, frame rate also played a large role in contour detection:
+- It was observed/calculated that the process bottleneck at ~64 fps
+- Frame rates 25, 30, 50, 75 were tested
+	- 25: too slow
+ 	- 30: perfect
+  	- 50: messed with exposure, creating a much darker capture than reality
+  	- 75: too fast
+  
+Camera settings: i aint explaining thiss brother
+```py
+picam2 = Picamera2()
+picam2.preview_configuration.main.size = (640,480)
+picam2.preview_configuration.main.format = "RGB888"
+print(picam2.preview_configuration.controls.FrameRate)
+picam2.preview_configuration.controls.FrameRate = 75
+picam2.set_controls({"Brightness": 0.05})
+print(picam2.preview_configuration.controls.FrameRate)
+picam2.preview_configuration.align()
+picam2.configure("preview")
+picam2.start()
+```
 
 Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
 To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
