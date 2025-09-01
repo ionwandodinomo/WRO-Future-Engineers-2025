@@ -89,7 +89,7 @@ Engineering Documentation 🛠️
 
 <br>
 
-Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the `[JOHN'S PRINTER].` 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. After assessment, it was chosen over other materials such as ABS or PETG. These filaments are also all generally lighter, and much more customizable than other common materials, such as LEGO.
+Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the ENDER 3 S1. 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. After assessment, it was chosen over other materials such as ABS or PETG. These filaments are also all generally lighter, and much more customizable than other common materials, such as LEGO.
 
 <br>
 
@@ -489,7 +489,27 @@ The car gets input from the [Raspberry 5 Camera Module 8 MP MIPI-CSI Interface](
 <br>
 
 ## Software :computer:
-In both challenges, we used a Raspberry Pi camera with cv2.contours to find the different obstacles and walls. The camera has specific regions of interest, allowing each to check for a separate colour, as well as being able to add as many regions of interest as we want. These regions originally checked colours with HSV ranges. Each colour has two, one max and one minimum, except for red, with 4 ranges due to the hue showing up twice in HSV. Any pixel detected that was between any of the ranges was counted as that colour and created a mask for the contour. To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
+
+### Image Preprocessing
+In both challenges, we used a Raspberry Pi camera with cv2.contours to locate the various obstacles and walls. The camera has specific regions of interest (ROIs) for each "object type", allowing us to cut out noise and unnecessary uncertain variables. Additionally, only drawing contours in specific ROIs allows us to combine ROIs to create more "fitting" shapes (eg. 2 for each wall due to perspective). 
+
+The open challenge utilized 3 colours: black (wall), orange (line), blue (line).
+The obstacle challenge utilized 6 colours: black (wall), orange (line), blue (line), magenta (parking lot), red (pillar), green (pillar).
+
+All issues experienced did not significantly affect open challenge due to its simple nature.
+
+Originally, the contours were drawn with HSV (hue, saturation, value) ranges. Each colour had two ranges: an upper and lower boundary. However, due to the nature of hsv, red required 4 ranges and changes in lighting proved significant for the accuracy of the contours. Additionally, distinguishing orange, red, and magenta proved challenging in certain lightings. [insert hsv range gui]
+
+Since HSV ranges proved difficult, we made the switch over to LAB (lightness, red-green axis, blue-yellow axis) which is more tolerant in lighting changes
+
+satuartion gui
+
+filter normalization
+
+colour flattening
+
+Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
+To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
 
 ### Open Challenge
 #### Overview of Challenge
