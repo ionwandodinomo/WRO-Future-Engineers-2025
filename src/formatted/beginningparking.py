@@ -28,7 +28,8 @@ angle = 0
 turn_count = 0
 time_after_turn = 0
 target = 0
-CONF_THRESHOLD = 50
+CONF_THRESHOLD = 0
+
 def store_latest_points(parsed):
     angles = interpolate_angles(parsed["start_angle"], parsed["end_angle"], len(parsed["points"]))
     ts = parsed["timestamp"]
@@ -55,9 +56,9 @@ def get_latest_distance(angle_query, tolerance=2):
     return {"distance": dist, "confidence": conf, "angle": k, "timestamp": ts}
 def set_motion(direction):
     if direction == "forward":
-        board.pwm_servo_set_position(0.1, [[2, 1605]])
+        board.pwm_servo_set_position(0.1, [[2, 1603]])
     elif direction == "reverse":
-        board.pwm_servo_set_position(0.1, [[2, 1350]])
+        board.pwm_servo_set_position(0.1, [[2, 1390]])
 def stop_motion():
     board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO)]])
     board.pwm_servo_set_position(0.1, [[2, 1500]])
@@ -68,6 +69,7 @@ def set_steering(position):
         board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO-MAX_TURN_DEGREE)]])
     elif position == "straight":
         board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO)]])
+track_dir = 1
 if track_dir != 0:
     ser = serial.Serial(PORT, BAUD, timeout=0.1)
     buffer = bytearray()
@@ -76,7 +78,8 @@ if track_dir != 0:
     last_yaw = None
     initial_yaw = None
     state = "detect_wall"  
-    wall_side = None  
+    wall_side = None
+    print("starting reading")
     try:
         while True:
             data = ser.read(256)
@@ -91,10 +94,17 @@ if track_dir != 0:
                     parsed = parse_packet(packet)
                     if parsed:
                         store_latest_points(parsed)
-            front = get_latest_distance(90.0)  
-            left = get_latest_distance(60.0)   
-            right = get_latest_distance(120.0) 
+            front = get_latest_distance(270.0)  
+            left = get_latest_distance(180.0)   
+            right = get_latest_distance(0.0) 
             line = read_imu_line(imu_proc)
+            try:
+                print("front:",front["distance"],"left:",left["distance"],"right:",right["distance"])
+            except:
+                pass
+            
+            
+            
             if line:
                 if line.startswith("vector:"):
                     in_vector_block = True
@@ -103,7 +113,7 @@ if track_dir != 0:
                         z_rad = float(line.split(":", 1)[1].strip())
                         z_deg = math.degrees(z_rad)
                         last_yaw = z_deg
-                        print(f"IMU yaw = {z_deg:.1f}")
+                        #print(f"IMU yaw = {z_deg:.1f}")
                     except ValueError:
                         pass
                     in_vector_block = False
@@ -111,22 +121,22 @@ if track_dir != 0:
                 if left and right:
                     if left["distance"] < 300:  
                         wall_side = "left"
-                        state = "reverse_steer"
+                        state = "front_turn"
                         print("Wall detected on LEFT")
                     elif right["distance"] < 300:
                         wall_side = "right"
-                        state = "reverse_steer"
+                        state = "front_turn"
                         print("Wall detected on RIGHT")
-            elif state == "reverse_steer":
-                if wall_side == "left":
-                    set_steering("right")
-                else:
-                    set_steering("left")
-                set_motion("reverse")
-                if front and front["distance"] > 500:  
+            elif state == "front_turn":
+                set_steering(wall_side)
+                set_motion("forward")
+                if front and front["distance"] < 50:  
                     state = "reverse_straight"
+                    stop_motion()
+                    break
                     print("Front clearance gained")
-            elif state == "reverse_straight":
+
+            """elif state == "reverse_straight":
                 set_steering("straight")
                 set_motion("reverse")
                 if front and front["distance"] > 800:  
@@ -139,6 +149,7 @@ if track_dir != 0:
                     stop_motion()
                     print("Unparking complete")
                     break
+            """
             time.sleep(0.1)
             time.sleep(0.1)
     except KeyboardInterrupt:
