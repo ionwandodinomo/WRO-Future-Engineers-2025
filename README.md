@@ -498,15 +498,36 @@ The obstacle challenge utilized 6 colours: black (wall), orange (line), blue (li
 
 All issues experienced did not significantly affect open challenge due to its simple nature.
 
-Originally, the contours were drawn with HSV (hue, saturation, value) ranges. Each colour had two ranges: an upper and lower boundary. However, due to the nature of hsv, red required 4 ranges and changes in lighting proved significant for the accuracy of the contours. Additionally, distinguishing orange, red, and magenta proved challenging in certain lightings. [insert hsv range gui]
+Originally, the contours were drawn with HSV (hue, saturation, value) ranges. Each colour had one ranges: an upper and lower boundary. However, due to the nature of hsv, red required 2 ranges and changes in lighting proved significant for the accuracy of the contours. Additionally, distinguishing orange, red, and magenta proved challenging in certain lightings. [insert hsv range gui]
 
-Since HSV ranges proved difficult, we made the switch over to LAB (lightness, red-green axis, blue-yellow axis) which is more tolerant in lighting changes
+Since HSV ranges proved difficult, we made the switch over to LAB (lightness, red-green axis, blue-yellow axis), which is more tolerant of lighting changes. This also allowed for the red contour to only use two ranges.
 
-satuartion gui
+In addition to the switch to LAB, several more filters were applied and tested in an effort to increase colour detection accuracy
 
-filter normalization
+Saturation: X
+- We had the idea to increase the saturation of the frame by units of magnitude to increase visibilitly between red and orange, especially in dull lighting
+- However, this messed up other colours, more specificall white, and it would show up "rainbow" due to the undertones being more visible
+- insert image of gui sunni do latoor ref/src collour
 
-colour flattening
+filter/colour normalization: !
+- Due to concerns with lighting, we created a mask based on the comparison between ideal colour and frame capture colour of the white map.
+- This mask could then be applied across the entirety of the frame.
+- This means if there was yellow lighting, the mask would cancel it out, etc. This also allowed auto brightness adjustment
+- Additionally, this meant LAB colour ranges were more stable, with less changes needed day-of
+- insert image of gui sunni do latoor ref/src collour
+
+colour flattening: X
+- make similar colours flatten, shadow less
+- too simplistic and cpu intensive
+- insert image of gui sunni do latoor ref/src collour
+blur: !
+- gausian blur bruvski cuh less sharp ig
+- insert image of gui sunni do latoor ref/src collour
+Frame rate:
+max process ~64 fps
+25, 30, 50, 75 tested
+exposure
+Camera settings:
 
 Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
 To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
