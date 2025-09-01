@@ -5,6 +5,10 @@ import matplotlib
 matplotlib.use('TkAgg')  # Use 'Agg' if running headless
 import matplotlib.pyplot as plt
 import math
+from gpiozero import DigitalOutputDevice
+
+lidar_power = DigitalOutputDevice(17)
+lidar_power.on()
 
 PORT = "/dev/ttyAMA0"
 BAUD = 230400
@@ -103,3 +107,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+    
