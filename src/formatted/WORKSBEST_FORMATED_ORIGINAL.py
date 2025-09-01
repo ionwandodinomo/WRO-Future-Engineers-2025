@@ -337,3 +337,195 @@ while True:
     last_diff = curr_diff
     last_pill_diff= error
 
+
+
+import rclpy
+import cv2
+import numpy as np
+from picamera2 import Picamera2
+from gpiozero import DigitalOutputDevice
+import ros_robot_controller_sdk as rcc
+from helper import *
+from CONSTS import *
+from lidar_parser import *
+import math
+from imu import *  # start_imu_stream, read_imu_line, stop_imu_stream
+import time
+import serial
+
+board = rcc.Board()
+lidar_power = DigitalOutputDevice(LIDAR_POWER_PIN)
+lidar_power.on()
+time.sleep(1)
+print("LD19 powered ON via GPIO 17.")
+
+latest_points = {}  
+debug = True
+speed = 1605
+last_pil_diff = 0
+last_diff = 0
+turning = False
+turn_dir = 0
+track_dir = 0
+curr_diff = 0
+error = 0
+angle = 0
+turn_count = 0
+time_after_turn = 0
+target = 0
+CONF_THRESHOLD = 0
+
+def store_latest_points(parsed):
+    angles = interpolate_angles(parsed["start_angle"], parsed["end_angle"], len(parsed["points"]))
+    ts = parsed["timestamp"]
+    for (dist, conf), angle in zip(parsed["points"], angles):
+        angle_key = int(round(angle)) % 360
+        if conf >= CONF_THRESHOLD:
+            latest_points[angle_key] = (dist, conf, ts)
+        else:
+            if angle_key not in latest_points:
+                latest_points[angle_key] = (dist, conf, ts)
+
+def get_latest_distance(angle_query, tolerance=2):
+    angle_key = int(round(angle_query)) % 360
+    if angle_key in latest_points:
+        dist, conf, ts = latest_points[angle_key]
+        return {"distance": dist, "confidence": conf, "angle": angle_key, "timestamp": ts}
+    candidates = [
+        (abs(k - angle_key), k, latest_points[k])
+        for k in latest_points
+        if abs((k - angle_key + 180) % 360 - 180) <= tolerance
+    ]
+    if not candidates:
+        return None
+    _, k, (dist, conf, ts) = min(candidates, key=lambda x: x[0])
+    return {"distance": dist, "confidence": conf, "angle": k, "timestamp": ts}
+
+def set_motion(direction):
+    if direction == "forward":
+        board.pwm_servo_set_position(0.1, [[2, 1500]])  # 1590
+    elif direction == "reverse":
+        board.pwm_servo_set_position(0.1, [[2, 1500]])  # 1390
+
+def stop_motion():
+    board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO)]])
+    board.pwm_servo_set_position(0.1, [[2, 1500]])
+
+def set_steering(position):
+    if position == "left":
+        board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO - MAX_TURN_DEGREE)]])
+    elif position == "right":
+        board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO)]])
+    elif position == "straight":
+        board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO)]])
+
+track_dir = 1
+LED(board, (0, 255, 0))
+
+if track_dir != 0:
+    ser = serial.Serial(PORT, BAUD, timeout=0.1)
+    buffer = bytearray()
+    imu_proc = start_imu_stream()
+    print(imu_proc)
+
+    in_vector_block = False
+    last_yaw_rad = None
+    initial_yaw_rad = None
+    state = "detect_wall"
+    wall_side = None
+    dist_from_front = 0
+    offset_deg = 0
+
+    print("starting reading")
+    time.sleep(1)
+
+    def unsigned_circular_diff_rad(a_rad, b_rad):
+        d = a_rad - b_rad
+        d = (d + math.pi) % (2.0 * math.pi) - math.pi
+        return abs(d)
+
+    try:
+        while True:
+            data = ser.read(256)
+            if data:
+                buffer += data
+                while True:
+                    idx = find_packet_start(buffer)
+                    if idx == -1 or len(buffer) - idx < PACKET_LEN:
+                        break
+                    packet = buffer[idx:idx + PACKET_LEN]
+                    buffer = buffer[idx + PACKET_LEN:]
+                    parsed = parse_packet(packet)
+                    if parsed:
+                        store_latest_points(parsed)
+
+            front = get_latest_distance(270.0)
+            left = get_latest_distance(180.0)
+            right = get_latest_distance(0.0)
+
+            line = read_imu_line(imu_proc)
+
+            if line:
+                if line.startswith("vector:"):
+                    in_vector_block = True
+                elif in_vector_block and line.startswith("z:"):
+                    try:
+                        z_rad = float(line.split(":", 1)[1].strip())
+                        if z_rad < 0:
+                            z_rad += (2 * math.pi)
+                        last_yaw_rad = z_rad
+                        if initial_yaw_rad is None:
+                            initial_yaw_rad = z_rad
+                    except ValueError:
+                        pass
+                    in_vector_block = False
+
+            if last_yaw_rad and initial_yaw_rad:
+                offset_rad = unsigned_circular_diff_rad(last_yaw_rad, initial_yaw_rad)
+                offset_deg = math.degrees(offset_rad)
+            print(f"Offset: {offset_deg:.2f} deg | Yaw: {math.degrees(last_yaw_rad):.2f} deg")
+
+            if front and left and right:
+                if state == "detect_wall":
+                    if left and right:
+                        if left["distance"] < 500:
+                            wall_side = "left"
+                            state = "front_turn"
+                        elif right["distance"] < 500:
+                            wall_side = "right"
+                            state = "front_turn"
+
+                    if front:
+                        dist_from_front = front["distance"]
+
+                elif state == "front_turn":
+                    set_steering(wall_side)
+                    set_motion("forward")
+                    if (front and front["distance"] < 50) or (right and right["distance"] < 50) or (left and left["distance"] < 50):
+                        stop_motion()
+                        time.sleep(2)
+                        state = "reverse_turn"
+
+                elif state == "reverse_turn":
+                    set_steering(["left", "right"][wall_side == "left"])
+                    set_motion("reverse")
+                    if offset_deg > 40:
+                        stop_motion()
+                        state = "turn_til_90"
+
+                elif state == "turn_til_90":
+                    set_steering(wall_side)
+                    set_motion("forward")
+                    if offset_deg > 0:
+                        stop_motion()
+                        break
+
+    except KeyboardInterrupt:
+        pass
+    finally:
+        stop_imu_stream(imu_proc)
+        ser.close()
+        lidar_power.off()
+        time.sleep(1)
+
+LED(board, (0, 0, 0))
