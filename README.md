@@ -672,15 +672,15 @@ if max_turns <= turn_count:
   <tr>
     <td align="center" width="33%">
       <b>In a Straight Section</b><br>
-      <img src="/other/open straight.PNG" width="250"/>
+      <img src="/other/open straight.PNG" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Starting Turn</b><br>
-      <img src="/other/open start turn.PNG" width="250"/>
+      <img src="/other/open start turn.PNG" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Ending Turn</b><br>
-      <img src="/other/open end turn.PNG" width="250"/>
+      <img src="/other/open end turn.PNG" width="350"/>
     </td>
   </tr>
 </table>
@@ -821,15 +821,15 @@ if turning:
   <tr>
     <td align="center" width="33%">
       <b>Following Pillar</b><br>
-      <img src="/other/obstacle following pillar.PNG" width="250"/>
+      <img src="/other/obstacle following pillar.PNG" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Ignoring Close Pillar</b><br>
-      <img src="/other/obstacle ignoring close.PNG" width="250"/>
+      <img src="/other/obstacle ignoring close.PNG" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Ignoring Far Pillar</b><br>
-      <img src="/other/obstacle ignoring far.PNG" width="250"/>
+      <img src="/other/obstacle ignoring far.PNG" width="350"/>
     </td>
   </tr>
 </table>
