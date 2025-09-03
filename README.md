@@ -42,7 +42,7 @@ Engineering Documentation 🛠️
 	* [Open Challenge](#open-challenge)
 	* [Obstacle Challenge](#obstacle-challenge)
 * **[Assembly Instructions](#assembly-instructions)**
-
+* **[Youtube Videos](#youtube-videos)**
 <br>
 
 ## The Team :boy::girl::boy:
@@ -838,3 +838,8 @@ if turning:
 
 ## Assembly Instructions 🛠️
 
+
+## Youtube Videos
+[Open Challenge Video](https://youtu.be/-PhhBH6H1vY) 
+
+[Obstacle Challenge Video](https://youtu.be/-8iTvhqq1Cs) 
