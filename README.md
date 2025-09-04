@@ -69,7 +69,7 @@ Engineering Documentation 🛠️
 | Name | About us |
 | --- | --- |
 | John Weng | Hey! I'm a grade 12 student from Maple High School in Ontario, Canada, and this is my second year doing the Future Engineers Category for WRO. I love messing with mechanics and designing solutions to problems. I love playing sports, especially badminton and volleyball. |
-| Sunni Xue | guys add stuff herepls |
+| Sunni Xue | Hi, I'm a grade 11 in the GTA! I've been coding since 6th grade, where I learned python to build my first project. I love playing sports and reading in my free time :) |
 | Eric Rao | guys add stuff herepls |
 
 ## Challenge Overview 📑
