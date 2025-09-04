@@ -98,7 +98,7 @@ Engineering Documentation 🛠️
 | Furiteck Lizard Pro 30A/50A Brushless ESC | ESC | [Link](https://furitek.com/products/combo-of-furitek-lizard-pro-30a-50a-brushed-brushless-esc-for-axial-scx24-with-bluetooth) |
 | Gens Ace 2S1P 1300mAh 7.4V battery | Battery | [Link](https://www.adrenalinehobby.com/products/gens-ace-g-tech-1300mah-2s-7-4v-25c-lipo-deans-plug?_pos=1&_sid=dde29d30b&_ss=r) |
 | Sun Founder SG90 Micro Digital 9G Servo Motor | Servo | [Link](https://www.sunfounder.com/products/sg90-micro-digital-servo?srsltid=AfmBOop4G8SB4zvimDdmDlNUaAaMoN5-eXqEeMZD69HXEi-1QH7Qkzmw) |
-| Mini Rocker Switch | Switch | — |
+| Mini Rocker Switch | Switch | -Scavenged from someones house- |
 | Raspberry Pi Camera Module 8 MP | Sensor / Camera | [Link](https://www.amazon.ca/TUOPUONE-Compatible-Raspberry-MIPI-CSI-Interface/dp/B0CPTPJLXL?th=1) |
 | Micro SD card | Storage | — |
 | LDRobot LD19 lidar kit | Sensor / Lidar | [Link](https://www.aliexpress.com/item/1005003012681021.html?spm=a2g0o.order_list.order_list_main.11.7a3b18028WK12R) |
@@ -557,7 +557,7 @@ Unexpectedly, frame rate also played a large role in contour detection:
   	- 50: messed with exposure, creating a much darker capture than reality
   	- 75: too fast
   
-Camera settings: i aint explaining thiss brother
+Camera settings: i ain't explaining this brother
 ```py
 picam2 = Picamera2()
 picam2.preview_configuration.main.size = (640,480)
@@ -573,9 +573,13 @@ picam2.start()
 
 ### Open Challenge
 #### Overview of Challenge
-The open challenge is a time attack round, where each team has just 3 minutes to drive 3 laps autonomously on a track. Every round of the challenge, the layout is randomized, where each straight section can either consist of wide walls, leaving a large gap between the inside or outside walls, or narrow walls, giving the car much less space to manoeuvre. The track direction is also randomized. The goal of the open challenge is to finish the laps as fast and consistently as possible, not touching the inside walls or crashing the vehicle.
+The open challenge is a simple round, where each team has 3 minutes to drive 3 laps autonomously on a track.  The goal of the challenge is to complete the laps as fast and consistently as possible, without touching the outer walls (inner walls may be touched without penalty).
 
-The difficulty of the challenge comes from the changes in the width of the track, where the track turns from narrow to wide or from wide to narrow. This drastic change in the track can confuse the car, creating instances where it is difficult to ascertain the correct direction of the track or for the car to recognise the walls.
+Each round of the challenge, the wall distances are randomized, such that each straight section can is either wide wall (100 cm) or narrow (60 cm). 
+
+The wide configuration leaves a large gap between the inside and outside walls, while the narrow walls give the car much less space to manoeuvre.
+
+The track direction is also randomized.
 <p align="center">
   <img src="/other/Map with Sections.jpg" height="350">
   <br>
@@ -583,7 +587,16 @@ The difficulty of the challenge comes from the changes in the width of the track
 </p>
 
 #### Our Solution
-To break down the challenge into manageable parts, we thought of it as three parts. These three parts are comprised of turning, driving in the straights, and counting the turns. In all three parts, 6 regions of interest were used. 4 of these regions are tracking the walls, using a LAB or HSV range to check for the black colour of the walls, returning a number for the total number of pixels of the left two regions, and a number for the total number of pixels of the right two regions. The last two regions of interest are in the bottom left and right, used to track the blue and orange lines on the track, allowing us to ascertain the correct direction and the corners of the track. Only one of the two regions are used depending on the direction of the track.
+We used just the camera to complete the open challenge. It was used for line detection and wall detection.
+
+**ROIs are rectangles on a frame defined by the top left corner and bottom right corner
+To break down the challenge into manageable parts, we thought of it as three parts. These three parts are comprised of turning, driving in the straights, and counting the turns. In all three parts, six ROIs were used. Four of these regions tracked the walls, using a LAB or HSV range to check for the black colour of the walls. These ROIS were seperated by upper, lower, and left, right. ROIs of top and bottom were combined to create one larger ROI for each wall (left, right).
+
+Black contours were extracted to return a number for the total number of pixels in each of the ROIs.
+
+The last two regions of interest are in the very bottom left and right, used to track the blue and orange lines on the track, allowing us to ascertain the correct direction and the corners of the track. Only one of the two regions is used depending on the direction of the track.
+
+The difficulty of the challenge stems from the variations in the track's width, particularly in the corner sections where the track transitions from narrow to wide or vice versa. This drastic change in track size, coupled with static ROIs relative to the frame, can confuse the car in some cases, creating instances where it was difficult to recognize the walls at the correct locations. The ROIs being "off" meant that the contours received were not a good representation of the car's position.
 <p align="center">
 <img src="/other/open straight.PNG" height="250">
   <br>
@@ -591,22 +604,35 @@ To break down the challenge into manageable parts, we thought of it as three par
 </p>
 
 ##### Turning
-The turning of the car is based on the threshold of the inside wall. Based on the direction of the track, when the number of pixels of a wall reaches below a certain threshold, we start the turn by locking the steering angle until the number of pixels in the inside wall climbs back above the threshold. This allows us to adjust during turns, signalling to start a turn when we detect that a wall disappears, usually indicating when the inside wall ends.
+The turning of the car is based on the threshold of the inside wall. Based on the direction of the track, we can deduce the inside wall. When the size of the wall reaches below a certain threshold, we start the turn by locking the steering angle until the number of pixels in the inside wall climbs back above the threshold. This allows us to adjust during turns, signalling to start a turn when we detect that a wall disappears, usually indicating when the inside wall ends.
 ```python
 if left_area < WALL_THRESH:
   angle = TURN_ANGLE
 
 elif right_area < WALL_THRESH:
-  angle = -TURN ANGLE
+  angle = -TURN_ANGLE
 ```
 Past this initial turn, the rest of the turn relies on the angle calculating method in the straights.
-##### Straights
-Driving in the straights uses a PD calculating algorithm to find the angle the car should turn. This PD algorithm is comprised of proportional and derivative angle calculating, comprised of two constants: PD and PG. First, we find the difference in the number of pixels of the wall and multiply it by the PD, and add the variation of the last two differences multiplied by the PD. The final result is used as the angle and allows the car to adjust to the walls of the track, making sure we don't veer into a crash, while adjusting based on the past patterns.
+##### Straights: Wall following with PID (Proportional-Integral-Derivative controller)
+
+PID (Proportional-Integral-Derivative controller) is a feedback system that automatically adjusts and maintains a system's output to a desired setpoint. PID controllers analyze the difference between a setpoint and a measured process variable and use proportional, integral, and derivative terms to calculate a control output that keeps the system stable and accurate. In our case, we used PD (integral was not used) to center the car between the track walls for minimal oscillation.
+
+Driving in the straights uses a PD calculating algorithm to find the angle the car should turn. This PD algorithm is comprised of proportional and derivative angle calculating, comprised of two constants: PD (proportional derivative) and PG (proportional gain).
+
+First, we find the difference in the number of pixels of the wall and multiply it by the PD, and add the variation of the last two differences multiplied by the PD.
+
+Proportion Gain decides the __direction__ of the car. If the left area is greater than the right, then the car must turn right at an angle. Proportional Derivative decides whether the change in angle is beneficial to the goal by comparing the current difference in wall size to the last difference in wall size. The PD essentially dampens PG's effect on the car's steering angle to prevent oscillation. We did not choose to use integral as we found that PG was enough to control oscillations. As a future improvement, PI may be added to further decrease instability
+
+The final result is used as the angle and allows the car to adjust based on past feedback.
+
 ```python
 curr_diff = right_area-left_area
 angle = int((curr_diff * PG + (curr_diff-last_diff) * PD))
+...
+last_diff = curr_diff
 ```
-However, to make the car turn earlier, we had to increase the two constants to make the car more sensitive to changes. This caused oscillations in the straights due to the high sensitivity. To fix this issue, when we detect a large amount of pixels in both walls, we assume we are in a straight section and use a lower PD and PG.
+
+As mentioned before, the change in track widths causes difficulties, particularly with this algorithm, as the wall difference becomes of higher magnitude due to the walls being larger as a whole (i.e., the ratio of wall size stays the same, but the difference in wall size increases due to the increase in wall size). Thus, the car became more sensitive to changes, leading to oscillations in narrow straights. To fix this issue, we lower the PD and PG when we detect a large amount of pixels in both walls, as we now know we have entered a straight section.
 ```python
 curr_diff = right_area-left_area
 if right_area > 1250 and left_area > 1250:
@@ -617,9 +643,10 @@ else:
 
 last_diff = curr_diff
 ```
-This lower PD substantially reduces oscillation in the straights, making the start of turns more reliable and consistent.
+This lower PD substantially reduces oscillation in the straights, making wall following more reliable and consistent.
+
 ##### Turn Counting
-Turn counting is made simple by the lines on the track. When we detect the very first line, the colour of this line indicates the direction of the track. Starting from then, every time we see that first colour followed by the second colour, we add one to the turn count.
+Turn counting is made simple by the lines on the track. When we detect the very first line, the colour of this line indicates the direction of the track. Starting from then, every time we see that first colour followed by the second colour, we add one to the turn count. 
 First, we find the direction of the track from the first line.
 ```python
 if track_dir == 0:
@@ -658,7 +685,9 @@ if turning:
         turning = False
         turn_count += 1
 ```
-After 12 turns, we start incrementing a variable called actions_to_straight. After each loop, we increase the variable by one until it reaches a threshold. We then stop the code, allowing the car to end in the middle of the starting section instead of right after detecting the final line.
+Rather than using one line to count turns, two lines are much more accurate and less prone to overcounting, as it doesn't allow overcounting where the car oscillates.
+
+After 12 turns, we start incrementing a variable called `actions_to_straight`. After each loop, we increase the variable by one until it reaches a threshold. We then stop the code, allowing the car to end in the middle of the starting section rather than immediately after detecting the final line.
 ```python
 if max_turns <= turn_count:
   actions_to_straight += 1
