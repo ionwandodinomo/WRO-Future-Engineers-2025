@@ -726,8 +726,6 @@ In this challenge, the walls are set at (100 cm) and introduce red and green pil
 After 3 laps, the car must parallel park in the given parking space. The starting section, driving section and position of traffic signs are randomized. The parking lot is always in the starting section.
 
 In addition, we may choose whether the car starts within the parking lot for an additional 7 points.
-
-These extra features come with their own set of difficulties. The car must reliably detect the traffic signs and make split-second decisions. The car must drive smoothly and precisely to execute proper turns and complete parallel parking. It also must be able to make decisions on its own, as the positions and direction of the track change every round.
 <p align="center">
 <img src="/other/wromap obstacle.jfif" height="250">
   <br>
@@ -735,7 +733,7 @@ These extra features come with their own set of difficulties. The car must relia
 </p>
 
 #### Our Solution
-We used the same 4 wall regions of interest and 2 line detecting regions. To check for pillars, we included one large ROI checking for both red and green pillars, covering all of the bottom and middle of the camera.
+We used the same four wall ROIs and two line detection ROIs. To check for pillars, we included one large ROI checking for both red and green pillars, most of the camera view. The top and bottom are partially be 
 <p align="center">
 <img src="/other/obstacle rois.PNG" height="250">
   <br>
