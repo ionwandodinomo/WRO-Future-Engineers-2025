@@ -719,9 +719,15 @@ if max_turns <= turn_count:
 ### Obstacle Challenge
 #### Overview of Challenge
 
-The obstacle challenge is a much more difficult version of the open challenge, emphasised by being worth over double the points as the open challenge. In this challenge, the walls are not randomized, but instead introduce red and green pillars that instruct the car on lane positioning. The car must pass red pillars on the right side and green pillars on the left side. After 3 laps, the car must parallel park in the given parking space. The starting section, driving section and position of traffic signs are randomized. The parking lot is always in the starting section, with an additional option to start in the parking lot for extra points.
+The obstacle challenge is a more difficult version of the open challenge with the addition of traffic pillars and a parking lot.
 
-The addition of these extra features comes with its own set of difficulties. The car must reliably detect the traffic signs and make split-second decisions to avoid breaking the rules. The car must drive smoothly and precisely to execute proper turns and complete parallel parking. It also must be able to make decisions on its own, as the positions and direction of the track change every round.
+In this challenge, the walls are set at (100 cm) and introduce red and green pillars that instruct the car on which side of the obstacle the car should pass on. The car must pass red pillars on the right side and green pillars on the left side.
+
+After 3 laps, the car must parallel park in the given parking space. The starting section, driving section and position of traffic signs are randomized. The parking lot is always in the starting section.
+
+In addition, we may choose whether the car starts within the parking lot for an additional 7 points.
+
+These extra features come with their own set of difficulties. The car must reliably detect the traffic signs and make split-second decisions. The car must drive smoothly and precisely to execute proper turns and complete parallel parking. It also must be able to make decisions on its own, as the positions and direction of the track change every round.
 <p align="center">
 <img src="/other/wromap obstacle.jfif" height="250">
   <br>
