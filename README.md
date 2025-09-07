@@ -390,7 +390,7 @@ The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek 
   <tr>
     <td align="center" width="50%">
       <b>Furitek Micro Komodo Motor</b><br>
-      <img src="other/motor.png" width="250"/>
+      <img src="other/motor image.webp" width="350"/>
     </td>
     <td align="left" width="50%">
       <ul>
@@ -437,7 +437,7 @@ The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek 
   <tr>
     <td align="center" width="50%">
       <b>SG90 Servo</b><br>
-      <img src="other/motor.png" width="250"/>
+      <img src="other/servo image.webp" width="350"/>
     </td>
     <td align="left" width="50%">
       <ul>
@@ -468,15 +468,15 @@ INSERT ZOOMED IMAGE OF SERVO SYSTEM
   <tr>
     <td align="center" width="33%">
       <b>Servo horn</b><br>
-      <img src="other//placeholder.png" width="250"/>
+      <img src="other/model_images/servo horn img.png" width="250"/>
     </td>
     <td align="center" width="33%">
       <b>Wheel pivot</b><br>
-      <img src="other/placeholder.png" width="250"/>
+      <img src="other/model_images/wheel bearing holder img.png" width="250"/>
     </td>
     <td align="center" width="33%">
       <b>Together</b><br>
-      <img src="other/placeholder.png" width="250"/>
+      <img src="other/model_images/iso full.png" width="250"/>
     </td>
   </tr>
 </table>
