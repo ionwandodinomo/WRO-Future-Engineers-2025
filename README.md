@@ -527,7 +527,7 @@ The [Gens Ace 2S1P 1300mAh 7.4V battery](https://www.adrenalinehobby.com/product
 
 
 ### Electrical Wiring
-SCHEMTIC IMAGE ADD HERE
+<img src="/schemes/Schematic WRO FE 2025.png" height="750">
 
 ### The Sensors
 The car gets input from the [Raspberry 5 Camera Module 8 MP MIPI-CSI Interface](https://www.amazon.ca/TUOPUONE-Compatible-Raspberry-MIPI-CSI-Interface/dp/B0CPTPJLXL?th=1), the built-in gyro sensor from the Hiwonder hat, and the [LDRobot D500 lidar kit](https://www.amazon.ca/LDROBOT-Outdoor-Navigation-Scanning-Support/dp/B0DDKXQ23R). We can use these 3 in conjunction, with the camera detecting colour, walls, and the lidar detecting walls and parking spaces. The gyro sensor aids the other two sensors in the precise movements, allowing for greater control over the car.
@@ -759,7 +759,7 @@ In addition, we may choose whether the car starts within the parking lot for an 
 <p align="center">
 <img src="/other/wromap obstacle.jfif" height="250">
   <br>
-  <em>ADD obstacle challenge image</em>
+  <em> Obstacle Challenge Image</em
 </p>
 
 #### Our Solution
