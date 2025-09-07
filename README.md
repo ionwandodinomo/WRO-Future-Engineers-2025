@@ -870,6 +870,41 @@ if turning:
 <br>
 
 ## Assembly Instructions 🛠️
+1. **Print the .stl files.**
+- Using PLA filament, rearrange the components on the print bed in your slicer.
+- The print may take upwards of 4 hours, so other steps can be done while this is happening.
+  
+2. **Strip the `Carisma GT24` chassis.**
+- The original chassis includes several decorative components, including a shell of the car.
+- From this chassis, we will remove the motor mount, motor gear, bearings, differential gear box, wheel axles, as well as the four wheels.
+- Organize all screws removed this way, as the will be repurposed onto the new chassis
+- Please note this may not be the most efficient way of obtaining these parts, but was the most accessible to us as we used the chassis in a previous year.
+
+3. **Combine the electrical components with the printed parts.**
+- Place the differiential gear box into the rear, then secure it in place by attaching the `Furitek Micro Komodo Brushless Motor` into the motor mount using stock screws.
+- Add in the motor gear to mesh properly with the motor. (OPTIONAL: shorten the metal axle the gear is attached to; we chose not to.)
+- The wheel axles can then be inserted into the metal bearings. Once fastened, attach the wheels.
+- Attach the `Hitec HS-5055MG Servo Motor` into the designated opening in the front chassis, again using stock screws.
+- The rest of the 3D printed parts can then be attached from here with no interferance.
+
+4. **Wire the system.**
+- The `Furitek Micro Komodo Brushless Motor` can directly wired to the `Furitek Micro Komodo ESC`
+- The ESC can then be wired into the HAT, which has a specific port for 3-pronged motor wiring.
+- The `Hitec HS-5055MG Servo Motor` can be wired similarly, but instead only using the one signal prong instead of all three.
+- **MAYBE A PICTURE HERE TO CLARIFY? IT'S KIND OF UNCLEAR.**
+- Then, the HAT is connected to the `Raspberry Pi 5` using a USB-C to USB-C, as well as a USB-C to USB-A
+- Lastly, splice the wire of the battery and sauter in an on/off switch.
+
+5. **Final mounting.**
+- Attach the Pi Camera onto the camera mount, then wire into the CSI cable port on the `Raspberry Pi 5`.
+- Place the `YDLidar T-mini` into the LIDAR mount, then wire into the proper GPI0 pins on the `Raspberry Pi 5`.
+
+6. **CONFIGURATION STUFF. {EDIT}**
+
+7. **Congratulations! You've built our robot!**
+    - Try downloading our program from the `src` folder, and run it yourself!
+    - Any other information can be found on this repository.
+    - Thanks for reading!
 
 
 ## Youtube Videos
