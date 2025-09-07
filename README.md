@@ -501,7 +501,15 @@ The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek 
 
 The servo motor itself is mounted onto the front chassis plate using a custom bracket. A 3D-printed servo horn is installed on the servo head for linkage connection. This specific design was chosen for 3 main reasons: it's **simplicity**, **space efficiency**, and **printability**.  
 
-There is only one point of contact between the servo and the wheel, which greatly improves the reliabilty of the system. More complex designs may allow for extremely precise steering, but sacrifice the "directness" of a design like this. The lack of complicated geometry also makes it very easy to print, even on lower end 3D printers. 
+There is only one point of contact between the servo and the wheel, which greatly improves the reliabilty of the system. More complex designs may allow for extremely precise steering, but sacrifice the "directness" of a design like this. The lack of complicated geometry also makes it very easy to print, even on lower-end 3D printers.
+
+The steering system is comprised of 3, 3D printed components. This includes the servo wings, turning axel, and locking mechanism.
+
+Servo wings: enlarge servo radius. This is a custom 3d printed piece that fits over the servo head. Through this part, we exchange strength (torque) for distance (turning radius). This trade-off is essential to ensuring our car could  perform precise manoeuvres.
+
+Turning axel: The turning axel converts the rotational movement from the servo wings into linear motion. This allows the wheels to move in tandem, rather than the opposite directions created by the wings. Additionally, the turning axel holds another axis perpendicular to itself to allow for regular movement. It is held in place with another 3D printed axis and a bearing for less friction. Otherwise, the wheels would become deadweight, dragging the car down
+
+Locking mechanism: This mechanism is made up of 2 parts: the top and bottom. These parts extend outside of the servos body and clamp the turning axel in place. Otherwise, the axels would not be attached to the car. 
 
 #### Chassis Models
 <table>
