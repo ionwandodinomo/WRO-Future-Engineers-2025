@@ -254,56 +254,6 @@ Provided below are models of the 3D printed parts, individually, as well as on t
   </tr>
 </table>  
 
-#### With Components  
-
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <b>Front View</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-    <td align="center" width="33%">
-      <b>Back View</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-    <td align="center" width="33%">
-      <b>Side View</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="33%">
-      <b>Top View</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-    <td align="center" width="33%">
-      <b>Isometric View</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-    <td align="center" width="33%">
-      <b>Exploded View</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-  </tr>
-</table>  
-=======
-
-### Full Assembly Views
-
-#### Full Assembly (Printed Parts Only)
-
-| Top | Bottom | Front |
-|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
-
-| Back | Left | Right |
-|:---:|:---:|:---:|
-| <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> | <img src="other/placeholder.png" width="250"/> |
-
-<br>
-
----
-
 <br>
 
 #### Full Assembly (with Components)
