@@ -987,7 +987,7 @@ if turning:
   	- Congrats! You now have a working mini-computer
  
 - In the terminal, build ROS2-humble source using the following commands. ROS2 must be built from source, as this version of Linux does not support ROS2. This process may take upwards of 3 hours, so ensure your battery is fully charged.<br>
-    1.
+    i.
 	```bashrc
  	sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 	sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu
@@ -1029,7 +1029,7 @@ if turning:
    	chsh -s /bin/bash
 	sudo reboot
     ```
-     6.
+     7.
     ```
    	echo &quot;source ~/fe_ws/install/setup.bash&quot; &gt;&gt; ~/.bashrc
 	source ~/.bashrc
