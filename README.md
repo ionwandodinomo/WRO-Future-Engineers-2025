@@ -971,9 +971,71 @@ if turning:
 - Attach the Pi Camera onto the camera mount, then wire it into the CSI cable port on the `Raspberry Pi 5`.
 - Place the `YDLidar T-mini` into the LIDAR mount, then wire it into the proper GPIO pins on the `Raspberry Pi 5`, according to the schematic in the schemes section.
 
-6. **CONFIGURATION STUFF. {EDIT}**
+6. **Software Configuration**
+- Flash custom Raspberry Pi 5 Bookworm OS onto a micro SSD and insert into Raspberry Pi 5
+- After powering on the PI, you will notice an Access Point (AP) pop up until the name `HW-<numbers & letters>`, connect using the password `hiwonder`
+- Download RealVNC (link) and connect to `192.168.149.1`
+- Open the terminal and switch the car into STA (wifi) mode:
+	- ```cd hiwonder-toolbox \ sudo nano wifi_conf.py```
+ 	- `WIFI_MODE` to 2 instead of 1
+  	- Replace wifi SSID and password with your current wifi network name and password
+  	- `sudo reboot`
+  	- Connect to your wifi and open _your_ computer's terminal
+  	- Type `ipconfig` (windows), `ifconfig` (mac)
+  	- Search your IPv4 address for your PI through any IP scanner; we used Advanced IP (link)
+  	- Connect to this IP using RealVNC from the previous step
+  	- Congrats! You now have a working mini-computer
+ 
+- In the terminal, build ROS2-humble source using the following commands. ROS2 must be built from source, as this version of Linux does not support ROS2. This process may take upwards of 3 hours, so ensure your battery is fully charged.
+    1.
+	```bashrc
+ 	sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+	sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu
+	$(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
+	sudo apt update && sudo apt upgrade -y
+	sudo apt install -y \
+	build-essential cmake git wget curl gnupg lsb-release \
+	libpython3-dev python3-colcon-common-extensions \
+	python3-flake8 python3-pip python3-pytest-cov python3-rosdep \
+	python3-setuptools python3-vcstool python3-numpy \
+	libasio-dev libtinyxml2-dev libcunit1-dev unzip libyaml-dev
+	sudo apt install -y libfastcdr-dev libfastrtps-dev
+	sudo apt install -y python3-dev python3-numpy
+	```
+	2.
+	```
+ 	sudo rosdep init || true
+	rosdep update
+ 	```
+ 	3.
+    ```
+    mkdir -p ~/<WORKSPACE_NAME>/src
+	cd ~/<WORKSPACE_NAME>
+	wget https://raw.githubusercontent.com/ros2/ros2/humble/ros2.repos
+	vcs import src < ros2.repos
+    ```
+    4.
+    ```
+    cd ~/<WORKSPACE_NAME>
+	rosdep install --from-paths src --ignore-src -y --rosdistro humble \
+	--skip-keys="fastcdr fastrtps rti-connext-dds-6.0.1 urdfdom_headers"
+    ```
+    5.
+    ```
+   	colcon build --symlink-install --packages-skip-regex '^rviz'
+    ```
+    6.
+    ```
+   	chsh -s /bin/bash
+	sudo reboot
+    ```
+     6.
+    ```
+   	echo &quot;source ~/fe_ws/install/setup.bash&quot; &gt;&gt; ~/.bashrc
+	source ~/.bashrc
+    ```
 
-7. **Congratulations! You've built our robot!**
+8. **Congratulations! You've built our robot!**
     - Try downloading our program from the `src` folder, and run it yourself!
     - Any other information can be found on this repository.
     - Thanks for reading!
