@@ -445,11 +445,77 @@ The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek 
 #### Mounting and Layout  
 
 - Motor secured to the **rear chassis plate**
+- Stock differential gear system and gear are attached, so that a **gear-down** ratio is implemented.
+- This improves our robot's performance at low speeds, which is particulary important during the turning in the obstacle challenge.
+- The axles, bearings and wheels are added afterwards.
+
+<br>
+
+#### Possible Improvements
+- Upgrade to metal gears to combat wear from heavy, high-speed usage.
+- Experimenting with different gear ratios. Combonations close to **12:58**, such as 14:58 or 10:58 may provide a better balance between torque and maximum speed.
+- Upgrading or lubricating bearings, for less friction and a higher efficiency / consistency.
+
+<br>
+
+---
 
 <br>
 
 ### Steer System
 
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <b>SG90 Servo</b><br>
+      <img src="other/motor.png" width="250"/>
+    </td>
+    <td align="left" width="50%">
+      <ul>
+        <li><b>Type:</b> FIND SERVO SPECS</li>
+        <li><b>Voltage:</b> FIND SERVO SPECSl</li>
+        <li><b>Max Current Draw:</b> FIND SERVO SPECS</li>
+      </ul>
+    </td>
+  </tr>
+</table>  
+
+The servo motor itself is mounted onto the front chassis plate using a custom bracket. A 3D-printed servo horn is installed on the servo head for linkage connection. This specific design was chosen for 3 main reasons: it's **simplicity**, **space efficiency**, and **printability**.  
+
+There is only one point of contact between the servo and the wheel, which greatly improves the reliabilty of the system. More complex designs may allow for extremely precise steering, but sacrifice the "directness" of a design like this. The lack of complicated geometry also makes it very easy to print, even on lower end 3D printers. 
+
+#### Chassis Models
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <b>Servo horn</b><br>
+      <img src="other/placeholder.png" width="250"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Wheel pivot</b><br>
+      <img src="other/placeholder.png" width="250"/>
+    </td>
+    <td align="center" width="33%">
+      <b>Together</b><br>
+      <img src="other/placeholder.png" width="250"/>
+    </td>
+  </tr>
+</table>
+
+On top of that, this design also allows the the servo to be placed directly on top on the steer system, instead of behind or in front of it. Due to the design of our car, this also saves space for our LIDAR and controller boards to be placed, and doesn't extend the length an unneccesary amount. 
+
+Another factor is the symmetry of the design, which plays two roles. It allows the servo motor to be placed very close to the center of the robot, which is a key consideration when managing balance and the center of mass of the entire vehicle. It also ensures that the central pivot point is the exact same distance away from both wheels. This means that the same force will be applied to both sides, and so both wheels will always turn at the exact same angle.
+
+<br>
+
+#### Possible Improvements
+- Fine-tune the servo-horn length to adjust **steering sensitivity**. There is a balance between steering precision and steering radius. An optimized ratio could lead to more sensible, and more precise turning angles.
+- Use metallic bearings at contact points. The current design has plastic-plastic contact, which is not nearly as dependable or frictionless as metal.
+- Consider other steering mechanisms, such as **bellcrank**, and explore the tradeoffs between simplicity and accuracy.
+
+<br>
+
+---
 <br>
 
 ## Power and Sense Management :zap:
