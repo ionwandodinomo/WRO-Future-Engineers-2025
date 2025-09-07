@@ -25,13 +25,9 @@ Engineering Documentation 🛠️
 
 ## Content of Documentation 📖
 * **[The Team](#the-team-boygirlboy)**
-* **[Challenge Overview](#challenge-overview-)**
-	* `[Explain the challenge itself. Explain basic robot specs like os, modules, etc.] {EDIT}`
 * **[Mechanical Breakdown :wrench:](#mechanical-breakdown-wrench)**
-	* `[MAKE SURE TO ADD POSSIBLE IMPROVEMENTS] {EDIT}`
 * **[Mobility Management :car:](#mobility-management-car)**
 	* [The Chassis](#the-chassis)
-		* `[Introduce rear wheel drive system, independent from free-spinning front wheels.] {EDIT}`
 	* [Drive System](#drive-system)
 	* [Steer System](#steer-system)
 * **[Power and Sense Management :zap:](#power-and-sense-management-zap)**
@@ -70,14 +66,7 @@ Engineering Documentation 🛠️
 | --- | --- |
 | John Weng | Hey! I'm a grade 12 student from Maple High School in Ontario, Canada, and this is my second year doing the Future Engineers Category for WRO. I love messing with mechanics and designing solutions to problems. I love playing sports, especially badminton and volleyball. |
 | Sunni Xue | Hi, I'm a grade 11 from the GTA! I've been coding since 6th grade, where I learned Python to build my first project. In my free time, I love playing sports and reading :) |
-| Eric Rao | Hello, I am a 12th grade student at Anderson CVI! This is my third year back and I'm super excited about designing, model, and building things. In the future, I hope to pursue mechatronics at the University of Waterloo |
-
-## Challenge Overview 📑
-`describe the challenge itself here, and include basic robot specifications like operating system, modules, sensors, etc. {EDIT}`
-
----
-
-<br>
+| Eric Rao | Hello, I am a 12th grade student at Anderson CVI! This is my third year back and I'm super excited about designing, model, and building things. In the future, I hope to pursue mechatronics at the University of Waterloo. |
 
 ## Mechanical Breakdown :wrench:
 
@@ -449,19 +438,13 @@ The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek 
   </tr>
 </table>  
 
+The steering system is comprised of 3, 3D printed components. This includes the servo horn, wheel pivot, and locking mechanism.
+
 The servo motor itself is mounted onto the front chassis plate using a custom bracket. A 3D-printed servo horn is installed on the servo head for linkage connection. This specific design was chosen for 3 main reasons: it's **simplicity**, **space efficiency**, and **printability**.  
 
 There is only one point of contact between the servo and the wheel, which greatly improves the reliabilty of the system. More complex designs may allow for extremely precise steering, but sacrifice the "directness" of a design like this. The lack of complicated geometry also makes it very easy to print, even on lower-end 3D printers.
 
-The steering system is comprised of 3, 3D printed components. This includes the servo wings, turning axel, and locking mechanism.
-
-Servo wings: enlarge servo radius. This is a custom 3d printed piece that fits over the servo head. Through this part, we exchange strength (torque) for distance (turning radius). This trade-off is essential to ensuring our car could  perform precise manoeuvres.
-
-Turning axel: The turning axel converts the rotational movement from the servo wings into linear motion. This allows the wheels to move in tandem, rather than the opposite directions created by the wings. Additionally, the turning axel holds another axis perpendicular to itself to allow for regular movement. It is held in place with another 3D printed axis and a bearing for less friction. Otherwise, the wheels would become deadweight, dragging the car down
-
-Locking mechanism: This mechanism is made up of 2 parts: the top and bottom. These parts extend outside of the servos body and clamp the turning axel in place. Otherwise, the axels would not be attached to the car. 
-
-INSERT ZOOMED IMAGE OF SERVO SYSTEM
+The locking mechanism is made up of 2 parts: the top and bottom. These parts extend outside of the servos body and clamp the turning axel in place. Otherwise, the axles would not be attached to the car. 
 
 #### Chassis Models
 <table>
