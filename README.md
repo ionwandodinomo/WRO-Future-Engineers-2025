@@ -1031,13 +1031,13 @@ if turning:
     ```
      7.
     ```
-   	echo &quot;source ~/fe_ws/install/setup.bash&quot; &gt;&gt; ~/.bashrc
+   	echo "source ~/fe_ws/install/setup.bash" << ~/.bashrc
 	source ~/.bashrc
     ```
 
 8. **Congratulations! You've built our robot!**
     - Try downloading our program from the `src` folder, and run it yourself!
-    - Any other information can be found on this repository.
+    - Any other information can be found in this repository.
     - Thanks for reading!
 
 
