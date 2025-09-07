@@ -70,7 +70,7 @@ Engineering Documentation 🛠️
 | --- | --- |
 | John Weng | Hey! I'm a grade 12 student from Maple High School in Ontario, Canada, and this is my second year doing the Future Engineers Category for WRO. I love messing with mechanics and designing solutions to problems. I love playing sports, especially badminton and volleyball. |
 | Sunni Xue | Hi, I'm a grade 11 from the GTA! I've been coding since 6th grade, where I learned Python to build my first project. In my free time, I love playing sports and reading :) |
-| Eric Rao | guys add stuff herepls |
+| Eric Rao | Hello, I am a 12th grade student at Anderson CVI! This is my third year back and I'm super excited about designing, model, and building things. In the future, I hope to pursue mechatronics at the University of Waterloo |
 
 ## Challenge Overview 📑
 `describe the challenge itself here, and include basic robot specifications like operating system, modules, sensors, etc. {EDIT}`
