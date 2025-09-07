@@ -986,7 +986,7 @@ if turning:
   	- Connect to this IP using RealVNC from the previous step
   	- Congrats! You now have a working mini-computer
  
-- In the terminal, build ROS2-humble source using the following commands. ROS2 must be built from source, as this version of Linux does not support ROS2. This process may take upwards of 3 hours, so ensure your battery is fully charged.
+- In the terminal, build ROS2-humble source using the following commands. ROS2 must be built from source, as this version of Linux does not support ROS2. This process may take upwards of 3 hours, so ensure your battery is fully charged.<br>
     1.
 	```bashrc
  	sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
