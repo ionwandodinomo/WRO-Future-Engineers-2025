@@ -143,74 +143,74 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 <table>
   <tr>
     <td align="center" width="25%">
-      <b>Front</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Axel Servo Holder</b><br>
+      <img src="other/model_images/axel servo holder img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Back</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Base Plate</b><br>
+      <img src="other/model_images/base plate img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Main Base Plate</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Battery Bracket</b><br>
+      <img src="other/model_images/battery holder img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Connective Base Plate</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="25%">
-      <b>Camera Mount</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-    <td align="center" width="25%">
-      <b>ESC Holder</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-    <td align="center" width="25%">
-      <b>Battery Tray</b><br>
-      <img src="other/placeholder.png" width="200"/>
-    </td>
-    <td align="center" width="25%">
-      <b>Motor Bracket</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Camera Bracket</b><br>
+      <img src="other/model_images/camera holder img.png" width="200"/>
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
-      <b>Servo Mount</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Chassis Pin</b><br>
+      <img src="other/model_images/chassis pin img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Front Bumper</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Differential Cover</b><br>
+      <img src="other/model_images/differential cover img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Rear Bumper</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Front Axel</b><br>
+      <img src="other/model_images/front axel img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Side Guard (Left)</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Motor Gear Bracket</b><br>
+      <img src="other/model_images/motor gear holder img.png" width="200"/>
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
-      <b>Side Guard (Right)</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Rear Motor Stand</b><br>
+      <img src="other/model_images/rear motor stand img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Sensor Bracket</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>RPI Base</b><br>
+      <img src="other/model_images/RPI base img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Wheel Hub</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>RPI HAT Bracket</b><br>
+      <img src="other/model_images/RSP HAT holder img.png" width="200"/>
     </td>
     <td align="center" width="25%">
-      <b>Spacer / Riser</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Servo Stand<b><br>
+      <img src="other/model_images/servo Stand img.png" width="200"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="25%">
+      <b>Wheel Bearing Bracket</b><br>
+      <img src="other/model_images/wheel bearing holder img.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>Wheel Wrench (tool)</b><br>
+      <img src="other/model_images/wheel wrench img.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>ISO All Models</b><br>
+      <img src="other/model_images/iso full.png" width="200"/>
+    </td>
+    <td align="center" width="25%">
+      <b>ISO All Models (back)</b><br>
+      <img src="other/model_images/left full.png" width="200"/>
     </td>
   </tr>
 </table>  
@@ -227,29 +227,29 @@ Provided below are models of the 3D printed parts, individually, as well as on t
   <tr>
     <td align="center" width="33%">
       <b>Front View</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <img src="other/model_images/front view.png" width="200"/>
     </td>
     <td align="center" width="33%">
       <b>Back View</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <img src="other/model_images/back full.png" width="200"/>
     </td>
     <td align="center" width="33%">
       <b>Side View</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <img src="other/model_images/right full.png" width="200"/>
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
       <b>Top View</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <img src="other/model_images/top full.png" width="200"/>
     </td>
     <td align="center" width="33%">
       <b>Isometric View</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <img src="other/model_images/iso full.png" width="200"/>
     </td>
     <td align="center" width="33%">
-      <b>Exploded View</b><br>
-      <img src="other/placeholder.png" width="200"/>
+      <b>Isometric View (back)</b><br>
+      <img src="other/model_images/iso full back.png" width="200"/>
     </td>
   </tr>
 </table>  
