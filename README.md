@@ -227,29 +227,29 @@ Provided below are models of the 3D printed parts, individually, as well as on t
   <tr>
     <td align="center" width="33%">
       <b>Front View</b><br>
-      <img src="other/model_images/front view.png" width="200"/>
+      <img src="other/model_images/front view.png" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Back View</b><br>
-      <img src="other/model_images/back full.png" width="200"/>
+      <img src="other/model_images/back full.png" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Side View</b><br>
-      <img src="other/model_images/right full.png" width="200"/>
+      <img src="other/model_images/right full.png" width="350"/>
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
       <b>Top View</b><br>
-      <img src="other/model_images/top full.png" width="200"/>
+      <img src="other/model_images/top full.png" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Isometric View</b><br>
-      <img src="other/model_images/iso full.png" width="200"/>
+      <img src="other/model_images/iso full.png" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Isometric View (back)</b><br>
-      <img src="other/model_images/iso full back.png" width="200"/>
+      <img src="other/model_images/iso full back.png" width="350"/>
     </td>
   </tr>
 </table>  
@@ -260,17 +260,17 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 
 | Top | Bottom | Front |
 |:---:|:---:|:---:|
-| <img src="v-photos/CAR_TOP.jpg" width="250"/> | <img src="v-photos/CAR_BOTTOM.jpg" width="250"/> | <img src="v-photos/CAR_FRONT.jpg" width="250"/> |
+| <img src="v-photos/CAR_TOP.jpg" width="350"/> | <img src="v-photos/CAR_BOTTOM.jpg" width="350"/> | <img src="v-photos/CAR_FRONT.jpg" width="350"/> |
 
 | Back | Left | Right |
 |:---:|:---:|:---:|
-| <img src="v-photos/CAR_BACK.jpg" width="250"/> | <img src="v-photos/CAR_LEFT.jpg" width="250"/> | <img src="v-photos/CAR_RIGHT.jpg" width="250"/> |
+| <img src="v-photos/CAR_BACK.jpg" width="350"/> | <img src="v-photos/CAR_LEFT.jpg" width="350"/> | <img src="v-photos/CAR_RIGHT.jpg" width="350"/> |
 
 
 These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis, as originally planned. Screws were avoided as much as possible, as they are less reflective of this idea, but regardless used when necessary. 
 
 <p align="center">
-  <img src="other/placeholder.png" width="300" alt="Previous Version"/>
+  <img src="other/model_images/Original chassis concept.png" width="1000" alt="Previous Version"/>
   <br>
   <em>Original concept of a single chassis plate</em>
 </p>
@@ -309,15 +309,15 @@ The chassis is located in the center of the car. It provides a strucutre to lay 
   <tr>
     <td align="center" width="33%">
       <b>Main Plate</b><br>
-      <img src="other/placeholder.png" width="250"/>
+      <img src="other/model_images/RPI base img.png" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Connective Plate</b><br>
-      <img src="other/placeholder.png" width="250"/>
+      <img src="other/model_images/base plate img.png" width="350"/>
     </td>
     <td align="center" width="33%">
       <b>Together</b><br>
-      <img src="other/placeholder.png" width="250"/>
+      <img src="other/model_images/iso full.png" width="350"/>
     </td>
   </tr>
 </table>
@@ -333,9 +333,9 @@ Another consideration improving the **balance** of the robot, which directly inf
 <br>
 
 <p align="center">
-  <img src="other/placeholder.png" width="300" alt="Previous Version"/>
+  <img src="other/model_images/RPI base img.png" width="300" alt="Previous Version"/>
   <br>
-  <em>Location of the Raspberry Pi and Arduino</em>
+  <em>Location of the Raspberry Pi</em>
 </p>
 
 <br>
@@ -352,7 +352,7 @@ Another consideration improving the **balance** of the robot, which directly inf
       A <b>modular</b> design was implemented to test with different heights and angles, but the consequence of a high center of mass was left overlooked.  
     </td>
     <td width="50%" align="center">
-      <img src="other/placeholder.png" width="300"/>
+      <img src="other/model_images/camera holder img.png" width="300"/>
     </td>
   </tr>
 </table>  
@@ -468,7 +468,7 @@ INSERT ZOOMED IMAGE OF SERVO SYSTEM
   <tr>
     <td align="center" width="33%">
       <b>Servo horn</b><br>
-      <img src="other/placeholder.png" width="250"/>
+      <img src="other//placeholder.png" width="250"/>
     </td>
     <td align="center" width="33%">
       <b>Wheel pivot</b><br>
