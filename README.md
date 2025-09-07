@@ -511,6 +511,8 @@ Turning axel: The turning axel converts the rotational movement from the servo w
 
 Locking mechanism: This mechanism is made up of 2 parts: the top and bottom. These parts extend outside of the servos body and clamp the turning axel in place. Otherwise, the axels would not be attached to the car. 
 
+INSERT ZOOMED IMAGE OF SERVO SYSTEM
+
 #### Chassis Models
 <table>
   <tr>
