@@ -7,7 +7,7 @@ import ros_robot_controller_sdk as rcc
 from helper import *
 from CONSTS import *
 from lidar_parser import *
-from imu import *
+from formatted.imu_node import *
 #from exit_parking import unpark
 import time
 board = rcc.Board()

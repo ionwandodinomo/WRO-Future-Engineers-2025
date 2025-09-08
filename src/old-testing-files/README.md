@@ -163,7 +163,7 @@ Dependencies
 - OpenCV (cv2)
 - NumPy
 - Time
-- HiWonder hat `ros_robot_sdl.py` (LINK HERE)
+- HiWonder hat `ros_robot_sdk.py` (LINK HERE)
 
 - serial, RPi.GPIO (for LiDAR if enabled, obstacle challenge only)
 

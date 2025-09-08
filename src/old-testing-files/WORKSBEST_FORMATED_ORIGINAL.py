@@ -349,7 +349,7 @@ from helper import *
 from CONSTS import *
 from lidar_parser import *
 import math
-from imu import *  # start_imu_stream, read_imu_line, stop_imu_stream
+from formatted.imu_node import *  # start_imu_stream, read_imu_line, stop_imu_stream
 import time
 import serial
 
