@@ -26,6 +26,9 @@ Engineering Documentation 🛠️
 ## Content of Documentation 📖
 * **[The Team](#the-team-boygirlboy)**
 * **[Mechanical Breakdown :wrench:](#mechanical-breakdown-wrench)**
+  	* [Materials List](#materials-list)
+  	* [Printed Parts](#3D-printed-parts)
+  	* [Assembly Views](#full-assembly-views)
 * **[Mobility Management :car:](#mobility-management-car)**
 	* [The Chassis](#the-chassis)
 	* [Drive System](#drive-system)
@@ -42,7 +45,6 @@ Engineering Documentation 🛠️
 <br>
 
 ## The Team :boy::girl::boy:
-`sum sum team introduction sum sum {EDIT}`
 <p align="center">
 	<img src="t-photos/serious1.JPEG" width="600"/> 
   <br>
