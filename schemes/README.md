@@ -1,4 +1,4 @@
 Electromechanical diagrams
 ====
 
-<img src="/schemes/Schematic WRO FE 2025.png" width="1000"/> 
+<img src="/schemes/Schematic WRO FE 2025 v2.png" width="1000"/> 
