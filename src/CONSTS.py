@@ -1,36 +1,21 @@
+# constant values that are used in both obstacle and open challenge. this is used as an import file to keep things consistant accross all codes
 import numpy as np
-import numpy as np
 
+# colour management
+rMagenta = [[0, 169, 110], [255, 255, 141]]
+rRed = [[0, 157, 135], [179, 255, 227]]
+rGreen = [[103, 0, 135], [235, 113, 178]]
+rBlue = [[106, 0, 0], [255, 255, 114]]
+rOrange = [[147, 148, 132], [255, 255, 192]]
+rBlack = [[5, 0, 0], [78, 255, 255]]
 
-rMagenta = [[0, 171, 106], [255, 195, 135]]
-rRed = [[0, 153, 140], [131, 198, 171]]
-rGreen = [[0, 56, 114], [230, 103, 161]]
-rBlue = [[54, 124, 25], [148, 164, 121]]
-rOrange = [[124, 137, 108], [219, 199, 255]]
-rBlack = [[0, 104, 80], [130, 255, 255]]
+ideal_color_bgr_list = [255,255,255]
+SHIFT_FROM_MASK = [36,4,2]
 
-UPPER_RED_THRESHOLD1 = np.array(rRed[0])
-LOWER_RED_THRESHOLD1 = np.array(rRed[1])
-UPPER_RED_THRESHOLD2 = np.array([0,0,0])
-LOWER_RED_THRESHOLD2 = np.array([0,0,0])
+# pins
+LIDAR_POWER_PIN = 17
 
-UPPER_GREEN_THRESHOLD = np.array(rGreen[0])
-LOWER_GREEN_THRESHOLD =  np.array(rGreen[1])
-
-UPPER_BLUE_THRESHOLD = np.array(rBlue[0])
-LOWER_BLUE_THRESHOLD = np.array(rBlue[1])
-
-UPPER_ORANGE_THRESHOLD = np.array(rOrange[0])
-LOWER_ORANGE_THRESHOLD = np.array(rOrange[1])
-
-UPPER_BLACK_THRESHOLD = np.array(rBlack[0])
-LOWER_BLACK_THRESHOLD = np.array(rBlack[1])
-
-UPPER_MAGENTA_THRESHOLD = np.array(rMagenta[0])
-LOWER_MAGENTA_THRESHOLD = np.array(rMagenta[0])
-
-
-
+# rois
 ROI_LEFT_TOP = [0, 220, 100, 270]
 ROI_RIGHT_TOP = [540, 220, 640, 270]
 ROI_LEFT_BOT = [0, 270, 40, 295]
@@ -39,38 +24,22 @@ ROI_RIGHT_BOT = [600, 270, 640, 295]
 ROI_LINE1 = [277,250,352,275]
 ROI_LINE2 = [0,0,0,0]
 ROI_PILLAR = [0,150,640,380]
+
+# default targets
 RED_TARGET = 110
 GREEN_TARGET = 530
 
-PD = 0.00003
-PG = 0.003
+# PID controls
+PD = 0.0001
+PG = 0.006
 PDLOW = 0.00001
 PGLOW = 0.0015
 PILLAR_PD = 0.3
 PILLAR_PG = 0.05
-LINE_THRESH = 50
-WALL_THRESH = 20
+
+# threshold/clamps
+LINE_THRESH = 25
 MAX_TURN_DEGREE = 40
 MAX_TURN_LESS = 20
 PILLAR_THRESH = 1200
-MID_SERVO = -6
-LIDAR_POWER_PIN = 17
-
-# cambridge
-LOWER_BLACK_THRESHOLD = np.array([0, 0, 0])
-UPPER_BLACK_THRESHOLD = np.array([180, 255, 83])
-LOWER_BLUE_THRESHOLD = np.array([91, 115, 103])
-UPPER_BLUE_THRESHOLD = np.array([132, 255, 255])
-LOWER_ORANGE_THRESHOLD = np.array([0, 101, 173])
-UPPER_ORANGE_THRESHOLD = np.array([27, 255, 255])
-LOWER_GREEN_THRESHOLD = np.array([71, 108, 61])
-UPPER_GREEN_THRESHOLD = np.array([100, 255, 200])
-
-LOWER_MAGENTA_THRESHOLD = np.array([159, 0, 0])
-UPPER_MAGENTA_THRESHOLD = np.array([169, 255, 255])
-
-
-LOWER_RED_THRESHOLD1 = np.array([0, 138, 142])
-UPPER_RED_THRESHOLD1 = np.array([0, 255, 255])
-LOWER_RED_THRESHOLD2 = np.array([170, 118, 87])
-UPPER_RED_THRESHOLD2 = np.array([180, 255, 255])
+MID_SERVO = -3

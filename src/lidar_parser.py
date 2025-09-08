@@ -2,10 +2,10 @@
 import serial
 import struct
 import time
-
+# Serial port configuration
 PORT = "/dev/ttyAMA0"
 BAUD = 230400
-
+# data packet constants
 PACKET_HEADER = 0x54
 PACKET_LEN = 47
 
@@ -17,6 +17,7 @@ def find_packet_start(buffer):
     return -1
 
 def parse_packet(packet):
+    """parse data packet, specified in development manual for lidar"""
     if len(packet) != PACKET_LEN:
         return None
 
@@ -48,11 +49,3 @@ def interpolate_angles(start, end, count):
     angle_range = (end - start + 360) % 360
     step = angle_range / (count - 1)
     return [(start + i * step) % 360 for i in range(count)]
-
-
-
-
-
-
-
-

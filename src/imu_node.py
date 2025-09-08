@@ -1,31 +1,48 @@
-import subprocess, math, time, serial
+# imu ros2 node + threading for real time data
+from geometry_msgs.msg import Vector3Stamped
+import rclpy
+from rclpy.node import Node
+import threading
+import math
 
-# ---------------- ROS2 / Docker config ---------------- #
-CONTAINER = "MentorPi"
-SHELL     = "/bin/zsh"
-USER      = "ubuntu"
-WORKDIR   = "/home/ubuntu"
-ENV_SRC   = "source /home/ubuntu/.zshrc"
-TOPIC     = "/imu/rpy/filtered"  # geometry_msgs/Vector3Stamped
+class IMUSubscriber(Node):
+    def __init__(self):
+        super().__init__('imu_subscriber')
+        self.latest_yaw_rad = None
+        self.lock = threading.Lock()
+        self.create_subscription(Vector3Stamped, '/imu/rpy/filtered', self.callback, 10)
 
-# ---------------- IMU streaming ---------------- #
-def start_imu_stream():
-    """Start a persistent ROS2 echo process that streams IMU messages."""
-    cmd = f"{ENV_SRC} && ros2 topic echo {TOPIC}"
-    p = subprocess.Popen(
-        ["docker", "exec", "-u", USER, "-w", WORKDIR, CONTAINER, SHELL, "-c", cmd],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1
-    )
-    return p
+    def callback(self, msg):
+        z = msg.vector.z
+        if z < 0:
+            z += 2 * math.pi
+        with self.lock:
+            self.latest_yaw_rad = z
 
-def read_imu_line(proc):
-    """Read one line of IMU output (non-blocking)."""
-    return proc.stdout.readline().strip()
+    def get_latest_yaw(self):
+        with self.lock:
+            return self.latest_yaw_rad
 
-def stop_imu_stream(proc):
-    """Stop the persistent ROS2 echo process."""
-    proc.terminate()
-    try:
-        proc.wait(timeout=2)
-    except subprocess.TimeoutExpired:
-        proc.kill()
+# Threaded initialization
+imu_node = None
+rclpy_thread = None
+def start_imu_listener():
+    """start imu listener to stream data"""
+    global imu_node, rclpy_thread
+    rclpy.init()
+    imu_node = IMUSubscriber()
+    rclpy_thread = threading.Thread(target=lambda: rclpy.spin(imu_node), daemon=True)
+    rclpy_thread.start()
+
+def get_yaw_deg():
+    """Get the latest yaw angle in degrees."""
+    if imu_node:
+        yaw_rad = imu_node.get_latest_yaw()
+        return math.degrees(yaw_rad) if yaw_rad is not None else None
+
+def stop_imu_listener():
+    """stop imu listener and cleanup"""
+    global imu_node
+    if imu_node:
+        imu_node.destroy_node()
+    rclpy.shutdown()
