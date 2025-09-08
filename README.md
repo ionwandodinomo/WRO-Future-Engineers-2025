@@ -931,6 +931,39 @@ if turning:
   </tr>
 </table>
 
+
+## Parking
+### Starting in Parking
+We first check the direction of the car by checking the left and right distances on the lidar. 
+```python
+if left_distance < 300: # in mm
+  direction = "left"
+elif right_distance < 300:
+  direction = "right"
+else:
+  direction = None
+```
+Fortunately, the turning radius of our car is high enough that we can turn out of parallel parking without any adjustments. This means this logic was a simple turn until the angle offset = 90 degrees
+```python
+starting_angle = get_imu_angle()
+
+# turn out of parking
+while True
+  set_servo(MAX_TURN_DEGREE)
+  set_motor(FORWARDS)
+  angle_offset = get_imu_angle() - starting angle
+  if angle_offset >= 90:
+    break
+
+# straighten car to original orientation
+while True
+  set_servo(-MAX_TURN_DEGREE)
+  set_motor(FORWARDS)
+  angle_offset = get_imu_angle() - starting angle
+  if angle_offset <= 0:
+    break
+```
+
 <br>
 
 ## Assembly Instructions 🛠️
