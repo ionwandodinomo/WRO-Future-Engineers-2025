@@ -525,6 +525,53 @@ However, these sensors give us raw values that must be processed before they can
 <br>
 
 ## Software :computer:
+*** note that imu and lidar are only used for parking. Obstacle challenge and open challenge only use camera
+### IMU
+The gyro (IMU) is a built-in sensor part of the Hiwonder expansion board. As part of this, data is published as a ROS2 topic node on start up. This is the data we receive when running `ros2 topic echo /imu/rpy/filtered`
+```
+---
+header:
+  stamp:
+    sec: 1757283342
+    nanosec: 889812767
+  frame_id: imu_link
+vector:
+  x: -0.0479255131599775
+  y: 0.021886505195461117
+  z: 2.1918381606525985
+---
+```
+For our purposes, we only need to extract the `z` value for orientation
+
+### Lidar
+The lidar we used was a very primitive lidar without any built-in drivers. This meant we have to manually parse through the data packets sent by the sensor. After reading the development manual, this script was created to parse lidar data.
+```python
+ser = serial.Serial(PORT, BAUD, timeout=0.1)
+buffer = bytearray()
+while True:
+    data = ser.read(256)
+    if data:
+        buffer += data
+        while True:
+            idx = find_packet_start(buffer) # please refer to /src for the specifics of this function
+            if idx == -1 or len(buffer) - idx < PACKET_LEN:
+                break
+            packet = buffer[idx:idx+PACKET_LEN]
+            buffer = buffer[idx+PACKET_LEN:]
+
+            parsed = parse_packet(packet) # please refer to /src for the specifics of this function
+            if parsed:
+                angles = interpolate_angles(parsed["start_angle"], parsed["end_angle"], 12) # please refer to /src for the specifics of this function
+                print(f"\nSpeed: {parsed['speed']:.2f} RPM | Timestamp: {parsed['timestamp']} ms")
+                for i, ((dist, conf), angle) in enumerate(zip(parsed["points"], angles)):
+                    print(f"  Pt {i+1:02d}: {angle:.2f}°  {dist} mm  (conf: {conf})")
+            else:
+                print("Invalid packet")
+
+    time.sleep(0.01)
+
+```
+We add this data to a dictionary that holds the latest distance per angle. This way, we can access specific angles (eg, 0.0, 180.0, etc)
 
 
 ### Image Preprocessing
