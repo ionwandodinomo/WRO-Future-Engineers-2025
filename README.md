@@ -619,8 +619,8 @@ Filter/colour normalization: ✅
 </p>
 
 Colour flattening: ❌
-- make similar colours flatten, shadow less
-- too simplistic and CPU-intensive
+- make similar colours into 1 colour, flattens the image such that shadows affect the colour less
+- over simplifies image and CPU-intensive
 
 Unexpectedly, frame rate also played a large role in contour detection:
 - It was observed/calculated that the process bottleneck at ~64 fps
