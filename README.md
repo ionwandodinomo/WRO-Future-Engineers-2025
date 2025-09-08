@@ -127,6 +127,7 @@ Our CAD softwares of choice were **[Onshape](https://www.onshape.com/en/)**, as 
 Provided below are models of the 3D printed parts, individually, as well as on the final car. Note the .stl files can all be found in the `models` folder of this repository.
 
 <br>
+<img src="/other/assembly model.gif" width="1000"/>
 
 
 ### 3D Printed Parts  
@@ -135,73 +136,73 @@ Provided below are models of the 3D printed parts, individually, as well as on t
   <tr>
     <td align="center" width="25%">
       <b>Axel Servo Holder</b><br>
-      <img src="other/model_images/axel servo holder img.png" width="200"/>
+      <img src="other/model_images/axel servo holder img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Base Plate</b><br>
-      <img src="other/model_images/base plate img.png" width="200"/>
+      <img src="other/model_images/base plate img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Battery Bracket</b><br>
-      <img src="other/model_images/battery holder img.png" width="200"/>
+      <img src="other/model_images/battery holder img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Camera Bracket</b><br>
-      <img src="other/model_images/camera holder img.png" width="200"/>
+      <img src="other/model_images/camera holder img.png" width="250"/>
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
       <b>Chassis Pin</b><br>
-      <img src="other/model_images/chassis pin img.png" width="200"/>
+      <img src="other/model_images/chassis pin img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Differential Cover</b><br>
-      <img src="other/model_images/differential cover img.png" width="200"/>
+      <img src="other/model_images/differential cover img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Front Axel</b><br>
-      <img src="other/model_images/front axel img.png" width="200"/>
+      <img src="other/model_images/front axel img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Motor Gear Bracket</b><br>
-      <img src="other/model_images/motor gear holder img.png" width="200"/>
+      <img src="other/model_images/motor gear holder img.png" width="250"/>
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
       <b>Rear Motor Stand</b><br>
-      <img src="other/model_images/rear motor stand img.png" width="200"/>
+      <img src="other/model_images/rear motor stand img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>RPI Base</b><br>
-      <img src="other/model_images/RPI base img.png" width="200"/>
+      <img src="other/model_images/RPI base img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>RPI HAT Bracket</b><br>
-      <img src="other/model_images/RSP HAT holder img.png" width="200"/>
+      <img src="other/model_images/RSP HAT holder img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Servo Stand<b><br>
-      <img src="other/model_images/servo Stand img.png" width="200"/>
+      <img src="other/model_images/servo Stand img.png" width="250"/>
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
       <b>Wheel Bearing Bracket</b><br>
-      <img src="other/model_images/wheel bearing holder img.png" width="200"/>
+      <img src="other/model_images/wheel bearing holder img.png" width="250"/>
     </td>
     <td align="center" width="25%">
       <b>Wheel Wrench (tool)</b><br>
-      <img src="other/model_images/wheel wrench img.png" width="200"/>
+      <img src="other/model_images/wheel wrench img.png" width="250"/>
     </td>
     <td align="center" width="25%">
-      <b>ISO All Models</b><br>
-      <img src="other/model_images/iso full.png" width="200"/>
+      <b>Servo Horn</b><br>
+      <img src="other/model_images/servo horn img.png" width="250"/>
     </td>
     <td align="center" width="25%">
-      <b>ISO All Models (back)</b><br>
-      <img src="other/model_images/left full.png" width="200"/>
+      <b>ISO All Models </b><br>
+      <img src="other/model_images/iso full.png" width="250"/>
     </td>
   </tr>
 </table>  
@@ -976,7 +977,8 @@ while True
 - Add the motor gear to mesh properly with the motor. (OPTIONAL: shorten the metal axle the gear is attached to; we chose not to.)
 - The wheel axles can then be inserted into the metal bearings. Once fastened, attach the wheels using the nuts in the parts.
 - Attach the `Hitec HS-5055MG Servo Motor` into the designated opening in the front chassis, again using stock screws.
-- The rest of the 3D printed parts can then be attached from here with no interference, using the pictures of the 3d printed parts as a reference.
+- The rest of the 3D printed parts can then be attached from here with no interference, using the pictures of the 3d printed parts as a reference, or this video.
+  <img src="/other/assembly model.gif" width="1000"/>
 
 4. **Wire the system.**
 - The `Furitek Micro Komodo Brushless Motor` can be directly wired to the `Furitek Micro Komodo ESC`
