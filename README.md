@@ -958,6 +958,16 @@ while True
     break
 ```
 
+### Final Parallel Parking
+Our approach for final parallel parking is similar to parallel parking as if you are driving a real car. However, to start this sequence we must make sure we start in the same position every time.
+
+To do this, we need to align the car at a certain angle every single time and be at the same distance every single time. To achieve this, we used lidar distance from the wall PID and the imu to check the angle. This way, we always end in the same spot and at the same angle.
+``` insert code
+```
+We can then parallel like regular, as follows, using Lidar and IMU to determine when to stop moving forward or backward and when to stop turning
+<img src="https://storage.coverinaclick.ie/blog/content/1732894291173/how%20to%20parallel%20park%20between%20two%20cars.jpg" width="350"/>
+
+
 <br>
 
 ## Assembly Instructions 🛠️
