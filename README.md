@@ -900,28 +900,13 @@ if turning:
 ```
 The turn-counting and wall following code is reused from the open challenge. To avoid the magenta parking lot, when we are not in a parking sequence, we count all magenta blocks as part of the wall, relying on the wall following algorithm to ignore the parking lot.
 
-In short, we can use this pseudo-code to outline the overall process:
-```python
-if in straight:
-
-  if pillar exists:
-    follow target
-
-    if pillar is close:
-      ignore pillar
-  if pillar doesn't exist:
-    use wall following code
-  
-if turning:
-  lower pillar threshold
-
-  if pillar exists:
-    prioritize pillar target
-    ignore pillar later
-
-  if pillar doesn't exist
-    turn until line and end turn
-```
+In short, we can use this flow chart to outline the overall process:
+<p align="left">
+<img src="/other/obstacle challenge flow chart.png" width="750"/>
+  <br>
+  <em>ROIs in obstacle challenge</em>
+</p>
+<br>
 
 <table>
   <tr>
