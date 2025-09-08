@@ -962,7 +962,16 @@ while True
 Our approach for final parallel parking is similar to parallel parking as if you are driving a real car. However, to start this sequence we must make sure we start in the same position every time.
 
 To do this, we need to align the car at a certain angle every single time and be at the same distance every single time. To achieve this, we used lidar distance from the wall PID and the imu to check the angle. This way, we always end in the same spot and at the same angle.
-``` insert code
+``` python
+error = TARGET_DIST - right_distance
+error_sum += error  # Just sum per iteration (integral)
+d_error = error - last_error  # Difference per iteration (derivative)
+
+pid_output = int(Kp * error + Ki * error_sum + Kd * d_error)
+last_error = error
+
+# Clamp steering angle
+angle = max(-MAX_TURN_DEGREE, min(MAX_TURN_DEGREE, pid_output))
 ```
 We can then parallel like regular, as follows, using Lidar and IMU to determine when to stop moving forward or backward and when to stop turning
 <img src="https://storage.coverinaclick.ie/blog/content/1732894291173/how%20to%20parallel%20park%20between%20two%20cars.jpg" width="350"/>
