@@ -1078,6 +1078,13 @@ We can then parallel like regular, as follows, using Lidar and IMU to determine 
 
 8. **Congratulations! You've built our robot!**
     - Try downloading our program from the `src` folder, and run it yourself!
+    	- Please make sure to download any dependencies for Python library. This includes:
+			- OpenCV (cv2)
+			- NumPy
+     		- picamera2
+       		- rclpy
+         	- geometry_msgs
+        - run `pip install <library>`   
     - Any other information can be found in this repository.
     - Thanks for reading!
 
