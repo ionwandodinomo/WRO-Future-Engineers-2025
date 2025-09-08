@@ -310,7 +310,7 @@ The chassis is located in the center of the car. It provides a strucutre to lay 
     </td>
     <td align="center" width="33%">
       <b>Together</b><br>
-      <img src="other/model_images/assembly 14.png" width="350"/>
+      <img src="other/model_images/iso full.png" width="350"/>
     </td>
   </tr>
 </table>
@@ -465,7 +465,7 @@ The locking mechanism is made up of 2 parts: the top and bottom. These parts ext
     </td>
     <td align="center" width="33%">
       <b>Together</b><br>
-      <img src="other/model_images/iso full.png" width="250"/>
+      <img src="other/model_images/assembly 14.png" width="350"/>
     </td>
   </tr>
 </table>
