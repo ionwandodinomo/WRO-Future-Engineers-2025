@@ -8,6 +8,7 @@ All artifacts required to resolve dependencies and build the project must be inc
 
 
 
+
 # Control Software Documentation
 
 ## Introduction
@@ -171,10 +172,3 @@ Running the Code
 - connect to pi using AP or STA mode. run `sdskdfs.py`
 
 
-Run the challenge scripts:
-
-# Open Challenge
-python3 main_open.py --challenge open
-
-# Obstacle Challenge
-python3 main_obstacle.py --challenge obstacle
