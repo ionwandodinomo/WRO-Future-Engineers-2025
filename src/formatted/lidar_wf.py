@@ -22,7 +22,7 @@ print("LD19 powered ON via GPIO 17.")
 
 latest_points = {}
 CONF_THRESHOLD = 0
-TARGET_DIST = 300  # 30cm
+TARGET_DIST = 350  # mm
 
 ser = serial.Serial(PORT, BAUD, timeout=0.1)
 buffer = bytearray()
@@ -79,42 +79,108 @@ threading.Thread(target=lidar_thread, daemon=True).start()
 # PID variables
 error_sum = 0
 last_error = 0
-Kp, Ki, Kd = 0.5, 0.0, 0.1
+Kp, Ki, Kd = 0.3, 0.0, 0.1
 initial_yaw_deg = None
 offset_deg = 0
+passed = False
 
-while True:
-    
-    yaw_deg = get_yaw_deg()
-    if yaw_deg is not None:
-        # Set initial yaw reference
-        if initial_yaw_deg is None:
-            initial_yaw_deg = yaw_deg
+state = "follow_wall"
+try:
+    while True:
+        
+        yaw_deg = get_yaw_deg()
+        if yaw_deg is not None:
+            # Set initial yaw reference
+            if initial_yaw_deg is None:
+                initial_yaw_deg = yaw_deg
+                
+                # Compute offset from initial heading
+            offset_deg = circular_diff_deg(yaw_deg, initial_yaw_deg)
+            #print(offset_deg)
+        else:
+            print("Waiting for IMU data...")
+            continue
+        
+        angle_at = (0.0 + offset_deg + 360)%360
+        right = get_latest_distance(angle_at)
+        if right is None:
+            continue  # skip if no valid reading
+        print(state, offset_deg)
+        
+        if state == "follow_wall":
+        
+            error = TARGET_DIST - right["distance"]
+            error_sum += error  # Just sum per iteration (integral)
+            d_error = error - last_error  # Difference per iteration (derivative)
+
+            pid_output = int(Kp * error + Ki * error_sum + Kd * d_error)
+            last_error = error
+
+            # Clamp steering angle
+            angle = max(-MAX_TURN_DEGREE, min(MAX_TURN_DEGREE, pid_output))
+            print(f"Right Distance: {right['distance']}", angle_at, angle)
             
-            # Compute offset from initial heading
-        offset_deg = circular_diff_deg(yaw_deg, initial_yaw_deg)
-        print(offset_deg)
-    else:
-        print("Waiting for IMU data...")
-        continue
+            if right["distance"] <= 180 and abs(offset_deg) <= 5:
+                angle = 0
+                passed = True
+            elif passed:
+                state = "front_turn"
+
+            # Actuate motors
+            board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO + angle)]])
+            board.pwm_servo_set_position(0.1, [[2, 1603]])  # DC motor
+        elif state == "front_turn":
+            if abs(offset_deg) >= 50:
+                state = "straight_front"
+                
+            board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO - MAX_TURN_DEGREE)]])
+            board.pwm_servo_set_position(0.1, [[2, 1590]])  # DC motor
+        elif state == "straight_front":
+            #angle_at = (270.0+ offset_deg + 360)%360
+            points = [get_latest_distance(270),get_latest_distance(270-45),get_latest_distance(270+45)]
+            #print(front["distance"] if front else "", angle_at)
+            if all(points) and min(points,key=lambda x:x["distance"])["distance"] <= 70:
+                state = "bt"
+                #break
+                
+            board.pwm_servo_set_position(0.1, [[1, pwm(0)]])
+            board.pwm_servo_set_position(0.1, [[2, 1590]])  # DC motor
+            
+            
+        elif state == "bt":
+            pointss = [get_latest_distance(270.0),get_latest_distance(270-45),get_latest_distance(270+20),get_latest_distance(270-25)]
+            points = []
+            for x in pointss:
+                if x["distance"] <= 200:
+                    points.append(x)
+            print(*[x["distance"] for x in points])
+            if abs(offset_deg) <= 3:
+                break
+            if all(points) and max(points,key=lambda x:x["distance"])["distance"] >= 150:
+                state = "ft"
+            board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO-MAX_TURN_DEGREE)]])
+            board.pwm_servo_set_position(0.1, [[2, 1390]])  # DC motor
+            
+        elif state == "ft":
+            points = [get_latest_distance(270),get_latest_distance(270-45),get_latest_distance(270+45)]
+            print(*[x["distance"] for x in points])
+            if abs(offset_deg) <= 3:
+                break
+            if all(points) and min(points,key=lambda x:x["distance"])["distance"] <= 60:
+                state = "bt"
+            board.pwm_servo_set_position(0.1, [[1, pwm(0)]])
+            board.pwm_servo_set_position(0.1, [[2, 1590]])  # DC motor
+        
+        time.sleep(0.01)
+        
+except Exception as e:
+    board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO)]])
+    board.pwm_servo_set_position(0.1, [[2, 1500]])  # DC motor
+    LED(board,(0,0,0))
+    print(e)
     
-    angle_at = (0.0 + offset_deg + 360)%360
-    right = get_latest_distance(angle_at)
-    if right is None:
-        continue  # skip if no valid reading
+board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO)]])
+board.pwm_servo_set_position(0.1, [[2, 1500]])
+        
 
-    
-    error = TARGET_DIST - right["distance"]
-    error_sum += error  # Just sum per iteration (integral)
-    d_error = error - last_error  # Difference per iteration (derivative)
 
-    pid_output = int(Kp * error + Ki * error_sum + Kd * d_error)
-    last_error = error
-
-    # Clamp steering angle
-    angle = max(-MAX_TURN_DEGREE, min(MAX_TURN_DEGREE, pid_output))
-    print(f"Right Distance: {right['distance']}", angle_at, angle)
-
-    # Actuate motors
-    board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO + angle)]])
-    board.pwm_servo_set_position(0.1, [[2, 1603]])  # DC motor
