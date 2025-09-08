@@ -662,7 +662,7 @@ The track direction is also randomized.
 #### Our Solution
 We used just the camera to complete the open challenge. It was used for line detection and wall detection.
 
-**ROIs are rectangles on a frame defined by the top left corner and bottom right corner
+**ROIs are rectangles on a frame defined by the top left corner and bottom right corner <br>
 To break down the challenge into manageable parts, we thought of it as three parts. These three parts are comprised of turning, driving in the straights, and counting the turns. In all three parts, six ROIs were used. Four of these regions tracked the walls, using a LAB or HSV range to check for the black colour of the walls. These ROIS were seperated by upper, lower, and left, right. ROIs of top and bottom were combined to create one larger ROI for each wall (left, right).
 
 Black contours were extracted to return a number for the total number of pixels in each of the ROIs.
