@@ -38,6 +38,7 @@ Engineering Documentation 🛠️
 	* [Electrical Wiring](#electrical-wiring)
 	* [The Sensors](#the-sensors)
 * **[Software :computer:](#software-computer)**
+    * [Sensing](#sensing)
 	* [Open Challenge](#open-challenge)
 	* [Obstacle Challenge](#obstacle-challenge)
 * **[Assembly Instructions](#assembly-instructions)**
@@ -526,8 +527,9 @@ However, these sensors give us raw values that must be processed before they can
 <br>
 
 ## Software :computer:
+### Sensing
 *** note that imu and lidar are only used for parking. Obstacle challenge and open challenge only use camera
-### IMU
+#### IMU
 The gyro (IMU) is a built-in sensor part of the Hiwonder expansion board. As part of this, data is published as a ROS2 topic node on start up. This is the data we receive when running `ros2 topic echo /imu/rpy/filtered`
 ```
 ---
@@ -544,7 +546,7 @@ vector:
 ```
 For our purposes, we only need to extract the `z` value for orientation
 
-### Lidar
+#### Lidar
 The lidar we used was a very primitive lidar without any built-in drivers. This meant we have to manually parse through the data packets sent by the sensor. After reading the development manual, this script was created to parse lidar data.
 ```python
 ser = serial.Serial(PORT, BAUD, timeout=0.1)
@@ -575,7 +577,7 @@ while True:
 We add this data to a dictionary that holds the latest distance per angle. This way, we can access specific angles (eg, 0.0, 180.0, etc)
 
 
-### Image Preprocessing
+#### Image Preprocessing
 In both challenges, we used a Raspberry Pi camera with cv2.contours to locate the various obstacles and walls. The camera has specific regions of interest (ROIs) for each "object type", allowing us to cut out noise and unnecessary uncertain variables. Additionally, only drawing contours in specific ROIs allows us to combine ROIs to create more "fitting" shapes (eg. 2 for each wall due to perspective). 
 
 The open challenge utilized 3 colours: black (wall), orange (line), and blue (line).
@@ -584,15 +586,22 @@ The obstacle challenge utilized 6 colours: black (wall), orange (line), blue (li
 All issues experienced did not significantly affect the open challenge due to its simple nature.
 
 Originally, the contours were drawn with HSV (hue, saturation, value) ranges. Each colour had one range: an upper and lower boundary. However, due to the nature of hsv, red required 2 ranges and changes in lighting proved significant for the accuracy of the contours. Additionally, distinguishing orange, red, and magenta proved challenging in certain lightings.
-<img src="other/wrohsvrange.py.png" width="250"/>
 
+<p align="center">
+<img src="other/wrohsvrange.py.png" width="750"/>
+  <br>
+</p>
 Since HSV ranges proved difficult, we made the switch over to LAB (lightness, red-green axis, blue-yellow axis), which is more tolerant of lighting changes. This also allowed for the red contour to only use two ranges.
 
 In addition to the switch to LAB, several more filters were applied and tested in an effort to increase colour detection accuracy
 
 Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
 To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
-<img src="other/wrolabrange.py.png" width="250"/>
+
+<p align="center">
+<img src="other/wrolabrange.py.png" width="750"/>
+  <br>
+</p>
 
 
 Saturation: ❌
@@ -604,7 +613,10 @@ Filter/colour normalization: ✅
 - This mask could then be applied across the entirety of the frame.
 - This means if there was yellow lighting, the mask would cancel it out, etc. This also allowed auto brightness adjustment
 - Additionally, this meant LAB colour ranges were more stable, with fewer changes needed day-of
-- <img src="other/wromask.py.png" width="250"/>
+<p align="center">
+ <img src="other/wromask.py.png" width="750"/>
+  <br>
+</p>
 
 Colour flattening: ❌
 - make similar colours flatten, shadow less
