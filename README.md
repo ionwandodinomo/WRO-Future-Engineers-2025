@@ -977,7 +977,7 @@ last_error = error
 # Clamp steering angle
 angle = max(-MAX_TURN_DEGREE, min(MAX_TURN_DEGREE, pid_output))
 ```
-We can then parallel like regular, as follows, using Lidar and IMU to determine when to stop moving forward or backward and when to stop turning
+We can then parallel like regular, as follows, using Lidar and IMU to determine when to stop moving forward or backward and when to stop turning <br>
 <img src="https://storage.coverinaclick.ie/blog/content/1732894291173/how%20to%20parallel%20park%20between%20two%20cars.jpg" width="350"/>
 
 
