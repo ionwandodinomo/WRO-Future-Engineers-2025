@@ -430,9 +430,11 @@ The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek 
     </td>
     <td align="left" width="50%">
       <ul>
-        <li><b>Type:</b> FIND SERVO SPECS</li>
-        <li><b>Voltage:</b> FIND SERVO SPECSl</li>
-        <li><b>Max Current Draw:</b> FIND SERVO SPECS</li>
+        <li><b>Weight:</b> 9 grams</li>
+        <li><b>Dimensions:</b> 23mm x 12.2mm x 29mm </li>
+        <li><b>Operating Voltage:</b> 4.8V - 6V DC</li>
+		<li><b>Gear Type:</b> Nylon gear set</li>
+		<li><b>Speed:</b> 0.10 - 0.12 secs per 60 degrees</li>
       </ul>
     </td>
   </tr>
