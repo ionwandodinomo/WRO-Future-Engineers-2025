@@ -259,7 +259,7 @@ Provided below are models of the 3D printed parts, individually, as well as on t
 | <img src="v-photos/CAR_BACK.jpg" width="350"/> | <img src="v-photos/CAR_LEFT.jpg" width="350"/> | <img src="v-photos/CAR_RIGHT.jpg" width="350"/> |
 
 
-These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece together smoothly as separate parts, instead of a single printed chassis, as originally planned. Screws were avoided as much as possible, as they are less reflective of this idea, but regardless used when necessary. 
+These parts were designed with **modularity** in mind, meaning each section of the car can function more or less individually. They piece  smoothly as separate parts, instead of a single printed chassis, as originally planned. Screws were avoided as much as possible, as they are less reflective of this idea, but regardless used when necessary. 
 
 <p align="center">
   <img src="other/model_images/Original chassis concept.png" width="1000" alt="Previous Version"/>
@@ -309,7 +309,7 @@ The chassis is located in the center of the car. It provides a strucutre to lay 
     </td>
     <td align="center" width="33%">
       <b>Together</b><br>
-      <img src="other/model_images/iso full.png" width="350"/>
+      <img src="other/model_images/assembly 14.png" width="350"/>
     </td>
   </tr>
 </table>
