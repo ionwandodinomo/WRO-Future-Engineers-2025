@@ -802,16 +802,17 @@ In addition, we may choose whether the car starts within the parking lot for an 
 <p align="center">
 <img src="/other/wromap obstacle.jfif" height="250">
   <br>
-  <em> Obstacle Challenge Image</em
+  <em> Obstacle Challenge Image</em>
 </p>
 
 #### Our Solution
-We used the same four wall ROIs and two line detection ROIs. To check for pillars, we included one large ROI checking for both red and green pillars, most of the camera view. The top and bottom are partially be 
+We used the same four-wall ROIs and two-line detection ROIs. To check for pillars, we included one large ROI checking for both red and green pillars, most of the camera view. The top and bottom are partially be 
 <p align="center">
 <img src="/other/obstacle rois.PNG" height="250">
   <br>
   <em>ROIs in obstacle challenge</em>
 </p>
+
 We started by first attempting to follow the traffic signs in the correct direction in a straight section. To pass the pillar on the correct side, we set a target x coordinate on the camera for where we want the pillar to be when we pass it. For example, the red pillar's target is on the left side of the camera, ensuring that we pass the pillar on the right side when the pillar is at the target. For this, we use logic similar to the wall following PD algorithm in the open challenge, with a pillar PD and pillar PG. Instead of using the difference in the pixels of the wall to find the angle of the car turn, we find the error between the target and the centre x-coordinate of the pillar and multiply it by the pillar PG, then add the variation of the current and previous difference multiplied by the pillar PD. The pillar code takes priority over the wall following code from the open challenge. If there are no pillars in sight, we revert to the wall following algorithm.
 
 
@@ -925,6 +926,9 @@ In short, we can use this flow chart to outline the overall process:
   </tr>
 </table>
 
+#### Improvements
+This challenge is perfect for the use of ROS2 due to its heavy computational requirements. ROIs allow you to run all processes in parallel and allows for easy sensor communication through the use of topics, publishers, subscribers, and other node types. At the beginning of this season, we did plan to use ROS2, but due to many reasons, we were not able to fully integrate it into the code. Unfortunately, be had to build ROS2 from source, which caused the workspace to be incredibly bulky and slow. As a side note to mention, the IMU sensor is still using an ROS2 node through threading. This is because using other methods has high latencies and causes a bottleneck. In the future, we wish to be able to fully make the switch over into ROS2 for optimal performance
+ 
 
 ## Parking
 ### Starting in Parking
