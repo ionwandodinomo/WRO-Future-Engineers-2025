@@ -577,41 +577,37 @@ We add this data to a dictionary that holds the latest distance per angle. This 
 ### Image Preprocessing
 In both challenges, we used a Raspberry Pi camera with cv2.contours to locate the various obstacles and walls. The camera has specific regions of interest (ROIs) for each "object type", allowing us to cut out noise and unnecessary uncertain variables. Additionally, only drawing contours in specific ROIs allows us to combine ROIs to create more "fitting" shapes (eg. 2 for each wall due to perspective). 
 
-The open challenge utilized 3 colours: black (wall), orange (line), blue (line).
+The open challenge utilized 3 colours: black (wall), orange (line), and blue (line).
 The obstacle challenge utilized 6 colours: black (wall), orange (line), blue (line), magenta (parking lot), red (pillar), green (pillar).
 
-All issues experienced did not significantly affect open challenge due to its simple nature.
+All issues experienced did not significantly affect the open challenge due to its simple nature.
 
-Originally, the contours were drawn with HSV (hue, saturation, value) ranges. Each colour had one ranges: an upper and lower boundary. However, due to the nature of hsv, red required 2 ranges and changes in lighting proved significant for the accuracy of the contours. Additionally, distinguishing orange, red, and magenta proved challenging in certain lightings. [insert hsv range gui]
+Originally, the contours were drawn with HSV (hue, saturation, value) ranges. Each colour had one range: an upper and lower boundary. However, due to the nature of hsv, red required 2 ranges and changes in lighting proved significant for the accuracy of the contours. Additionally, distinguishing orange, red, and magenta proved challenging in certain lightings.
+<img src="other/wrohsvrange.py.png" width="250"/>
 
 Since HSV ranges proved difficult, we made the switch over to LAB (lightness, red-green axis, blue-yellow axis), which is more tolerant of lighting changes. This also allowed for the red contour to only use two ranges.
 
 In addition to the switch to LAB, several more filters were applied and tested in an effort to increase colour detection accuracy
 
-
 Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
 To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
+<img src="other/wrolabrange.py.png" width="250"/>
 
 
-Saturation: X
-- We had the idea to increase the saturation of the frame by units of magnitude to increase visibilitly between red and orange, especially in dull lighting
-- However, this messed up other colours, more specificall white, and it would show up "rainbow" due to the undertones being more visible
-- insert image of gui sunni do latoor ref/src collour
+Saturation: ❌
+- We had the idea to increase the saturation of the frame by units of magnitude to increase visibility between red and orange, especially in dull lighting
+- However, this messed up other colours, more specifically white, and it would show up "rainbow" due to the undertones being more visible
 
-filter/colour normalization: !
-- Due to concerns with lighting, we created a mask based on the comparison between ideal colour and frame capture colour of the white map.
+Filter/colour normalization: ✅
+- Due to concerns with lighting, we created a mask based on the comparison between the ideal colour and the frame capture colour of the white map.
 - This mask could then be applied across the entirety of the frame.
 - This means if there was yellow lighting, the mask would cancel it out, etc. This also allowed auto brightness adjustment
-- Additionally, this meant LAB colour ranges were more stable, with less changes needed day-of
-- insert image of gui sunni do latoor ref/src collour
+- Additionally, this meant LAB colour ranges were more stable, with fewer changes needed day-of
+- <img src="other/wromask.py.png" width="250"/>
 
-colour flattening: X
+Colour flattening: ❌
 - make similar colours flatten, shadow less
-- too simplistic and cpu intensive
-- insert image of gui sunni do latoor ref/src collour
-blur: !
-- gausian blur bruvski cuh less sharp ig
-- insert image of gui sunni do latoor ref/src collour
+- too simplistic and CPU-intensive
 
 Unexpectedly, frame rate also played a large role in contour detection:
 - It was observed/calculated that the process bottleneck at ~64 fps
@@ -621,7 +617,7 @@ Unexpectedly, frame rate also played a large role in contour detection:
   	- 50: messed with exposure, creating a much darker capture than reality
   	- 75: too fast
   
-Camera settings: i ain't explaining this brother
+Camera settings:
 ```py
 picam2 = Picamera2()
 picam2.preview_configuration.main.size = (640,480)
