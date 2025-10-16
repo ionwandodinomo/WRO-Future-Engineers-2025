@@ -29,3 +29,18 @@ def stop_imu_stream(proc):
         proc.wait(timeout=2)
     except subprocess.TimeoutExpired:
         proc.kill()
+
+front = get_latest_distance((270.0+offset_deg+360)%360)
+        if offset_deg >= 60:
+            state = "back_straight"
+            board.pwm_servo_set_position(0.1, [[2, 1500]])
+            board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO-5)]])
+            time.sleep(0.1)
+            s = time.time()
+        elif (front and front["distance"]<=80):
+            board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO-5)]])
+            board.pwm_servo_set_position(0.1, [[2, 1390]])
+            time.sleep(0.8)
+            board.pwm_servo_set_position(0.1, [[1, pwm(MID_SERVO+MAX_TURN_DEGREE)]])
+        else:
+            board.pwm_servo_set_position(0.1, [[2, 1595]])
