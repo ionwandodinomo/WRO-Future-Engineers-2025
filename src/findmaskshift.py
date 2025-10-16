@@ -1,7 +1,9 @@
+# adjust frame shift based on lighting
 import cv2
 import numpy as np
 from picamera2 import Picamera2
 from CONSTS import ideal_color_bgr_list
+
 
 ideal_color_bgr = np.array(ideal_color_bgr_list, dtype=np.float32)  # target color
 roi_selected = False
@@ -9,6 +11,7 @@ drawing = False
 ix, iy, ex, ey = -1, -1, -1, -1
 
 def draw_rectangle(event, x, y, flags, param):
+    """draw rectangle through click and drag on cv2"""
     global ix, iy, ex, ey, drawing, roi_selected
 
     if event == cv2.EVENT_LBUTTONDOWN:
@@ -26,6 +29,7 @@ def draw_rectangle(event, x, y, flags, param):
         roi_selected = True
 
 def flatten_colors(img, K=8):
+    """flatten colours in image to max k (default to 8) colours"""
     Z = img.reshape((-1, 3))
     Z = np.float32(Z)
 
@@ -36,6 +40,7 @@ def flatten_colors(img, K=8):
     flattened = centers[labels.flatten()]
     return flattened.reshape(img.shape)
 
+# configure camera settings
 picam2 = Picamera2()
 picam2.preview_configuration.main.size = (640,480)
 picam2.preview_configuration.main.format = "RGB888"
@@ -50,13 +55,14 @@ picam2.start()
 shift = 0
 cv2.namedWindow("Video")
 cv2.setMouseCallback("Video", draw_rectangle)
+
 while True:
-    #ret, frame = cap.read()
-    #if not ret:
-    #break
+    # capture frame
     frame = picam2.capture_array()
     frame = cv2.resize(frame, (640, 480))
     display_frame = frame.copy()
+
+    # draw ROI rectangle
     if drawing or roi_selected:
         cv2.rectangle(display_frame, (ix, iy), (ex, ey), (0, 255, 0), 2)
 
@@ -66,17 +72,18 @@ while True:
         x1, y1, x2, y2 = min(ix, ex), min(iy, ey), max(ix, ex), max(iy, ey)
         roi = frame[y1:y2, x1:x2]
 
-        if roi.size > 0:
-            observed_color_bgr = np.mean(roi.reshape(-1, 3), axis=0)
+        if roi.size > 0: # if rectangle is possible and exists
+            observed_color_bgr = np.mean(roi.reshape(-1, 3), axis=0) # find average of pixels in image
+
             observed_lab = cv2.cvtColor(np.uint8([[observed_color_bgr]]), cv2.COLOR_BGR2LAB)[0][0]
             ideal_lab = cv2.cvtColor(np.uint8([[ideal_color_bgr]]), cv2.COLOR_BGR2LAB)[0][0]
 
-            shift = ideal_lab - observed_lab
+            shift = ideal_lab - observed_lab # find shift by comparing ideal to observed
 
+            # shift colours on frame
             frame_lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB).astype(np.float32)
             frame_lab += shift
             frame_lab = np.clip(frame_lab, 0, 255).astype(np.uint8)
-            frame_lab = cv2.GaussianBlur(frame_lab, (7, 7), 0)
 
             corrected_frame = cv2.cvtColor(frame_lab, cv2.COLOR_LAB2BGR)
 
@@ -84,11 +91,8 @@ while True:
             print("Ideal LAB:", ideal_lab)
             print("Shift:", shift)
 
-    K = 8
-    #if K < 2:  # minimum 2 clusters
-        #K = 2
-
-    flattened_frame = flatten_colors(corrected_frame, K)
+    # flatten colours of frame
+    flattened_frame = flatten_colors(corrected_frame)
 
     cv2.imshow("Video", display_frame)
     cv2.imshow("Corrected", corrected_frame)
@@ -101,4 +105,3 @@ while True:
 
 #cap.release()
 cv2.destroyAllWindows()
-

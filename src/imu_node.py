@@ -1,4 +1,4 @@
-# imu_node.py
+# imu ros2 node + threading for real time data
 from geometry_msgs.msg import Vector3Stamped
 import rclpy
 from rclpy.node import Node
@@ -23,19 +23,26 @@ class IMUSubscriber(Node):
         with self.lock:
             return self.latest_yaw_rad
 
-
-# Global holder
-imu_node: IMUSubscriber = None
-
-def create_imu_node():
-    """Create the IMU node but don't spin it here."""
-    global imu_node
+# Threaded initialization
+imu_node = None
+rclpy_thread = None
+def start_imu_listener():
+    """start imu listener to stream data"""
+    global imu_node, rclpy_thread
+    rclpy.init()
     imu_node = IMUSubscriber()
-    return imu_node
+    rclpy_thread = threading.Thread(target=lambda: rclpy.spin(imu_node), daemon=True)
+    rclpy_thread.start()
 
 def get_yaw_deg():
+    """Get the latest yaw angle in degrees."""
     if imu_node:
         yaw_rad = imu_node.get_latest_yaw()
         return math.degrees(yaw_rad) if yaw_rad is not None else None
-    return None
 
+def stop_imu_listener():
+    """stop imu listener and cleanup"""
+    global imu_node
+    if imu_node:
+        imu_node.destroy_node()
+    rclpy.shutdown()

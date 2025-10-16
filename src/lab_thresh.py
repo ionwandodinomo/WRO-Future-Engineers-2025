@@ -1,7 +1,7 @@
 import cv2 as cv
 from picamera2 import Picamera2
 import sys
-from masks import rMagenta, rRed, rGreen, rBlue, rOrange, rBlack
+from CONSTS import rMagenta, rRed, rGreen, rBlue, rOrange, rBlack
 import numpy as np
 
 # Max value for LAB components

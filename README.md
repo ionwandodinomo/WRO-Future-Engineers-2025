@@ -38,6 +38,7 @@ Engineering Documentation 🛠️
 	* [Electrical Wiring](#electrical-wiring)
 	* [The Sensors](#the-sensors)
 * **[Software :computer:](#software-computer)**
+    * [Sensing](#sensing)
 	* [Open Challenge](#open-challenge)
 	* [Obstacle Challenge](#obstacle-challenge)
 * **[Assembly Instructions](#assembly-instructions)**
@@ -68,7 +69,7 @@ Engineering Documentation 🛠️
 | --- | --- |
 | John Weng | Hey! I'm a grade 12 student from Maple High School in Ontario, Canada, and this is my second year doing the Future Engineers Category for WRO. I love messing with mechanics and designing solutions to problems. I love playing sports, especially badminton and volleyball. |
 | Sunni Xue | Hi, I'm a grade 11 from the GTA! I've been coding since 6th grade, where I learned Python to build my first project. In my free time, I love playing sports and reading :) |
-| Eric Rao | Hello, I am a 12th grade student at Anderson CVI! This is my third year back and I'm super excited about designing, model, and building things. In the future, I hope to pursue mechatronics at the University of Waterloo. |
+| Eric Rao | Hello, I am a 12th grade student at Anderson CVI! This is my third year back, and I'm super excited about designing, modelling, and building things. In the future, I hope to pursue mechatronics at the University of Waterloo. |
 
 ## Mechanical Breakdown :wrench:
 
@@ -100,7 +101,7 @@ Engineering Documentation 🛠️
 
 <br>
 
-Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the ENDER 3 S1. 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. After assessment, it was chosen over other materials such as ABS or PETG. These filaments are also all generally lighter, and much more customizable than other common materials, such as LEGO.
+Our car uses primarily **3D printed PLA filament** as the structural material. We used the **[Prusa MK4S](https://www.prusa3d.com/product/original-prusa-mk4s-3d-printer-5/)** from Prusa Research, as well as the ENDER 3 S1. 3D printing allows precise designing of parts, and PLA is readily available and easily accessible for commercial 3D printing. After assessment, it was chosen over other materials such as ABS or PETG. These filaments are also all generally lighter and much more customizable than other common materials, such as LEGO.
 
 <br>
 
@@ -122,7 +123,7 @@ In this particular environment, the cons of PLA aren't drastically impactful. Th
 
 <br>
 
-Our CAD softwares of choice were **[Onshape](https://www.onshape.com/en/)**, as well as **[TinkerCAD](https://www.tinkercad.com/)** for simpler geometry. We strongly recommend these two softwares for basic component design, as they are generally easy to learn, and provide convenient online cloud storage.
+Our CAD softwares of choice were **[Onshape](https://www.onshape.com/en/)**, as well as **[TinkerCAD](https://www.tinkercad.com/)** for simpler geometry. We strongly recommend these two softwares programs for basic component design, as they are generally easy to learn, and provide convenient online cloud storage.
 
 Provided below are models of the 3D printed parts, individually, as well as on the final car. Note the .stl files can all be found in the `models` folder of this repository.
 
@@ -292,7 +293,7 @@ For the use of this competition, movement precision and responsiveness are the t
 <br>
 
 ### The Chassis
-The chassis is located in the center of the car. It provides a strucutre to lay the majority of electrical components onto, namely the **two boards** as well as the **LIDAR**. It also serves as a medium to connect the front and rear wheel systems. The chassis itself is split into two seperate plates, that align together to form the abdomen of the car.
+The chassis is located in the center of the car. It provides a strucutre to lay the majority of electrical components onto, namely the **two boards** as well as the **LIDAR**. It also serves as a medium to connect the front and rear wheel systems. The chassis itself is split into two separate plates that align together to form the abdomen of the car.
 
 <br>
 
@@ -309,7 +310,7 @@ The chassis is located in the center of the car. It provides a strucutre to lay 
     </td>
     <td align="center" width="33%">
       <b>Together</b><br>
-      <img src="other/model_images/assembly 14.png" width="350"/>
+      <img src="other/model_images/iso full.png" width="350"/>
     </td>
   </tr>
 </table>
@@ -318,9 +319,9 @@ The chassis is located in the center of the car. It provides a strucutre to lay 
 
 Again, the choice of 3D printed PLA filament allows this precise jointery of components. They fit snugly together, and the friction also helps keep tight connection points along the entirety of the chassis. 
 
-After some trials with the 3D printer, our final print settings include a **0.4mm nozzle**, **~50% infill**, **brim disabled**, and **snug** supports. These specific choices enable a strudy, slightly flexible base, and remove the "junk" filament that might otherwise be printed with brim enabled or other kinds of supports.
+After some trials with the 3D printer, our final print settings include a **0.4mm nozzle**, **~50% infill**, **brim disabled**, and **snug** supports. These specific choices enable a sturdy, slightly flexible base and remove the "junk" filament that might otherwise be printed with brim enabled or other kinds of supports.
 
-Another consideration improving the **balance** of the robot, which directly influences the consistency of our movement. Two vital aspects are maintaining a low, as well as centered point of mass. In another words, keeping our components, particulary the heavy ones, as low and as centralized as possible. For example, the boards, which are located at the very base and center of the car.
+Another consideration improving the **balance** of the robot, which directly influences the consistency of our movement. Two vital aspects are maintaining a low, as well as a centered point of mass. In another words, keeping our components, particulary the heavy ones, as low and as centralized as possible. For example, the boards, which are located at the very base and center of the car.
 
 <br>
 
@@ -352,10 +353,10 @@ Another consideration improving the **balance** of the robot, which directly inf
 <br>
 
 #### Possible Improvements
-- Optimizing the location of our components, such as lowering the **LIDAR** or centralizing the **battery** for an ideal center of mass.
-- Adding **suspension** or other shock-absorbant materials for steadier and reliable conditions for the sensors
+- Optimizing the location of our components, such as lowering the **LIDAR** or centralising the **battery** for an ideal center of mass.
+- Adding **suspension** or other shock-absorbent materials for steadier and reliable conditions for the sensors
 - Design a housing to protect sensitive components from dust or other external debris.
-- Lowering the height of the camera; perhaps by using a more **LIDAR** dominant approach.
+- Lowering the height of the camera, perhaps by using a more **LIDAR** dominant approach.
 
 <br>
 
@@ -407,15 +408,15 @@ The robot features a **rear-wheel drive (RWD)** layout powered by the **Furitek 
 
 - Motor secured to the **rear chassis plate**
 - Stock differential gear system and gear are attached, so that a **gear-down** ratio is implemented.
-- This improves our robot's performance at low speeds, which is particulary important during the turning in the obstacle challenge.
+- This improves our robot's performance at low speeds, which is particularly important during the turning in the obstacle challenge.
 - The axles, bearings and wheels are added afterwards.
 
 <br>
 
 #### Possible Improvements
 - Upgrade to metal gears to combat wear from heavy, high-speed usage.
-- Experimenting with different gear ratios. Combonations close to **12:58**, such as 14:58 or 10:58 may provide a better balance between torque and maximum speed.
-- Upgrading or lubricating bearings, for less friction and a higher efficiency / consistency.
+- Experimenting with different gear ratios. Combinations close to **12:58**, such as 14:58 or 10:58, may provide a better balance between torque and maximum speed.
+- Upgrading or lubricating bearings for less friction and a higher efficiency/consistency.
 
 <br>
 
@@ -447,9 +448,9 @@ The steering system is comprised of 3, 3D printed components. This includes the 
 
 The servo motor itself is mounted onto the front chassis plate using a custom bracket. A 3D-printed servo horn is installed on the servo head for linkage connection. This specific design was chosen for 3 main reasons: it's **simplicity**, **space efficiency**, and **printability**.  
 
-There is only one point of contact between the servo and the wheel, which greatly improves the reliabilty of the system. More complex designs may allow for extremely precise steering, but sacrifice the "directness" of a design like this. The lack of complicated geometry also makes it very easy to print, even on lower-end 3D printers.
+There is only one point of contact between the servo and the wheel, which greatly improves the reliability of the system. More complex designs may allow for extremely precise steering, but sacrifice the "directness" of a design like this. The lack of complicated geometry also makes it very easy to print, even on lower-end 3D printers.
 
-The locking mechanism is made up of 2 parts: the top and bottom. These parts extend outside of the servos body and clamp the turning axel in place. Otherwise, the axles would not be attached to the car. 
+The locking mechanism is made up of 2 parts: the top and the bottom. These parts extend outside of the servos body and clamp the turning axel in place. Otherwise, the axles would not be attached to the car. 
 
 #### Chassis Models
 <table>
@@ -464,19 +465,19 @@ The locking mechanism is made up of 2 parts: the top and bottom. These parts ext
     </td>
     <td align="center" width="33%">
       <b>Together</b><br>
-      <img src="other/model_images/iso full.png" width="250"/>
+      <img src="other/model_images/assembly 14.png" width="350"/>
     </td>
   </tr>
 </table>
 
-On top of that, this design also allows the the servo to be placed directly on top on the steer system, instead of behind or in front of it. Due to the design of our car, this also saves space for our LIDAR and controller boards to be placed, and doesn't extend the length an unneccesary amount. 
+On top of that, this design also allows the servo to be placed directly on top of the steer system, instead of behind or in front of it. Due to the design of our car, this also saves space for our LIDAR and controller boards to be placed, and doesn't extend the length an unnecessary amount. 
 
 Another factor is the symmetry of the design, which plays two roles. It allows the servo motor to be placed very close to the center of the robot, which is a key consideration when managing balance and the center of mass of the entire vehicle. It also ensures that the central pivot point is the exact same distance away from both wheels. This means that the same force will be applied to both sides, and so both wheels will always turn at the exact same angle.
 
 <br>
 
 #### Possible Improvements
-- Fine-tune the servo-horn length to adjust **steering sensitivity**. There is a balance between steering precision and steering radius. An optimized ratio could lead to more sensible, and more precise turning angles.
+- Fine-tune the servo-horn length to adjust **steering sensitivity**. There is a balance between steering precision and steering radius. An optimized ratio could lead to more sensible and more precise turning angles.
 - Use metallic bearings at contact points. The current design has plastic-plastic contact, which is not nearly as dependable or frictionless as metal.
 - Consider other steering mechanisms, such as **bellcrank**, and explore the tradeoffs between simplicity and accuracy.
 
@@ -518,16 +519,17 @@ The [Gens Ace 2S1P 1300mAh 7.4V battery](https://www.adrenalinehobby.com/product
 <img src="/schemes/Schematic WRO FE 2025.png" height="750">
 
 ### The Sensors
-The car gets input from the [Raspberry 5 Camera Module 8 MP MIPI-CSI Interface](https://www.amazon.ca/TUOPUONE-Compatible-Raspberry-MIPI-CSI-Interface/dp/B0CPTPJLXL?th=1), the built-in gyro sensor from the Hiwonder hat, and the [LDRobot D500 lidar kit](https://www.amazon.ca/LDROBOT-Outdoor-Navigation-Scanning-Support/dp/B0DDKXQ23R). We can use these 3 in conjunction, with the camera detecting colour, walls, and the lidar detecting walls and parking spaces. The gyro sensor aids the other two sensors in the precise movements, allowing for greater control over the car.
+The car gets input from the [Raspberry Pi 5 Camera Module 8 MP MIPI-CSI Interface](https://www.amazon.ca/TUOPUONE-Compatible-Raspberry-MIPI-CSI-Interface/dp/B0CPTPJLXL?th=1), the built-in gyro sensor from the Hiwonder hat, and the [LDRobot D500 lidar kit](https://www.amazon.ca/LDROBOT-Outdoor-Navigation-Scanning-Support/dp/B0DDKXQ23R). We can use these 3 in conjunction, with the camera detecting colour, walls, and the lidar detecting walls and parking spaces. The gyro sensor aids the other two sensors in the precise movements, allowing for greater control over the car.
 
-However, these sensors give us raw values that must be processed before they can be useds. The next section details each sensor's preprocessing.
+However, these sensors give us raw values that must be processed before they can be used. The next section details each sensor's preprocessing.
 
 
 <br>
 
 ## Software :computer:
-*** note that imu and lidar are only used for parking. Obstacle challenge and open challenge only use camera
-### IMU
+### Sensing
+*** note that imu and lidar are only used for parking. Obstacle challenge and open challenge only use the camera
+#### IMU
 The gyro (IMU) is a built-in sensor part of the Hiwonder expansion board. As part of this, data is published as a ROS2 topic node on start up. This is the data we receive when running `ros2 topic echo /imu/rpy/filtered`
 ```
 ---
@@ -544,8 +546,8 @@ vector:
 ```
 For our purposes, we only need to extract the `z` value for orientation
 
-### Lidar
-The lidar we used was a very primitive lidar without any built-in drivers. This meant we have to manually parse through the data packets sent by the sensor. After reading the development manual, this script was created to parse lidar data.
+#### Lidar
+The lidar we used was a very primitive lidar without any built-in drivers. This meant we had to manually parse through the data packets sent by the sensor. After reading the development manual, this script was created to parse lidar data.
 ```python
 ser = serial.Serial(PORT, BAUD, timeout=0.1)
 buffer = bytearray()
@@ -572,11 +574,11 @@ while True:
     time.sleep(0.01)
 
 ```
-We add this data to a dictionary that holds the latest distance per angle. This way, we can access specific angles (eg, 0.0, 180.0, etc)
+We add this data to a dictionary that holds the latest distance per angle. This way, we can access specific angles (eg, 0.0, 180.0, etc.)
 
 
-### Image Preprocessing
-In both challenges, we used a Raspberry Pi camera with cv2.contours to locate the various obstacles and walls. The camera has specific regions of interest (ROIs) for each "object type", allowing us to cut out noise and unnecessary uncertain variables. Additionally, only drawing contours in specific ROIs allows us to combine ROIs to create more "fitting" shapes (eg. 2 for each wall due to perspective). 
+#### Image Preprocessing
+In both challenges, we used a Raspberry Pi camera with cv2.contours to locate the various obstacles and walls. The camera has specific regions of interest (ROIs) for each "object type", allowing us to cut out noise and unnecessary uncertain variables. Additionally, only drawing contours in specific ROIs allows us to combine ROIs to create more "fitting" shapes (eg, 2 for each wall due to perspective). 
 
 The open challenge utilized 3 colours: black (wall), orange (line), and blue (line).
 The obstacle challenge utilized 6 colours: black (wall), orange (line), blue (line), magenta (parking lot), red (pillar), green (pillar).
@@ -584,15 +586,22 @@ The obstacle challenge utilized 6 colours: black (wall), orange (line), blue (li
 All issues experienced did not significantly affect the open challenge due to its simple nature.
 
 Originally, the contours were drawn with HSV (hue, saturation, value) ranges. Each colour had one range: an upper and lower boundary. However, due to the nature of hsv, red required 2 ranges and changes in lighting proved significant for the accuracy of the contours. Additionally, distinguishing orange, red, and magenta proved challenging in certain lightings.
-<img src="other/wrohsvrange.py.png" width="250"/>
 
+<p align="center">
+<img src="other/wrohsvrange.py.png" width="750"/>
+  <br>
+</p>
 Since HSV ranges proved difficult, we made the switch over to LAB (lightness, red-green axis, blue-yellow axis), which is more tolerant of lighting changes. This also allowed for the red contour to only use two ranges.
 
 In addition to the switch to LAB, several more filters were applied and tested in an effort to increase colour detection accuracy
 
-Using these ranges, a colour mask could be created and applied onto each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall, when not in parking sequence.
+Using these ranges, a colour mask could be created and applied to each frame. Using a mask also allowed us to combine colours in contours. For example, using the bitwise or operator, we could combine black and magenta contours to be treated as a wall when not in the parking sequence.
 To increase the consistency, we switched to LAB ranges as they were more accurate when checking the hues. Most regions of interest only check for the largest contour in their region, as smaller contours are either insignificant at the point or not a part of the track.
-<img src="other/wrolabrange.py.png" width="250"/>
+
+<p align="center">
+<img src="other/wrolabrange.py.png" width="750"/>
+  <br>
+</p>
 
 
 Saturation: ❌
@@ -604,14 +613,17 @@ Filter/colour normalization: ✅
 - This mask could then be applied across the entirety of the frame.
 - This means if there was yellow lighting, the mask would cancel it out, etc. This also allowed auto brightness adjustment
 - Additionally, this meant LAB colour ranges were more stable, with fewer changes needed day-of
-- <img src="other/wromask.py.png" width="250"/>
+<p align="center">
+ <img src="other/wromask.py.png" width="750"/>
+  <br>
+</p>
 
 Colour flattening: ❌
-- make similar colours flatten, shadow less
-- too simplistic and CPU-intensive
+- make similar colours into 1 colour, flattens the image such that shadows affect the colour less
+- over-simplifies image and CPU-intensive
 
 Unexpectedly, frame rate also played a large role in contour detection:
-- It was observed/calculated that the process bottleneck at ~64 fps
+- It was observed/calculated that the process bottleneck was at ~64 fps
 - Frame rates 25, 30, 50, 75 were tested
 	- 25: too slow
  	- 30: perfect
@@ -636,7 +648,7 @@ picam2.start()
 #### Overview of Challenge
 The open challenge is a simple round, where each team has 3 minutes to drive 3 laps autonomously on a track.  The goal of the challenge is to complete the laps as fast and consistently as possible, without touching the outer walls (inner walls may be touched without penalty).
 
-Each round of the challenge, the wall distances are randomized, such that each straight section can is either wide wall (100 cm) or narrow (60 cm). 
+Each round of the challenge, the wall distances are randomized, such that each straight section can is either a wide wall (100 cm) or a narrow one (60 cm). 
 
 The wide configuration leaves a large gap between the inside and outside walls, while the narrow walls give the car much less space to manoeuvre.
 
@@ -650,14 +662,14 @@ The track direction is also randomized.
 #### Our Solution
 We used just the camera to complete the open challenge. It was used for line detection and wall detection.
 
-**ROIs are rectangles on a frame defined by the top left corner and bottom right corner
+**ROIs are rectangles on a frame defined by the top left corner and bottom right corner <br>
 To break down the challenge into manageable parts, we thought of it as three parts. These three parts are comprised of turning, driving in the straights, and counting the turns. In all three parts, six ROIs were used. Four of these regions tracked the walls, using a LAB or HSV range to check for the black colour of the walls. These ROIS were seperated by upper, lower, and left, right. ROIs of top and bottom were combined to create one larger ROI for each wall (left, right).
 
 Black contours were extracted to return a number for the total number of pixels in each of the ROIs.
 
 The last two regions of interest are in the very bottom left and right, used to track the blue and orange lines on the track, allowing us to ascertain the correct direction and the corners of the track. Only one of the two regions is used depending on the direction of the track.
 
-The difficulty of the challenge stems from the variations in the track's width, particularly in the corner sections where the track transitions from narrow to wide or vice versa. This drastic change in track size, coupled with static ROIs relative to the frame, can confuse the car in some cases, creating instances where it was difficult to recognize the walls at the correct locations. The ROIs being "off" meant that the contours received were not a good representation of the car's position.
+The difficulty of the challenge stems from the variations in the track's width, particularly in the corner sections where the track transitions from narrow to wide or vice versa. This drastic change in track size, coupled with static ROIs relative to the frame, can confuse the car in some cases, creating instances where it was difficult to recognise the walls at the correct locations. The ROIs being "off" meant that the contours received were not a good representation of the car's position.
 <p align="center">
 <img src="/other/open straight.PNG" height="250">
   <br>
@@ -693,7 +705,7 @@ angle = int((curr_diff * PG + (curr_diff-last_diff) * PD))
 last_diff = curr_diff
 ```
 
-As mentioned before, the change in track widths causes difficulties, particularly with this algorithm, as the wall difference becomes of higher magnitude due to the walls being larger as a whole (i.e., the ratio of wall size stays the same, but the difference in wall size increases due to the increase in wall size). Thus, the car became more sensitive to changes, leading to oscillations in narrow straights. To fix this issue, we lower the PD and PG when we detect a large amount of pixels in both walls, as we now know we have entered a straight section.
+As mentioned before, the change in track widths causes difficulties, particularly with this algorithm, as the wall difference becomes of higher magnitude due to the walls being larger as a whole (i.e., the ratio of wall size stays the same, but the difference in wall size increases due to the increase in wall size). Thus, the car became more sensitive to changes, leading to oscillations in narrow straights. To fix this issue, we lower the PD and PG when we detect a large number of pixels in both walls, as we now know we have entered a straight section.
 ```python
 curr_diff = right_area-left_area
 if right_area > 1250 and left_area > 1250:
@@ -782,7 +794,7 @@ if max_turns <= turn_count:
 
 The obstacle challenge is a more difficult version of the open challenge with the addition of traffic pillars and a parking lot.
 
-In this challenge, the walls are set at (100 cm) and introduce red and green pillars that instruct the car on which side of the obstacle the car should pass on. The car must pass red pillars on the right side and green pillars on the left side.
+In this challenge, the walls are set at (100 cm) and introduce red and green pillars that instruct the car on which side of the obstacle the car should pass. The car must pass red pillars on the right side and green pillars on the left side.
 
 After 3 laps, the car must parallel park in the given parking space. The starting section, driving section and position of traffic signs are randomized. The parking lot is always in the starting section.
 
@@ -790,16 +802,17 @@ In addition, we may choose whether the car starts within the parking lot for an 
 <p align="center">
 <img src="/other/wromap obstacle.jfif" height="250">
   <br>
-  <em> Obstacle Challenge Image</em
+  <em> Obstacle Challenge Image</em>
 </p>
 
 #### Our Solution
-We used the same four wall ROIs and two line detection ROIs. To check for pillars, we included one large ROI checking for both red and green pillars, most of the camera view. The top and bottom are partially be 
+We used the same four-wall ROIs and two-line detection ROIs. To check for pillars, we included one large ROI checking for both red and green pillars, covering most of the camera view. The top and bottom are partially be 
 <p align="center">
 <img src="/other/obstacle rois.PNG" height="250">
   <br>
   <em>ROIs in obstacle challenge</em>
 </p>
+
 We started by first attempting to follow the traffic signs in the correct direction in a straight section. To pass the pillar on the correct side, we set a target x coordinate on the camera for where we want the pillar to be when we pass it. For example, the red pillar's target is on the left side of the camera, ensuring that we pass the pillar on the right side when the pillar is at the target. For this, we use logic similar to the wall following PD algorithm in the open challenge, with a pillar PD and pillar PG. Instead of using the difference in the pixels of the wall to find the angle of the car turn, we find the error between the target and the centre x-coordinate of the pillar and multiply it by the pillar PG, then add the variation of the current and previous difference multiplied by the pillar PD. The pillar code takes priority over the wall following code from the open challenge. If there are no pillars in sight, we revert to the wall following algorithm.
 
 
@@ -846,7 +859,7 @@ if (centre_pillar_x  < 100 or centre_pillar_x > 540 ) and centre_pillar_y > 310 
   print("ignoring pillar")
 time_after_turn += 1
 ```
-The original pillar algorithm works fine for most cases, unless the car sees a pillar in a different section above a wall. Since pillars take priority, the car attempts to get the pillar into the target, often running into a wall. We set a pillar threshold to fix this complication, we set a threshold for the pillars. Only pillars above a certain number of pixels will take priority, allowing us to only check pillars that are in the current section.
+The original pillar algorithm works fine for most cases, unless the car sees a pillar in a different section above a wall. Since pillars take priority, the car attempts to get the pillar into the target, often running into a wall. We set a pillar threshold to fix this complication. We set a threshold for the pillars. Only pillars above a certain number of pixels will take priority, allowing us to only check pillars that are in the current section.
 ```python
 if PILLAR_THRESH < cv2.contourArea(max_red_contour) > cv2.contourArea(max_green_contour):
   selected_contour = max_red_contour
@@ -888,28 +901,13 @@ if turning:
 ```
 The turn-counting and wall following code is reused from the open challenge. To avoid the magenta parking lot, when we are not in a parking sequence, we count all magenta blocks as part of the wall, relying on the wall following algorithm to ignore the parking lot.
 
-In short, we can use this pseudo-code to outline the overall process:
-```python
-if in straight:
-
-  if pillar exists:
-    follow target
-
-    if pillar is close:
-      ignore pillar
-  if pillar doesn't exist:
-    use wall following code
-  
-if turning:
-  lower pillar threshold
-
-  if pillar exists:
-    prioritize pillar target
-    ignore pillar later
-
-  if pillar doesn't exist
-    turn until line and end turn
-```
+In short, we can use this flow chart to outline the overall process:
+<p align="center">
+<img src="/other/obstacle challenge flow chart v2.png" width="750"/>
+  <br>
+  <em>ROIs in obstacle challenge</em>
+</p>
+<br>
 
 <table>
   <tr>
@@ -928,6 +926,9 @@ if turning:
   </tr>
 </table>
 
+#### Improvements
+This challenge is perfect for the use of ROS2 due to its heavy computational requirements. ROIs allow you to run all processes in parallel and allows for easy sensor communication through the use of topics, publishers, subscribers, and other node types. At the beginning of this season, we did plan to use ROS2, but due to many reasons, we were not able to fully integrate it into the code. Unfortunately, be had to build ROS2 from source, which caused the workspace to be incredibly bulky and slow. As a side note to mention, the IMU sensor is still using an ROS2 node through threading. This is because using other methods has high latencies and causes a bottleneck. In the future, we wish to be able to fully make the switch over into ROS2 for optimal performance
+ 
 
 ## Parking
 ### Starting in Parking
@@ -961,6 +962,25 @@ while True
     break
 ```
 
+### Final Parallel Parking
+Our approach for final parallel parking is similar to parallel parking as if you are driving a real car. However, to start this sequence, we must make sure we start in the same position every time.
+
+To do this, we need to align the car at a certain angle every single time and be at the same distance every single time. To achieve this, we used the lidar distance from the wall PID and the imu to check the angle. This way, we always end in the same spot and at the same angle.
+``` python
+error = TARGET_DIST - right_distance
+error_sum += error  # Just sum per iteration (integral)
+d_error = error - last_error  # Difference per iteration (derivative)
+
+pid_output = int(Kp * error + Ki * error_sum + Kd * d_error)
+last_error = error
+
+# Clamp steering angle
+angle = max(-MAX_TURN_DEGREE, min(MAX_TURN_DEGREE, pid_output))
+```
+We can then parallel like regular, as follows, using Lidar and IMU to determine when to stop moving forward or backwards and when to stop turning <br>
+<img src="https://storage.coverinaclick.ie/blog/content/1732894291173/how%20to%20parallel%20park%20between%20two%20cars.jpg" width="350"/>
+
+
 <br>
 
 ## Assembly Instructions 🛠️
@@ -993,16 +1013,16 @@ while True
 - Place the `YDLidar T-mini` into the LIDAR mount, then wire it into the proper GPIO pins on the `Raspberry Pi 5`, according to the schematic in the schemes section.
 
 6. **Software Configuration**
-- Flash custom Raspberry Pi 5 Bookworm OS onto a micro SSD and insert into Raspberry Pi 5
+- Flash custom Raspberry Pi 5 Bookworm OS onto a micro SSD and insert it into the Raspberry Pi 5
 - After powering on the PI, you will notice an Access Point (AP) pop up until the name `HW-<numbers & letters>`, connect using the password `hiwonder`
 - Download RealVNC (link) and connect to `192.168.149.1`
 - Open the terminal and switch the car into STA (wifi) mode:
 	- ```cd hiwonder-toolbox \ sudo nano wifi_conf.py```
  	- `WIFI_MODE` to 2 instead of 1
-  	- Replace wifi SSID and password with your current wifi network name and password
+  	- Replace the WiFi SSID and password with your current wifi network name and password
   	- `sudo reboot`
   	- Connect to your wifi and open _your_ computer's terminal
-  	- Type `ipconfig` (windows), `ifconfig` (mac)
+  	- Type `ipconfig` (Windows), `ifconfig` (Mac)
   	- Search your IPv4 address for your PI through any IP scanner; we used Advanced IP (link)
   	- Connect to this IP using RealVNC from the previous step
   	- Congrats! You now have a working mini-computer
@@ -1058,6 +1078,13 @@ while True
 
 8. **Congratulations! You've built our robot!**
     - Try downloading our program from the `src` folder, and run it yourself!
+    	- Please make sure to download any dependencies for Python library. This includes:
+			- OpenCV (cv2)
+			- NumPy
+     		- picamera2
+       		- rclpy
+         	- geometry_msgs
+        - run `pip install <library>`   
     - Any other information can be found in this repository.
     - Thanks for reading!
 
