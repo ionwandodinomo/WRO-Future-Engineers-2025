@@ -212,7 +212,7 @@ while True:
     max_left_top_contour, left_area_top = findMaxContourShape(left_contours_top)
     max_right_top_contour, right_area_top = findMaxContourShape(right_contours_top)
     max_left_bot_contour, left_area_bot = findMaxContourShape(left_contours_bot)
-    max_right_bot_contour, right_area_bot = findMaxContourShape(right_contours_bot)
+    max_right_bot_contour, right_area_bot = findMaxContourShape(right_contours_bot) # im so lost huh
 
     max_blue_contour1, max_blue_area1 = findMaxContourShape(contours_blue1)
     max_orange_contour1, max_orange_area1 = findMaxContourShape(contours_orange1)
